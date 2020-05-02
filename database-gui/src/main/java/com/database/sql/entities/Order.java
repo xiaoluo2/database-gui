@@ -11,11 +11,12 @@ import java.sql.Date;
  *
  * @author Xiao Luo
  */
-public class Order {
+public class Order implements Entity {
     private String order_id;
     private String status;
     private Date date;
     private String vendor;
+    private LabMember requester;
 
     public Order(String order_id, String status, Date date, String vendor) {
         this.order_id = order_id;
@@ -54,6 +55,18 @@ public class Order {
 
     public void setVendor(String vendor) {
         this.vendor = vendor;
+    }
+
+    // TODO
+    @Override
+    public String[] getFieldNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // TODO
+    @Override
+    public String[] getValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

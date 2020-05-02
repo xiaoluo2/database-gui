@@ -9,7 +9,7 @@ package com.database.sql.entities;
  *
  * @author Xiao Luo
  */
-public class Plasmid extends Item {
+public class Plasmid extends Item implements Entity {
     private String dna;
     private String antibioticRes;
     private String strain;
@@ -45,5 +45,15 @@ public class Plasmid extends Item {
         this.strain = strain;
     }
     
-    
+    // TODO
+    @Override
+    public String[] getFieldNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // TODO
+    @Override
+    public String[] getValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

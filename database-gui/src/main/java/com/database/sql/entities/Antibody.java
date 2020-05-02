@@ -9,7 +9,7 @@ package com.database.sql.entities;
  *
  * @author Xiao Luo
  */
-public class Antibody extends Item {
+public class Antibody extends Item implements Entity{
     private String host;
     private String catalog_no;
     
@@ -33,5 +33,17 @@ public class Antibody extends Item {
 
     public void setCatalog_no(String catalog_no) {
         this.catalog_no = catalog_no;
+    }
+
+    // TODO
+    @Override
+    public String[] getFieldNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // TODO
+    @Override
+    public String[] getValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

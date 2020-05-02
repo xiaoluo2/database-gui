@@ -9,7 +9,7 @@ package com.database.sql.entities;
  *
  * @author Xiao Luo
  */
-public class Location {
+public class Location implements Entity {
     private long loc_id;
     private Integer room_num;
     private String type;
@@ -62,6 +62,18 @@ public class Location {
 
     public void setTemperature(Integer temperature) {
         this.temperature = temperature;
+    }
+
+    // TODO
+    @Override
+    public String[] getFieldNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // TODO
+    @Override
+    public String[] getValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

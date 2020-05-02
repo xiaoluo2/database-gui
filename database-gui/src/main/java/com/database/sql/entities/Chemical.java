@@ -9,7 +9,7 @@ package com.database.sql.entities;
  *
  * @author Xiao Luo
  */
-public class Chemical extends Item {
+public class Chemical extends Item implements Entity{
     private String amount;
 
     public Chemical(String name, long item_id, Integer required_tmp, String source, String description, double price, String amount) {
@@ -23,5 +23,17 @@ public class Chemical extends Item {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    // TODO
+    @Override
+    public String[] getFieldNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // TODO
+    @Override
+    public String[] getValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

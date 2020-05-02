@@ -9,7 +9,7 @@ package com.database.sql.entities;
  *
  * @author Xiao Luo
  */
-public class Item {
+public class Item implements Entity{
     private String name;
     private long item_id;
     private Integer required_tmp;
@@ -72,6 +72,18 @@ public class Item {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    // TODO
+    @Override
+    public String[] getFieldNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // TODO
+    @Override
+    public String[] getValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
