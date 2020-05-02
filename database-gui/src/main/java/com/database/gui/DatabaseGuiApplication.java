@@ -1,15 +1,12 @@
 package com.database.gui;
 
-import org.springframework.boot.SpringApplication;
+//import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DatabaseGuiApplication {
+public class DatabaseGuiApplication{
 
 //	public static void main(String[] args) {
-//                GuiJFrame frame = new GuiJFrame();
-//                frame.pack();
-//                frame.setVisible(true);
 //		SpringApplication.run(DatabaseGuiApplication.class, args);
 //	}
     

@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.database</groupId>
-	<artifactId>datbase</artifactId>
+	<artifactId>database</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>database-gui</name>
-	<description>COSC457 Database GUI</description>
+	<description>COSC 457 Database GUI Project</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -21,7 +21,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
