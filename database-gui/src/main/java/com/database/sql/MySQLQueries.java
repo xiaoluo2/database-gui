@@ -22,13 +22,70 @@ public class MySQLQueries {
 
     public void setTemplate(JdbcTemplate template) {    
         this.template = template;    
-    }   
-
-    // Search TODO
-    public Entity[] getSearchResult(String searchText){
-        throw new UnsupportedOperationException();
     }
 
+    // Format of search is table_name:search
+    // for example to search for John in table Lab Member
+    // lab member:John
+    // Just putting in the table name gives the whole table/view
+    
+    // sql: Make a select query
+    public List<Entity> getSearchResult(String searchText){
+        String[] args = searchText.trim().toLowerCase().split(":");
+        String search;
+        if (args.length > 2 || args.length < 1) {
+            throw new Error();
+        }
+        if (args.length == 2) {
+            search = args[1].trim();
+        } else {
+            search = null;
+        }
+        switch(args[1]){
+            case "sql":
+                // perform sql query
+            case "antibody":
+                if(search != null){
+                    return getAntibodyView(search);
+                } else {
+                    return getAntibodyView();
+                }
+            case "chemical":
+                if(search != null){
+                    return getChemicalView(search);
+                } else {
+                    return getChemicalView();
+                }
+            case "lab member":
+                if(search != null){
+                    return getLab_MemberData(search);
+                } else {
+                    return getLab_MemberData();
+                }
+            case "location":
+                if(search != null){
+                    return getLocationData(search);
+                } else {
+                    return getLocationData();
+                }
+            case "plasmid":
+                if(search != null){
+                    return getPlasmidView(search);
+                } else {
+                    return getPlasmidView();
+                }
+            case "strain":
+                if(search != null){
+                    return getStrainView(search);
+                } else {
+                    return getStrainView();
+                }
+
+
+        }
+        return getAntibodyView(); // placeholder
+    }
+    
     public void saveChangesToSearchTable(){
         throw new UnsupportedOperationException();
     }
@@ -53,9 +110,9 @@ public class MySQLQueries {
         template.update(queryString);
     }
 
-    public List<Antibody> getAntibodyView(){
+    public List<Entity> getAntibodyView(){
         String sql = "SELECT * FROM Antibody_view";
-        List<Antibody> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Antibody mapRow(ResultSet rs, int rowNum)
             throws SQLException {                  
@@ -65,9 +122,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List<Chemical> getChemicalView(){
+    public List<Entity> getChemicalView(){
         String sql = "SELECT * FROM Chemical_view";
-        List<Chemical> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Chemical mapRow(ResultSet rs, int rowNum)
             throws SQLException {                   
@@ -77,9 +134,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List getItemData(){
+    public List<Entity> getItemData(){
         String sql = "SELECT * FROM Item LEFT JOIN Antibody ON Item.id = Antibody.item_id LEFT JOIN Chemical ON Item.id = Chemical.item_id LEFT JOIN Plasmid ON Item.id = Plasmid.item_id LEFT JOIN Strain ON Item.id = Strain.item_id";
-        List<Item> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Item mapRow(ResultSet rs, int rowNum)
             throws SQLException {
@@ -90,9 +147,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List<Lab_Member> getLab_MemberData(){
+    public List<Entity> getLab_MemberData(){
         String sql = "SELECT * FROM Lab_Member";
-        List<Lab_Member> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Lab_Member mapRow(ResultSet rs, int rowNum)
             throws SQLException {                
@@ -102,9 +159,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List<Location> getLocationData(){
+    public List<Entity> getLocationData(){
         String sql = "SELECT * FROM Location";
-        List<Location> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Location mapRow(ResultSet rs, int rowNum)
             throws SQLException {                  
@@ -114,9 +171,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List<Order> getOrderData(){
+    public List<Entity> getOrderData(){
         String sql = "SELECT * FROM Order";
-        List<Order> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Order mapRow(ResultSet rs, int rowNum)
             throws SQLException {                
@@ -126,9 +183,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List<Plasmid> getPlasmidView(){
+    public List<Entity> getPlasmidView(){
         String sql = "SELECT * FROM Plasmid_view";
-        List<Plasmid> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Plasmid mapRow(ResultSet rs, int rowNum)
             throws SQLException {                   
@@ -139,9 +196,9 @@ public class MySQLQueries {
         
     }
     
-    public List<Strain> getStrainView(){
+    public List<Entity> getStrainView(){
         String sql = "SELECT * FROM Strain_view";
-        List<Strain> list = template.query(sql, new RowMapper(){
+        List<Entity> list = template.query(sql, new RowMapper(){
  
         public Strain mapRow(ResultSet rs, int rowNum)
             throws SQLException {                   
@@ -149,6 +206,30 @@ public class MySQLQueries {
         }});
         
         return list;
+    }
+
+    private List<Entity> getAntibodyView(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private List<Entity> getStrainView(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private List<Entity> getPlasmidView(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private List<Entity> getLocationData(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private List<Entity> getLab_MemberData(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private List<Entity> getChemicalView(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

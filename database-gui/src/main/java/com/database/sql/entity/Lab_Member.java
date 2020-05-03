@@ -20,6 +20,7 @@ public class Lab_Member extends EntityTemplate implements Entity{
         this.title = title;
     }
 
+    @Override
     public String getID() {
         return member_id;
     }
