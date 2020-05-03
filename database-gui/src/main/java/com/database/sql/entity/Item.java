@@ -15,14 +15,14 @@ public class Item extends EntityTemplate implements Entity{
     private String name;
     private String id;
     private Integer temp;
-    private String producer;
+    private String vendor;
     private List<Location> locations;
 
-    public Item(String name, String id, int required_tmp, String source) {
+    public Item(String name, String id, int required_tmp, String vendor) {
         this.name = name;
         this.id = id;
         this.temp = required_tmp;
-        this.producer = source;
+        this.vendor = vendor;
     }
 
     public String getName() {
@@ -50,17 +50,17 @@ public class Item extends EntityTemplate implements Entity{
         this.temp = temp;
     }
 
-    public String getProducer() {
-        return producer;
+    public String getVendor() {
+        return vendor;
     }
 
-    public void setProducer(String producer) {
-        this.producer = producer;
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
     @Override
     public String[] getColNames() {
-        String[] names = {"name", "temp", "producer", "price"};
+        String[] names = {"name", "temp", "producer"};
         return names;
     }
 

@@ -12,8 +12,8 @@ package com.database.sql.entity;
 public class Chemical extends Item implements Entity{
     private String amount;
 
-    public Chemical(String name, String item_id, int required_tmp, String source, String amount) {
-        super(name, item_id, required_tmp, source);
+    public Chemical(String name, String item_id, int required_tmp, String vendor, String amount) {
+        super(name, item_id, required_tmp, vendor);
         this.amount = amount;
     }
 
@@ -25,20 +25,21 @@ public class Chemical extends Item implements Entity{
         this.amount = amount;
     }
 
-    // TODO
     @Override
     public String[] getColNames() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] names = {"name", "item_id", "required_tmp", "vendor", "amount"};
+        return names;
     }
 
-    // TODO
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] values = new String[5];
+        values[0] = this.getName();
+        values[1] = this.getID();
+        values[2] = Integer.toString(this.getTemp());
+        values[3] = this.getVendor();
+        values[4] = this.getAmount();
+        return values;
     }
-
-    @Override
-    public String getTableName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }

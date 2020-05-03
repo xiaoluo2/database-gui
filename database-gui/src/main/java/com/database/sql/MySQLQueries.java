@@ -66,7 +66,7 @@ public class MySQLQueries {
         return list;
     }
     
-    public List getChemicalView(){
+    public List<Chemical> getChemicalView(){
         String sql = "SELECT * FROM Chemical_view";
         List<Chemical> list = template.query(sql, new RowMapper(){
  
@@ -80,7 +80,7 @@ public class MySQLQueries {
     
     public List getItemData(){
         String sql = "SELECT * FROM Item LEFT JOIN Antibody ON Item.id = Antibody.item_id LEFT JOIN Chemical ON Item.id = Chemical.item_id LEFT JOIN Plasmid ON Item.id = Plasmid.item_id LEFT JOIN Strain ON Item.id = Strain.item_id";
-        List list = template.query(sql, new RowMapper(){
+        List<Item> list = template.query(sql, new RowMapper(){
  
         public Item mapRow(ResultSet rs, int rowNum)
             throws SQLException {
@@ -91,9 +91,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List getLab_MemberData(){
+    public List<Lab_Member> getLab_MemberData(){
         String sql = "SELECT * FROM Lab_Member";
-        List list = template.query(sql, new RowMapper(){
+        List<Lab_Member> list = template.query(sql, new RowMapper(){
  
         public Lab_Member mapRow(ResultSet rs, int rowNum)
             throws SQLException {                
@@ -103,9 +103,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List getLocationData(){
+    public List<Location> getLocationData(){
         String sql = "SELECT * FROM Location";
-        List list = template.query(sql, new RowMapper(){
+        List<Location> list = template.query(sql, new RowMapper(){
  
         public Location mapRow(ResultSet rs, int rowNum)
             throws SQLException {                  
@@ -115,9 +115,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List getOrderData(){
+    public List<Order> getOrderData(){
         String sql = "SELECT * FROM Order";
-        List list = template.query(sql, new RowMapper(){
+        List<Order> list = template.query(sql, new RowMapper(){
  
         public Order mapRow(ResultSet rs, int rowNum)
             throws SQLException {                
@@ -127,9 +127,9 @@ public class MySQLQueries {
         return list;
     }
     
-    public List getPlasmidView(){
+    public List<Plasmid> getPlasmidView(){
         String sql = "SELECT * FROM Plasmid_view";
-        List list = template.query(sql, new RowMapper(){
+        List<Plasmid> list = template.query(sql, new RowMapper(){
  
         public Plasmid mapRow(ResultSet rs, int rowNum)
             throws SQLException {                   
@@ -140,9 +140,9 @@ public class MySQLQueries {
         
     }
     
-    public List getStrainView(){
+    public List<Strain> getStrainView(){
         String sql = "SELECT * FROM Strain_view";
-        List list = template.query(sql, new RowMapper(){
+        List<Strain> list = template.query(sql, new RowMapper(){
  
         public Strain mapRow(ResultSet rs, int rowNum)
             throws SQLException {                   

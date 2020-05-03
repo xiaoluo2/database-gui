@@ -28,18 +28,13 @@ public class Antibody extends Item implements Entity{
     // TODO
     @Override
     public String[] getColNames() {
-       String[] names = {};
+       String[] names = {"name", "item_id", "required_tmp", "source", "host"};
        return names;
     }
 
     // TODO
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getTableName() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

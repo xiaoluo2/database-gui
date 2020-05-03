@@ -11,7 +11,7 @@ import com.database.sql.entity.Entity;
  *
  * @author Xiao Luo
  */
-public class ViewTable extends AbstractTableModel {
+public class SearchTableModel extends AbstractTableModel {
     
     private int numrows;
     private int numcols;
@@ -75,7 +75,7 @@ public class ViewTable extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-      return false;
+      return true;
     }
 
     @Override
