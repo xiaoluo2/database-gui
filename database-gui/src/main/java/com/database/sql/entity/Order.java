@@ -14,11 +14,11 @@ import java.sql.Date;
 public class Order extends EntityTemplate implements Entity {
     private String order_id;
     private String status;
-    private Date date;
+    private String date;
     private String vendor;
     private Lab_Member requester;
 
-    public Order(String order_id, String status, Date date, String vendor) {
+    public Order(String order_id, String status, String date, String vendor) {
         this.order_id = order_id;
         this.status = status;
         this.date = date;
@@ -42,11 +42,11 @@ public class Order extends EntityTemplate implements Entity {
         this.status = status;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -69,13 +69,19 @@ public class Order extends EntityTemplate implements Entity {
     // TODO
     @Override
     public String[] getColNames() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] names = {"Order_id", "Status", "Date", "Vendor"};
+        return names;
     }
 
     // TODO
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] values = new String[4];
+        values[0] = this.getID();
+        values[1] = this.getStatus();
+        values[2] = this.getDate();
+        values[3] = this.getVendor();
+        return values;
     }
     
 }

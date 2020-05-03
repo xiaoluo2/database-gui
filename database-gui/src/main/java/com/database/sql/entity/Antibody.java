@@ -35,7 +35,13 @@ public class Antibody extends Item implements Entity{
     // TODO
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] values = new String[5];
+        values[0] = this.getName();
+        values[1] = this.getID();
+        values[2] = Integer.toString(this.getTemp());
+        values[3] = this.getVendor();
+        values[4] = this.getHost();
+        return values;
     }
 
 }

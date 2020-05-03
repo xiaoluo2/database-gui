@@ -14,15 +14,13 @@ import java.util.List;
 public class Location extends EntityTemplate implements Entity {
     private Integer loc_id;
     private Integer room_num;
-    private String type;
     private String description;
     private Integer temperature;
     private List<Item> items;
 
-    public Location(int loc_id, int room_num, String type, String description, int temperature) {
+    public Location(int loc_id, int room_num, String description, int temperature) {
         this.loc_id = loc_id;
         this.room_num = room_num;
-        this.type = type;
         this.description = description;
         this.temperature = temperature;
     }
@@ -44,14 +42,6 @@ public class Location extends EntityTemplate implements Entity {
         this.room_num = room_num;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -71,13 +61,19 @@ public class Location extends EntityTemplate implements Entity {
     // TODO
     @Override
     public String[] getColNames() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] names = {"Location_id", "Room_Number", "Description", "Temp"};
+        return names;
     }
 
     // TODO
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] values = new String[4];
+        values[0] = this.getID();
+        values[1] = Integer.toString(this.getRoom_num());
+        values[2] = this.getDescription();
+        values[3] = Integer.toString(this.getTemperature());
+        return values;
     }
     
 }

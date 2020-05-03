@@ -22,12 +22,18 @@ public class Strain extends Item implements Entity{
 
     @Override
     public String[] getColNames() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] names = {"name", "id", "anti_res", "features"};
+        return names;
     }
 
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] values = new String[4];
+        values[0] = this.getName();
+        values[1] = this.getID();
+        values[2] = this.getAnti_res();
+        values[3] = this.getFeatures();
+        return values;
     }
 
     public String getAnti_res() {

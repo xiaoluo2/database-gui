@@ -10,21 +10,21 @@ package com.database.sql.entity;
  * @author Xiao Luo
  */
 public class Lab_Member extends EntityTemplate implements Entity{
-    private String member_id;
+    private Integer member_id;
     private String name;
     private String title;
 
-    public Lab_Member(String member_id, String name, String title) {
+    public Lab_Member(int member_id, String name, String title) {
         this.member_id = member_id;
         this.name = name;
         this.title = title;
     }
 
     public String getID() {
-        return member_id;
+        return Integer.toString(member_id);
     }
 
-    public void setMember_id(String member_id) {
+    public void setMember_id(int member_id) {
         this.member_id = member_id;
     }
 
@@ -47,13 +47,18 @@ public class Lab_Member extends EntityTemplate implements Entity{
     // TODO
     @Override
     public String[] getColNames() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] names = {"name", "member_id", "title"};
+        return names;
     }
 
     // TODO
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] values = new String[3];
+        values[0] = this.getName();
+        values[1] = this.getID();
+        values[2] = this.getTitle();
+        return values;
     }
     
 }

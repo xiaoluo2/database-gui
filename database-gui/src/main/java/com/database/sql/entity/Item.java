@@ -60,13 +60,18 @@ public class Item extends EntityTemplate implements Entity{
 
     @Override
     public String[] getColNames() {
-        String[] names = {"name", "temp", "producer"};
+        String[] names = {"name", "item_id","temp", "producer"};
         return names;
     }
 
     @Override
     public String[] getValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] values = new String[4];
+        values[0] = this.getName();
+        values[1] = this.getID();
+        values[2] = Integer.toString(this.getTemp());
+        values[3] = this.getVendor();
+        return values;
     }
     
 }
