@@ -19,6 +19,10 @@ public class Strain extends Item implements Entity{
         this.anti_res = anti_res;
         this.features = features;
     }
+    
+    public Strain(){
+        this(null, null, null, null);
+    }
 
     @Override
     public String[] getColNames() {

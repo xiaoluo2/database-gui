@@ -16,6 +16,10 @@ public class Antibody extends Item implements Entity{
         super(name, item_id, required_tmp, source);
         this.host = host;
     }
+    
+    public Antibody(){
+        this(null, null, 9999, null, null);
+    }
 
     public String getHost() {
         return host;
@@ -28,7 +32,7 @@ public class Antibody extends Item implements Entity{
     // TODO
     @Override
     public String[] getColNames() {
-       String[] names = {"name", "item_id", "required_tmp", "source", "host"};
+       String[] names = {"name", "item_id", "temp", "producer", "host"};
        return names;
     }
 

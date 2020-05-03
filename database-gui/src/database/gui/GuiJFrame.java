@@ -27,25 +27,14 @@ public class GuiJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        RecordButtons = new javax.swing.ButtonGroup();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         SearchButton = new javax.swing.JButton();
         SearchBar = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        DiscardButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        LocationRadioButton = new javax.swing.JRadioButton();
-        LabMemberRadioButton = new javax.swing.JRadioButton();
-        RequestRadioButton = new javax.swing.JRadioButton();
-        ItemRadioButton = new javax.swing.JRadioButton();
-        OrderRadioButton = new javax.swing.JRadioButton();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        EditPanel = new javax.swing.JPanel();
-        ClearButton2 = new javax.swing.JButton();
-        SaveButton2 = new javax.swing.JButton();
+        TypeBox = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -57,12 +46,6 @@ public class GuiJFrame extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
-
-        RecordButtons.add(RequestRadioButton);
-        RecordButtons.add(ItemRadioButton);
-        RecordButtons.add(OrderRadioButton);
-        RecordButtons.add(LocationRadioButton);
-        RecordButtons.add(LabMemberRadioButton);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,20 +66,6 @@ public class GuiJFrame extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(jTable4);
 
-        jButton1.setText("Save Changes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        DiscardButton.setText("Discard Changes");
-        DiscardButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DiscardButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -106,11 +75,7 @@ public class GuiJFrame extends javax.swing.JFrame {
                 .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(SearchButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(DiscardButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(25, 25, 25))
+                .addGap(25, 269, Short.MAX_VALUE))
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
@@ -119,130 +84,30 @@ public class GuiJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SearchButton)
-                    .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(DiscardButton))
+                    .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
         );
 
-        jTabbedPane3.addTab("Search and Edit", jPanel2);
+        jTabbedPane3.addTab("Search", jPanel2);
 
-        LocationRadioButton.setText("Location");
-
-        LabMemberRadioButton.setText("Lab Member");
-
-        RequestRadioButton.setText("Request");
-        RequestRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RequestRadioButtonActionPerformed(evt);
-            }
-        });
-
-        ItemRadioButton.setText("Item");
-        ItemRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ItemRadioButtonActionPerformed(evt);
-            }
-        });
-
-        OrderRadioButton.setText("Order");
-        OrderRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OrderRadioButtonActionPerformed(evt);
-            }
-        });
-
-        EditPanel.setPreferredSize(new java.awt.Dimension(629, 276));
-
-        ClearButton2.setText("Save");
-        ClearButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClearButton2ActionPerformed(evt);
-            }
-        });
-
-        SaveButton2.setText("Clear");
-        SaveButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SaveButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout EditPanelLayout = new javax.swing.GroupLayout(EditPanel);
-        EditPanel.setLayout(EditPanelLayout);
-        EditPanelLayout.setHorizontalGroup(
-            EditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EditPanelLayout.createSequentialGroup()
-                .addContainerGap(468, Short.MAX_VALUE)
-                .addComponent(SaveButton2)
-                .addGap(18, 18, 18)
-                .addComponent(ClearButton2)
-                .addGap(29, 29, 29))
-        );
-        EditPanelLayout.setVerticalGroup(
-            EditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EditPanelLayout.createSequentialGroup()
-                .addContainerGap(285, Short.MAX_VALUE)
-                .addGroup(EditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClearButton2)
-                    .addComponent(SaveButton2))
-                .addGap(21, 21, 21))
-        );
-
-        jLayeredPane1.setLayer(EditPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
-        jLayeredPane1.setLayout(jLayeredPane1Layout);
-        jLayeredPane1Layout.setHorizontalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(EditPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jLayeredPane1Layout.setVerticalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(EditPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        TypeBox.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]{ "Antibody", "Chemical", "Lab Member", "Location", "Order", "Plasmid", "Strain"}));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ItemRadioButton)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(OrderRadioButton)
-                            .addComponent(RequestRadioButton))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LabMemberRadioButton)
-                            .addComponent(LocationRadioButton))))
-                .addContainerGap(456, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(TypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(599, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(OrderRadioButton)
-                    .addComponent(LabMemberRadioButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RequestRadioButton)
-                    .addComponent(LocationRadioButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ItemRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLayeredPane1))
+                .addComponent(TypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(396, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("New Record", jPanel3);
@@ -351,7 +216,7 @@ public class GuiJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(jTabbedPane3)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,54 +228,15 @@ public class GuiJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ClearButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ClearButton2ActionPerformed
-
-    private void SaveButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SaveButton2ActionPerformed
-
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SearchButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void OrderRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_OrderRadioButtonActionPerformed
-
-    private void RequestRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RequestRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RequestRadioButtonActionPerformed
-
-    private void ItemRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ItemRadioButtonActionPerformed
-
-    private void DiscardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiscardButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DiscardButtonActionPerformed
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ClearButton2;
-    private javax.swing.JButton DiscardButton;
-    private javax.swing.JPanel EditPanel;
-    private javax.swing.JRadioButton ItemRadioButton;
-    private javax.swing.JRadioButton LabMemberRadioButton;
-    private javax.swing.JRadioButton LocationRadioButton;
-    private javax.swing.JRadioButton OrderRadioButton;
-    private javax.swing.ButtonGroup RecordButtons;
-    private javax.swing.JRadioButton RequestRadioButton;
-    private javax.swing.JButton SaveButton2;
     private javax.swing.JTextField SearchBar;
     private javax.swing.JButton SearchButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JComboBox<String> TypeBox;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -3,18 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.sql.entity;
-
-
+package database.sql.bean;
 
 /**
- * Interface to display data in tables
+ *
  * @author Xiao Luo
  */
-public interface Entity {
-    String getID();
+public class EnzymeBean {
     
-    String[] getColNames();
-    
-    String[] getValues();
 }

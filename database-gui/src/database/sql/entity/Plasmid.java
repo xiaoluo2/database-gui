@@ -22,6 +22,10 @@ public class Plasmid extends Item implements Entity {
         this.creator_name = creator_name;
     }
     
+    public Plasmid(){
+        this(null, null, null, null, null);
+    }
+    
     public String getFeature() {
         return feature;
     }

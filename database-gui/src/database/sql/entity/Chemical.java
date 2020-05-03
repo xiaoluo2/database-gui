@@ -16,6 +16,10 @@ public class Chemical extends Item implements Entity{
         super(name, item_id, required_tmp, vendor);
         this.amount = amount;
     }
+    
+    public Chemical(){
+        this(null, null, 9999, null, null);
+    }
 
     public String getAmount() {
         return amount;

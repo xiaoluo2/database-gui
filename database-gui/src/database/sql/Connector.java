@@ -5,9 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connector {
-   // JDBC driver name and database URL
-   public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   public static final String DB_URL = "jdbc:mysql://triton.towson.edu/shomic2db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+   // database URL
+   public static final String DB_URL = "jdbc:mysql://triton.towson.edu:3360/shomic2db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
    //  Database credentials
    public static final String USER = "shomic2";

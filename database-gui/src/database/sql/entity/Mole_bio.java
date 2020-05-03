@@ -5,16 +5,18 @@
  */
 package database.sql.entity;
 
-
-
 /**
- * Interface to display data in tables
+ *
  * @author Xiao Luo
  */
-public interface Entity {
-    String getID();
+public class Mole_bio extends Item {
+
+    public Mole_bio(String name, String id, int required_tmp, String vendor) {
+        super(name, id, required_tmp, vendor);
+    }
     
-    String[] getColNames();
-    
-    String[] getValues();
+    @Override
+    public String getTableName(){
+        return "Item";
+    }
 }

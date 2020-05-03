@@ -16,7 +16,8 @@ public class Item extends EntityTemplate implements Entity{
     private String id;
     private Integer temp;
     private String vendor;
-    private List<Location> locations;
+    private String type;
+    private int[] locations;
 
     public Item(String name, String id, int required_tmp, String vendor) {
         this.name = name;

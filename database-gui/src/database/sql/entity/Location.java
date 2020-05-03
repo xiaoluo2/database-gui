@@ -16,7 +16,6 @@ public class Location extends EntityTemplate implements Entity {
     private Integer room_num;
     private String description;
     private Integer temperature;
-    private List<Item> items;
 
     public Location(int loc_id, int room_num, String description, int temperature) {
         this.loc_id = loc_id;
