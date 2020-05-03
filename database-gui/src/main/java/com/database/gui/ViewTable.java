@@ -6,7 +6,7 @@ package com.database.gui;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
-import com.database.sql.entities.Entity;
+import com.database.sql.entity.Entity;
 /**
  *
  * @author Xiao Luo
@@ -98,6 +98,6 @@ public class ViewTable extends AbstractTableModel {
     }
     
     public void setFieldNames(Entity e){
-        this.columnNames = e.getFieldNames();
+        this.columnNames = e.getColNames();
     }
 }

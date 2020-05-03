@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.database.sql.entities;
+package com.database.sql.entity;
 
 
 
@@ -12,7 +12,11 @@ package com.database.sql.entities;
  * @author Xiao Luo
  */
 public interface Entity {
-    String[] getFieldNames();
+    String getID();
+    
+    String getTableName();
+    
+    String[] getColNames();
     
     String[] getValues();
 }

@@ -3,20 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.database.sql.entities;
+package com.database.sql.entity;
+
+import java.util.List;
 
 /**
  *
  * @author Xiao Luo
  */
-public class Location implements Entity {
-    private long loc_id;
+public class Location extends EntityTemplate implements Entity {
+    private Integer loc_id;
     private Integer room_num;
     private String type;
     private String description;
     private Integer temperature;
+    private List<Item> items;
 
-    public Location(long loc_id, Integer room_num, String type, String description, Integer temperature) {
+    public Location(int loc_id, int room_num, String type, String description, int temperature) {
         this.loc_id = loc_id;
         this.room_num = room_num;
         this.type = type;
@@ -24,11 +27,12 @@ public class Location implements Entity {
         this.temperature = temperature;
     }
 
-    public long getLoc_id() {
-        return loc_id;
+    @Override
+    public String getID() {
+        return Integer.toString(loc_id);
     }
 
-    public void setLoc_id(long loc_id) {
+    public void setLoc_id(int loc_id) {
         this.loc_id = loc_id;
     }
 
@@ -66,7 +70,7 @@ public class Location implements Entity {
 
     // TODO
     @Override
-    public String[] getFieldNames() {
+    public String[] getColNames() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -75,6 +79,5 @@ public class Location implements Entity {
     public String[] getValues() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
     
 }

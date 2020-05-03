@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.database.sql.entities;
+package com.database.sql.entity;
 
 /**
  *
  * @author Xiao Luo
  */
-public class LabMember implements Entity{
-    private long member_id;
+public class Lab_Member extends EntityTemplate implements Entity{
+    private String member_id;
     private String name;
     private String title;
 
-    public LabMember(long member_id, String name, String title) {
+    public Lab_Member(String member_id, String name, String title) {
         this.member_id = member_id;
         this.name = name;
         this.title = title;
     }
 
-    public long getMember_id() {
+    public String getID() {
         return member_id;
     }
 
-    public void setMember_id(long member_id) {
+    public void setMember_id(String member_id) {
         this.member_id = member_id;
     }
 
@@ -46,7 +46,7 @@ public class LabMember implements Entity{
 
     // TODO
     @Override
-    public String[] getFieldNames() {
+    public String[] getColNames() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -55,6 +55,5 @@ public class LabMember implements Entity{
     public String[] getValues() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
     
 }

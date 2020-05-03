@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.database.sql.entities;
+package com.database.sql.entity;
 
 /**
  *
@@ -11,12 +11,10 @@ package com.database.sql.entities;
  */
 public class Antibody extends Item implements Entity{
     private String host;
-    private String catalog_no;
     
-    public Antibody(String name, long item_id, Integer required_tmp, String source, String description, double price, String host, String catalog_no) {
-        super(name, item_id, required_tmp, source, description, price);
+    public Antibody(String name, String item_id, int required_tmp, String source, String host) {
+        super(name, item_id, required_tmp, source);
         this.host = host;
-        this.catalog_no = catalog_no;
     }
 
     public String getHost() {
@@ -27,18 +25,11 @@ public class Antibody extends Item implements Entity{
         this.host = host;
     }
 
-    public String getCatalog_no() {
-        return catalog_no;
-    }
-
-    public void setCatalog_no(String catalog_no) {
-        this.catalog_no = catalog_no;
-    }
-
     // TODO
     @Override
-    public String[] getFieldNames() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String[] getColNames() {
+       String[] names = {};
+       return names;
     }
 
     // TODO
@@ -46,4 +37,10 @@ public class Antibody extends Item implements Entity{
     public String[] getValues() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getTableName() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

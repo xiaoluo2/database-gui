@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.database.sql.entities;
+package com.database.sql.entity;
 
 import java.sql.Date;
 
@@ -11,12 +11,12 @@ import java.sql.Date;
  *
  * @author Xiao Luo
  */
-public class Order implements Entity {
+public class Order extends EntityTemplate implements Entity {
     private String order_id;
     private String status;
     private Date date;
     private String vendor;
-    private LabMember requester;
+    private Lab_Member requester;
 
     public Order(String order_id, String status, Date date, String vendor) {
         this.order_id = order_id;
@@ -25,7 +25,8 @@ public class Order implements Entity {
         this.vendor = vendor;
     }
 
-    public String getOrder_id() {
+    @Override
+    public String getID() {
         return order_id;
     }
 
@@ -56,10 +57,18 @@ public class Order implements Entity {
     public void setVendor(String vendor) {
         this.vendor = vendor;
     }
+    
+    public Lab_Member getRequester() {
+        return requester;
+    }
+
+    public void setRequester(Lab_Member requester) {
+        this.requester = requester;
+    }
 
     // TODO
     @Override
-    public String[] getFieldNames() {
+    public String[] getColNames() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -68,6 +77,5 @@ public class Order implements Entity {
     public String[] getValues() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
     
 }

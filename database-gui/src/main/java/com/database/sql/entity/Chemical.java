@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.database.sql.entities;
+package com.database.sql.entity;
 
 /**
  *
@@ -12,8 +12,8 @@ package com.database.sql.entities;
 public class Chemical extends Item implements Entity{
     private String amount;
 
-    public Chemical(String name, long item_id, Integer required_tmp, String source, String description, double price, String amount) {
-        super(name, item_id, required_tmp, source, description, price);
+    public Chemical(String name, String item_id, int required_tmp, String source, String amount) {
+        super(name, item_id, required_tmp, source);
         this.amount = amount;
     }
 
@@ -27,13 +27,18 @@ public class Chemical extends Item implements Entity{
 
     // TODO
     @Override
-    public String[] getFieldNames() {
+    public String[] getColNames() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // TODO
     @Override
     public String[] getValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getTableName() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
