@@ -61,7 +61,7 @@ public class Location extends EntityTemplate implements Entity {
     // TODO
     @Override
     public String[] getColNames() {
-        String[] names = {"Location_id", "Room_Number", "Description", "Temp"};
+        String[] names = {"location_id", "room_no", "loc_type", "temperature"};
         return names;
     }
 

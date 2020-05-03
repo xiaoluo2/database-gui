@@ -5,6 +5,8 @@
  */
 package com.database.sql.entity;
 
+import java.util.regex.Pattern;  
+import java.util.regex.Matcher;   
 /**
  *
  * @author Xiao Luo
@@ -12,7 +14,17 @@ package com.database.sql.entity;
 public abstract class EntityTemplate {
 
     public String getTableName() {
-        return this.getClass().toString();
+        String className  = this.getClass().toString();
+        String tableName;
+        String pattern = "\\.\\w*$";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(className);
+        if (m.find()){
+            tableName = m.group(0).substring(1);
+        } else {
+            tableName = "";
+        }
+        return tableName;
     }
     
 }

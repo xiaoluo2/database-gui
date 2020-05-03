@@ -5,8 +5,6 @@
  */
 package com.database.sql.entity;
 
-import java.sql.Date;
-
 /**
  *
  * @author Xiao Luo

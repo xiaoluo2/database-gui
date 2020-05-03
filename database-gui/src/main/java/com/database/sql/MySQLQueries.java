@@ -26,21 +26,20 @@ public class MySQLQueries {
 
     // Search TODO
     public Entity[] getSearchResult(String searchText){
-        return new Entity[10];
+        throw new UnsupportedOperationException();
     }
-    
-    // May not implement
+
     public void saveChangesToSearchTable(){
-    
+        throw new UnsupportedOperationException();
     }
 
     // New Record TODO
     public void insertNewRecord(Entity e){
         String queryString;
         String tableName = e.getTableName();
-        String fieldNames = String.join(",", e.getColNames());
+        String colNames = String.join(",", e.getColNames());
         String values = String.join(",", e.getValues());
-        queryString = String.format("INSERT INTO %s(%s) VALUES(%s)", tableName, fieldNames, values);
+        queryString = String.format("INSERT INTO %s(%s) VALUES(%s)", tableName, colNames, values);
         template.update(queryString);
     }
     
@@ -109,7 +108,7 @@ public class MySQLQueries {
  
         public Location mapRow(ResultSet rs, int rowNum)
             throws SQLException {                  
-                return new Location(rs.getInt("location_id"), rs.getInt("room_no"), rs.getString("type"), rs.getString("description"), rs.getInt("temp"));
+                return new Location(rs.getInt("location_id"), rs.getInt("room_no"), rs.getString("description"), rs.getInt("temp"));
         }});
         
         return list;
@@ -121,7 +120,7 @@ public class MySQLQueries {
  
         public Order mapRow(ResultSet rs, int rowNum)
             throws SQLException {                
-                return new Order(rs.getString("order_id"), rs.getString("order_status"), rs.getDate("order_date"), rs.getString("vendor"));
+                return new Order(rs.getString("order_id"), rs.getString("order_status"), rs.getString("order_date"), rs.getString("vendor"));
         }});
         
         return list;

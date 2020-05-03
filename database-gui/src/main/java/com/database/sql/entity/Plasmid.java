@@ -18,8 +18,8 @@ public class Plasmid extends Item implements Entity {
         super(name, item_id, 0, creator_id);
         this.feature = feature;
         // TODO refer to object
-        this.creator_id = ;
-        this.creator_name = ;
+        this.creator_id = creator_id;
+        this.creator_name = creator_name;
     }
     
     public String getFeature() {
@@ -43,10 +43,26 @@ public class Plasmid extends Item implements Entity {
         String[] values = new String[5];
         values[0] = this.getName();
         values[1] = this.getID();
-        values[2] = this.
-        values[3] = this.
+        values[2] = this.getCreator_id();
+        values[3] = this.getCreator_name();
         values[4] = this.getFeature();
         return values;
+    }
+
+    public String getCreator_id() {
+        return creator_id;
+    }
+
+    public void setCreator_id(String creator_id) {
+        this.creator_id = creator_id;
+    }
+
+    public String getCreator_name() {
+        return creator_name;
+    }
+
+    public void setCreator_name(String creator_name) {
+        this.creator_name = creator_name;
     }
 
 }
