@@ -12,14 +12,20 @@ public class Connector {
    public static final String USER = "shomic2";
    public static final String PASS = "Cosc*w2k3";
    
-   public static Connection getConnection(){
+   private static Connection connection;
+   
+   public static void setConnection(){
        Connection conn = null;
        try{
          conn = DriverManager.getConnection(DB_URL,USER,PASS);
        } catch(SQLException se){
          se.printStackTrace();
       }
-      return conn;
+      connection = conn;
+   }
+   
+   public static Connection getConnection(){
+       return connection;
    }
    
 }
