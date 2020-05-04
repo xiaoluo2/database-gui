@@ -99,5 +99,4 @@ public class AntibodyBean {
         }
         return a;
     }
-    
 }
