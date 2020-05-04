@@ -12,14 +12,19 @@ package database.gui.entity;
 public class Location extends EntityTemplate implements Entity {
     private Integer loc_id;
     private Integer room_num;
-    private String description;
+    private String loc_type;
     private Integer temperature;
 
-    public Location(int loc_id, int room_num, String description, int temperature) {
+    public Location(int loc_id, int room_num, String type, int temperature) {
         this.loc_id = loc_id;
         this.room_num = room_num;
-        this.description = description;
+        this.loc_type = type;
         this.temperature = temperature;
+    }
+
+    public Location() {
+        this(0, 0, null, 9999);
+        
     }
 
     @Override
@@ -39,12 +44,12 @@ public class Location extends EntityTemplate implements Entity {
         this.room_num = room_num;
     }
 
-    public String getDescription() {
-        return description;
+    public String getType() {
+        return loc_type;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setType(String description) {
+        this.loc_type = description;
     }
 
     public Integer getTemperature() {
@@ -68,7 +73,7 @@ public class Location extends EntityTemplate implements Entity {
         String[] values = new String[4];
         values[0] = this.getID();
         values[1] = Integer.toString(this.getRoom_num());
-        values[2] = this.getDescription();
+        values[2] = this.getType();
         values[3] = Integer.toString(this.getTemperature());
         return values;
     }

@@ -141,4 +141,13 @@ public class AntibodyForm extends JPanel {
               && sourceField.getText().isBlank()
               && hostField.getText().isBlank());
    }
+   
+   public void setInsert(boolean insert){
+       if(insert){
+           updateButton.setEnabled(false);
+           deleteButton.setEnabled(false);
+       } else {
+           createButton.setEnabled(false);
+       }
+   }
 }

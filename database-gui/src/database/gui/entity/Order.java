@@ -14,13 +14,17 @@ public class Order extends EntityTemplate implements Entity {
     private String status;
     private String date;
     private String vendor;
-    private Lab_Member requester;
+    private int requester;
 
     public Order(String order_id, String status, String date, String vendor) {
         this.order_id = order_id;
         this.status = status;
         this.date = date;
         this.vendor = vendor;
+    }
+    
+    public Order(){
+        this(null, null, null, null);
     }
 
     @Override
@@ -56,11 +60,11 @@ public class Order extends EntityTemplate implements Entity {
         this.vendor = vendor;
     }
     
-    public Lab_Member getRequester() {
+    public int getRequester() {
         return requester;
     }
 
-    public void setRequester(Lab_Member requester) {
+    public void setRequester(int requester) {
         this.requester = requester;
     }
 

@@ -10,22 +10,26 @@ package database.gui.entity;
  * @author Xiao Luo
  */
 public class Lab_Member extends EntityTemplate implements Entity{
-    private String member_id;
+    private Integer member_id;
     private String name;
     private String title;
 
-    public Lab_Member(String member_id, String name, String title) {
+    public Lab_Member(Integer member_id, String name, String title) {
         this.member_id = member_id;
         this.name = name;
         this.title = title;
     }
 
-    @Override
-    public String getID() {
-        return member_id;
+    public Lab_Member() {
+        this(0, null, null);
     }
 
-    public void setMember_id(String member_id) {
+    @Override
+    public String getID() {
+        return Integer.toString(member_id);
+    }
+
+    public void setMember_id(Integer member_id) {
         this.member_id = member_id;
     }
 

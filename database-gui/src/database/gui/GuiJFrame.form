@@ -128,7 +128,6 @@
                       <Component id="TypeBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="599" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="FormPane" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -136,8 +135,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="TypeBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="FormPane" max="32767" attributes="0"/>
+                      <EmptySpace pref="396" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -146,48 +144,13 @@
             <Component class="javax.swing.JComboBox" name="TypeBox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(new String[]{ &quot;Request&quot;, &quot;Fulfill Order&quot;, &quot;Antibody&quot;, &quot;Chemical&quot;, &quot;Lab Member&quot;, &quot;Location&quot;, &quot;Plasmid&quot;, &quot;Strain&quot;, &quot;Other&quot;})" type="code"/>
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(new String[]{ &quot;Order&quot;, &quot;Antibody&quot;, &quot;Chemical&quot;, &quot;Plasmid&quot;, &quot;Strain&quot;, &quot;Other&quot;, &quot;Lab Member&quot;, &quot;Location&quot;})" type="code"/>
                 </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Container class="javax.swing.JLayeredPane" name="FormPane">
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="RequestPanel" alignment="0" max="32767" attributes="0"/>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="RequestPanel" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Container class="javax.swing.JPanel" name="RequestPanel">
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="367" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                </Container>
-              </SubComponents>
-            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel4">

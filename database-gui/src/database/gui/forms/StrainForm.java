@@ -9,6 +9,6 @@ package database.gui.forms;
  *
  * @author Xiao Luo
  */
-public class RequestForm {
+public class StrainForm {
     
 }

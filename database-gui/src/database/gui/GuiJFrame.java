@@ -35,8 +35,6 @@ public class GuiJFrame extends javax.swing.JFrame {
         jTable4 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         TypeBox = new javax.swing.JComboBox<>();
-        FormPane = new javax.swing.JLayeredPane();
-        RequestPanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -90,33 +88,7 @@ public class GuiJFrame extends javax.swing.JFrame {
 
         jTabbedPane3.addTab("Search", jPanel2);
 
-        TypeBox.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]{ "Request", "Fulfill Order", "Antibody", "Chemical", "Lab Member", "Location", "Plasmid", "Strain", "Other"}));
-
-        javax.swing.GroupLayout RequestPanelLayout = new javax.swing.GroupLayout(RequestPanel);
-        RequestPanel.setLayout(RequestPanelLayout);
-        RequestPanelLayout.setHorizontalGroup(
-            RequestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        RequestPanelLayout.setVerticalGroup(
-            RequestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 367, Short.MAX_VALUE)
-        );
-
-        FormPane.setLayer(RequestPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout FormPaneLayout = new javax.swing.GroupLayout(FormPane);
-        FormPane.setLayout(FormPaneLayout);
-        FormPaneLayout.setHorizontalGroup(
-            FormPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(RequestPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        FormPaneLayout.setVerticalGroup(
-            FormPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FormPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(RequestPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        TypeBox.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]{ "Order", "Antibody", "Chemical", "Plasmid", "Strain", "Other", "Lab Member", "Location"}));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -126,15 +98,13 @@ public class GuiJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(TypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(599, Short.MAX_VALUE))
-            .addComponent(FormPane)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(TypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(FormPane))
+                .addContainerGap(396, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("New Record", jPanel3);
@@ -232,8 +202,6 @@ public class GuiJFrame extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLayeredPane FormPane;
-    private javax.swing.JPanel RequestPanel;
     private javax.swing.JTextField SearchBar;
     private javax.swing.JButton SearchButton;
     private javax.swing.JComboBox<String> TypeBox;
