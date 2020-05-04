@@ -2,3 +2,6 @@
 /database-gui/dist/
 /database-gui/.settings/
 /database-gui/nbproject/
+/database-gui/target/
+/database-gui/.classpath
+/database-gui/.project
