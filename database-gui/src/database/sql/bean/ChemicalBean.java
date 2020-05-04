@@ -29,7 +29,7 @@ public class ChemicalBean {
     }
     
     public Chemical create(Chemical a){
-        String sql = "INSERT INTO Item(name, id, temp, producer, antibody) VALUES(?,?,?,?,1)";
+        String sql = "INSERT INTO Item(name, id, temp, producer, chemical) VALUES(?,?,?,?,?,1)";
         try{
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1,a.getName());
@@ -37,7 +37,7 @@ public class ChemicalBean {
             stm.setInt(3,a.getTemp());
             stm.setString(4,a.getVendor());
             stm.execute();
-            sql = "INSERT INTO Chemical(host) VALUES(" + a.getHost() + ")";
+            sql = "INSERT INTO Chemical(item_id, amount) VALUES(" + a.getID() + "," + a.getAmount() + ")";
             stm.executeUpdate(sql);
         } catch(SQLException e){
             return null;
@@ -54,9 +54,9 @@ public class ChemicalBean {
             stm.setInt(2, a.getTemp());
             stm.setString(3, a.getVendor());
             stm.setString(4, id);
-            sql = "UPDATE Chemical SET host=? WHERE item_id=?";
+            sql = "UPDATE Chemical SET amount=? WHERE item_id=?";
             stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getHost());
+            stm.setString(1, a.getAmount());
             stm.setString(2, id);
         } catch (SQLException ex) {
             return null;
@@ -83,7 +83,7 @@ public class ChemicalBean {
             rs.moveToCurrentRow();
             a.setId(rs.getString("id"));
             a.setName(rs.getString("name"));
-            a.setHost(rs.getString("host"));
+            a.setAmount(rs.getString("amount"));
             a.setTemp(rs.getInt("temp"));
             a.setVendor(rs.getString("producer"));
         } catch (SQLException ex) {

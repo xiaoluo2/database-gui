@@ -25,14 +25,14 @@ public class StrainBean {
         rs.setUrl(Connector.DB_URL);
         rs.setUsername(Connector.USER);
         rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM antibody_item_view");
+        rs.setCommand("SELECT * FROM strain_item_view");
         rs.execute();
         
         this.connection = Connector.getConnection();
     }
     
     public Strain create(Strain a){
-        String sql = "INSERT INTO Item(name, id, temp, producer, antibody) VALUES(?,?,?,?,1)";
+        String sql = "INSERT INTO Item(name, id, temp, producer, strain) VALUES(?,?,?,?,1)";
         try{
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1,a.getName());
@@ -40,7 +40,7 @@ public class StrainBean {
             stm.setInt(3,a.getTemp());
             stm.setString(4,a.getVendor());
             stm.execute();
-            sql = "INSERT INTO Strain(host) VALUES(" + a.getHost() + ")";
+            sql = "INSERT INTO Strain(item_id, anti_res, features) VALUES(" + a.getID() + "," + a.getAnti_res() + "," + a.getFeatures() + ")";
             stm.executeUpdate(sql);
         } catch(SQLException e){
             return null;
@@ -57,10 +57,11 @@ public class StrainBean {
             stm.setInt(2, a.getTemp());
             stm.setString(3, a.getVendor());
             stm.setString(4, id);
-            sql = "UPDATE Strain SET host=? WHERE item_id=?";
+            sql = "UPDATE Strain SET anti_res=?, features=? WHERE item_id=?";
             stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getHost());
-            stm.setString(2, id);
+            stm.setString(1, a.getAnti_res());
+            stm.setString(2, a.getFeatures());
+            stm.setString(3, id);
         } catch (SQLException ex) {
             return null;
         }
@@ -86,8 +87,8 @@ public class StrainBean {
             rs.moveToCurrentRow();
             a.setId(rs.getString("id"));
             a.setName(rs.getString("name"));
-            a.setHost(rs.getString("host"));
-            a.setTemp(rs.getInt("temp"));
+            a.setAnti_res(rs.getString("anti_res"));
+            a.setFeatures(rs.getString("features"));
             a.setVendor(rs.getString("producer"));
         } catch (SQLException ex) {
             Logger.getLogger(StrainBean.class.getName()).log(Level.SEVERE, null, ex);

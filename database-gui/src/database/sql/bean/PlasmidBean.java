@@ -25,14 +25,14 @@ public class PlasmidBean {
         rs.setUrl(Connector.DB_URL);
         rs.setUsername(Connector.USER);
         rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM antibody_item_view");
+        rs.setCommand("SELECT * FROM plasmid_item_view");
         rs.execute();
         
         this.connection = Connector.getConnection();
     }
     
     public Plasmid create(Plasmid a){
-        String sql = "INSERT INTO Item(name, id, temp, producer, antibody) VALUES(?,?,?,?,1)";
+        String sql = "INSERT INTO Item(name, id, temp, producer, plasmid) VALUES(?,?,?,?,1)";
         try{
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1,a.getName());
@@ -40,7 +40,7 @@ public class PlasmidBean {
             stm.setInt(3,a.getTemp());
             stm.setString(4,a.getVendor());
             stm.execute();
-            sql = "INSERT INTO Plasmid(host) VALUES(" + a.getHost() + ")";
+            sql = "INSERT INTO Plasmid(item_id, lab_id, feature) VALUES(" + a.getID() + "," + a.getCreator_id() + a.getFeature() + ")";
             stm.executeUpdate(sql);
         } catch(SQLException e){
             return null;
@@ -57,10 +57,10 @@ public class PlasmidBean {
             stm.setInt(2, a.getTemp());
             stm.setString(3, a.getVendor());
             stm.setString(4, id);
-            sql = "UPDATE Plasmid SET host=? WHERE item_id=?";
+            sql = "UPDATE Plasmid SET feature=? WHERE item_id=?";
             stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getHost());
-            stm.setString(2, id);
+            stm.setString(2, a.getFeature());
+            stm.setString(3, id);
         } catch (SQLException ex) {
             return null;
         }
@@ -86,9 +86,11 @@ public class PlasmidBean {
             rs.moveToCurrentRow();
             a.setId(rs.getString("id"));
             a.setName(rs.getString("name"));
-            a.setHost(rs.getString("host"));
+            a.setCreator_id(rs.getString("lab_id"));
+            a.setCreator_name(rs.getString("lab_name"));
             a.setTemp(rs.getInt("temp"));
             a.setVendor(rs.getString("producer"));
+            a.setFeature(rs.getString("feature"));
         } catch (SQLException ex) {
             Logger.getLogger(PlasmidBean.class.getName()).log(Level.SEVERE, null, ex);
         }

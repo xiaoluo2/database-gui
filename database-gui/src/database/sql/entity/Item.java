@@ -19,11 +19,16 @@ public class Item extends EntityTemplate implements Entity{
     private String type;
     private int[] locations;
 
-    public Item(String name, String id, int required_tmp, String vendor) {
+    public Item(String name, String id, int required_tmp, String vendor, String type) {
         this.name = name;
         this.id = id;
         this.temp = required_tmp;
         this.vendor = vendor;
+        this.type = type;
+    }
+    
+    public Item(){
+        this(null, null, 9999, null, null);
     }
 
     public String getName() {
@@ -73,6 +78,14 @@ public class Item extends EntityTemplate implements Entity{
         values[2] = Integer.toString(this.getTemp());
         values[3] = this.getVendor();
         return values;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
 }

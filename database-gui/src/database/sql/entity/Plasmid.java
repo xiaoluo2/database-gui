@@ -15,9 +15,8 @@ public class Plasmid extends Item implements Entity {
     private String creator_name;
 
     public Plasmid(String name, String item_id, String creator_id, String creator_name, String feature) {
-        super(name, item_id, 0, creator_id);
+        super(name, item_id, 0, creator_id, "plasmid");
         this.feature = feature;
-        // TODO refer to object
         this.creator_id = creator_id;
         this.creator_name = creator_name;
     }

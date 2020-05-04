@@ -13,7 +13,7 @@ public class Chemical extends Item implements Entity{
     private String amount;
 
     public Chemical(String name, String item_id, int required_tmp, String vendor, String amount) {
-        super(name, item_id, required_tmp, vendor);
+        super(name, item_id, required_tmp, vendor, "chemical");
         this.amount = amount;
     }
     

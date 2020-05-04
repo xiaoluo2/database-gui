@@ -5,8 +5,6 @@
  */
 package database.sql.entity;
 
-import java.util.List;
-
 /**
  *
  * @author Xiao Luo

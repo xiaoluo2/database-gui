@@ -12,7 +12,7 @@ package database.sql.entity;
 public class Mole_bio extends Item {
 
     public Mole_bio(String name, String id, int required_tmp, String vendor) {
-        super(name, id, required_tmp, vendor);
+        super(name, id, required_tmp, vendor, "mole_bio");
     }
     
     @Override

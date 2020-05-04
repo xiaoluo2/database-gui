@@ -15,7 +15,7 @@ public class Strain extends Item implements Entity{
     private String features;
 
     public Strain(String name, String id, String anti_res, String features) {
-        super(name, id, 0, null);
+        super(name, id, 0, null, "strain");
         this.anti_res = anti_res;
         this.features = features;
     }

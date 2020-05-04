@@ -40,7 +40,7 @@ public class AntibodyBean {
             stm.setInt(3,a.getTemp());
             stm.setString(4,a.getVendor());
             stm.execute();
-            sql = "INSERT INTO Antibody(host) VALUES(" + a.getHost() + ")";
+            sql = "INSERT INTO Antibody(item_id, host) VALUES(" + a.getID() + "," + a.getHost() + ")";
             stm.executeUpdate(sql);
         } catch(SQLException e){
             return null;

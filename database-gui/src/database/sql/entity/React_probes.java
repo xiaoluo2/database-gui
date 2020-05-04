@@ -12,7 +12,7 @@ package database.sql.entity;
 public class React_probes extends Item {
 
     public React_probes(String name, String id, int required_tmp, String vendor) {
-        super(name, id, required_tmp, vendor);
+        super(name, id, required_tmp, vendor, "react_probes");
     }
     
     @Override

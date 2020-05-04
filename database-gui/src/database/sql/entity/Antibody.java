@@ -13,7 +13,7 @@ public class Antibody extends Item implements Entity{
     private String host;
     
     public Antibody(String name, String item_id, int required_tmp, String source, String host) {
-        super(name, item_id, required_tmp, source);
+        super(name, item_id, required_tmp, source, "antibody");
         this.host = host;
     }
     
