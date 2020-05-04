@@ -148,6 +148,7 @@ public class AntibodyForm extends JPanel {
            deleteButton.setEnabled(false);
        } else {
            createButton.setEnabled(false);
+           idField.setEditable(false);
        }
    }
 }
