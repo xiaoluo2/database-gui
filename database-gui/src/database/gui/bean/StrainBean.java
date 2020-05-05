@@ -5,35 +5,55 @@
  */
 package database.gui.bean;
 
+import database.gui.entity.Entity;
 import database.gui.entity.Strain;
+import database.gui.forms.StrainForm;
 import database.sql.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.RowSet;
 import javax.sql.rowset.*;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Xiao Luo
  */
-public class StrainBean {
+public class StrainBean extends Bean {
     
     private JdbcRowSet rs;
     private Connection connection;
-    public StrainBean() throws SQLException{
-        this.rs = RowSetProvider.newFactory().createJdbcRowSet();
-        rs.setUrl(Connector.DB_URL);
-        rs.setUsername(Connector.USER);
-        rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM strain_item_view");
-        rs.execute();
-        
-        this.connection = Connector.getConnection();
+    public StrainBean() {
+        try {
+            this.rs = RowSetProvider.newFactory().createJdbcRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM strain_item_view");
+            rs.execute();
+            
+            this.connection = Connector.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(StrainBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public RowSet getRowSet(){
         return rs;
+    }
+    
+    public JPanel getForm(){
+        StrainForm form = new StrainForm(this);
+        form.setInsert(false);
+        return form;
+    }
+    
+    public JPanel getEmptyForm(){
+        StrainForm form = new StrainForm(this);
+        form.setInsert(true);
+        form.setVisible(false);
+        return form;
     }
     
     public Strain create(Strain a){
@@ -62,11 +82,13 @@ public class StrainBean {
             stm.setInt(2, a.getTemp());
             stm.setString(3, a.getVendor());
             stm.setString(4, id);
+            stm.execute();
             sql = "UPDATE Strain SET anti_res=?, features=? WHERE item_id=?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, a.getAnti_res());
             stm.setString(2, a.getFeatures());
             stm.setString(3, id);
+            stm.execute();
         } catch (SQLException ex) {
             return null;
         }
@@ -86,19 +108,34 @@ public class StrainBean {
         
     }
     
+    @Override
     public Strain getCurrent(){
         Strain a = new Strain();
         try {
-            rs.moveToCurrentRow();
-            a.setId(rs.getString("id"));
-            a.setName(rs.getString("name"));
-            a.setAnti_res(rs.getString("anti_res"));
-            a.setFeatures(rs.getString("features"));
-            a.setVendor(rs.getString("producer"));
+            if (rs.getRow() != 0){
+                a.setId(rs.getString("id"));
+                a.setName(rs.getString("name"));
+                a.setAnti_res(rs.getString("anti_res"));
+                a.setFeatures(rs.getString("features"));
+                a.setVendor(rs.getString("producer"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(StrainBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
     }
-    
+    @Override
+    public Strain create(Entity e) {
+        return create((Strain)e);
+    }
+
+    @Override
+    public Strain update(Entity e) {
+        return update((Strain)e);
+    }
+
+    @Override
+    public void delete(Entity e) {
+        delete((Strain)e);
+    }    
 }

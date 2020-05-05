@@ -43,8 +43,8 @@
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Search">
-                <Property name="tabTitle" type="java.lang.String" value="Search"/>
+              <JTabbedPaneConstraints tabName="Find">
+                <Property name="tabTitle" type="java.lang.String" value="Find"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -54,9 +54,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="SearchBar" min="-2" pref="248" max="-2" attributes="0"/>
+                      <Component id="searchBar" min="-2" pref="248" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="SearchButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="searchButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="25" pref="269" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane4" alignment="0" pref="639" max="32767" attributes="0"/>
@@ -67,25 +67,25 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="SearchButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="SearchBar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="searchButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="searchBar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" pref="389" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" pref="538" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="SearchButton">
+            <Component class="javax.swing.JButton" name="searchButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Search"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SearchButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="SearchBar">
+            <Component class="javax.swing.JTextField" name="searchBar">
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane4">
               <AuxValues>
@@ -94,9 +94,9 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable4">
+                <Component class="javax.swing.JTable" name="searchTable">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="searchTable.addMouseListener(new MouseListener(){&#xa;                @Override&#xa;    public void mouseClicked(MouseEvent e) {&#xa;        if(e.getClickCount() != 0){&#xa;                JFrame f= new JFrame();&#xa;                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);&#xa;                try {&#xa;                    int row = searchTable.getSelectedRow();&#xa;                    bean.getRowSet().absolute(row + 1);&#xa;                } catch (SQLException ex) {&#xa;                    &#xa;                }&#xa;                JPanel p = bean.getForm();&#xa;                f.getContentPane().add(p);&#xa;                f.setSize(600, 280);&#xa;                f.setVisible(true);&#xa;            }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mousePressed(MouseEvent arg0) {&#xa;        &#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseReleased(MouseEvent arg0) {&#xa;        &#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseEntered(MouseEvent arg0) {&#xa;        &#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(MouseEvent arg0) {&#xa;        &#xa;    }&#xa;            &#xa;        });">
                       <Table columnCount="0" rowCount="0"/>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -125,32 +125,39 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TypeBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="typeBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="599" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="formPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TypeBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="396" max="32767" attributes="0"/>
+                      <Component id="typeBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="formPanel" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="TypeBox">
+            <Component class="javax.swing.JComboBox" name="typeBox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(new String[]{ &quot;Order&quot;, &quot;Antibody&quot;, &quot;Chemical&quot;, &quot;Plasmid&quot;, &quot;Strain&quot;, &quot;Other&quot;, &quot;Lab Member&quot;, &quot;Location&quot;})" type="code"/>
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(new String[]{ &quot;Antibody&quot;, &quot;Chemical&quot;, &quot;Plasmid&quot;, &quot;Strain&quot;, &quot;Other&quot;, &quot;Lab Member&quot;, &quot;Location&quot;})" type="code"/>
                 </Property>
               </Properties>
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="typeBox.addActionListener(new ActionListener(){&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        JComboBox cb = (JComboBox)e.getSource();&#xa;        int type = cb.getSelectedIndex();&#xa;        Component[] cp = formPanel.getComponents();&#xa;        switch (type){&#xa;            case 0:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[i].setVisible(false);&#xa;                }&#xa;                cp[0].setVisible(true);&#xa;                break;&#xa;            case 1:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[i].setVisible(false);&#xa;                }&#xa;                cp[1].setVisible(true);&#xa;                break;&#xa;            case 2:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[i].setVisible(false);&#xa;                }&#xa;                cp[2].setVisible(true);&#xa;                break;&#xa;            case 3:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[3].setVisible(false);&#xa;                }&#xa;                cp[3].setVisible(true);&#xa;            case 4:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[i].setVisible(false);&#xa;                }&#xa;                cp[4].setVisible(true);&#xa;                break;&#xa;            case 5:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[i].setVisible(false);&#xa;                }&#xa;                cp[5].setVisible(true);&#xa;                break;&#xa;            case 6:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[i].setVisible(false);&#xa;                }&#xa;                cp[6].setVisible(true);&#xa;                break;&#xa;            default:&#xa;                for(int i=0;i&lt;cp.length;i++){&#xa;                    cp[i].setVisible(false);&#xa;                }&#xa;                break;&#xa;        }&#xa;    }&#xa;&#xa;});"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
+            <Container class="javax.swing.JLayeredPane" name="formPanel">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel4">
@@ -165,116 +172,70 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ViewPane" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ViewPane" alignment="0" pref="578" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+            <Container class="javax.swing.JTabbedPane" name="ViewPane">
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="jPanel1">
+                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="Orders">
-                        <Property name="tabTitle" type="java.lang.String" value="Orders"/>
+                      <JTabbedPaneConstraints tabName="Item Locations">
+                        <Property name="tabTitle" type="java.lang.String" value="Item Locations"/>
                       </JTabbedPaneConstraints>
                     </Constraint>
                   </Constraints>
 
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" pref="634" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="384" max="-2" attributes="0"/>
-                              <EmptySpace pref="27" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+                    <Component class="javax.swing.JTable" name="jTable1">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="new RowSetModel(item_loc)" type="code"/>
+                        </Property>
+                      </Properties>
                       <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="RowSet item_loc = Connector.execute(&quot;SELECT * FROM Item_Location_View&quot;);"/>
                       </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JTable" name="jTable1">
-                          <Properties>
-                            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="4" rowCount="4">
-                                <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                              </Table>
-                            </Property>
-                          </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
+                    </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanel7">
+                <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="Inventory">
-                        <Property name="tabTitle" type="java.lang.String" value="Inventory"/>
+                      <JTabbedPaneConstraints tabName="Order Items">
+                        <Property name="tabTitle" type="java.lang.String" value="Order Items"/>
                       </JTabbedPaneConstraints>
                     </Constraint>
                   </Constraints>
 
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane5" alignment="0" pref="634" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                              <Component id="jScrollPane5" min="-2" pref="384" max="-2" attributes="0"/>
-                              <EmptySpace pref="27" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+                    <Component class="javax.swing.JTable" name="jTable2">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="new RowSetModel(order_items)" type="code"/>
+                        </Property>
+                      </Properties>
                       <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="RowSet order_items = Connector.execute(&quot;SELECT * FROM order_item_view&quot;);"/>
                       </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JTable" name="jTable5">
-                          <Properties>
-                            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="4" rowCount="4">
-                                <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                              </Table>
-                            </Property>
-                          </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
+                    </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>

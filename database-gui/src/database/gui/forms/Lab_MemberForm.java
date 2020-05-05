@@ -5,7 +5,7 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.Lab_MemberBean;
+import database.gui.bean.Bean;
 import database.gui.entity.Lab_Member;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -20,16 +20,16 @@ import javax.swing.border.*;
  */
 public class Lab_MemberForm extends JPanel{
 
-    private JTextField lab_idField = new JTextField(30);
+    private JTextField idField = new JTextField(30);
     private JTextField nameField = new JTextField(30);
     private JTextField titleField = new JTextField(30);
  
     private JButton createButton = new JButton("Save");
-    private JButton clearButton = new JButton("Update");
-    private JButton updateButton = new JButton("Delete");
-    private JButton deleteButton = new JButton("Clear");
+   private JButton clearButton = new JButton("Clear");
+   private JButton updateButton = new JButton("Update");
+   private JButton deleteButton = new JButton("Delete");
  
-    private Lab_MemberBean bean;
+    private Bean bean;
  
     public Lab_MemberForm() {
         setBorder(new TitledBorder
@@ -38,6 +38,21 @@ public class Lab_MemberForm extends JPanel{
         add(initFields(), BorderLayout.NORTH);
         add(initButtons(), BorderLayout.CENTER);
     }
+    
+    public Lab_MemberForm(Bean b){
+        this();
+        this.bean = b;
+    }
+    
+   public Lab_MemberForm(boolean insert){
+       this();
+       this.setInsert(insert);
+   }
+   
+   public Lab_MemberForm(Lab_Member a){
+       this(false);
+       this.setFieldData(a);
+   }
  
     private class ButtonHandler implements ActionListener {
  
@@ -70,14 +85,14 @@ public class Lab_MemberForm extends JPanel{
                      if (reply == JOptionPane.YES_OPTION) {
                          bean.delete(a);
                          JOptionPane.showMessageDialog(null, "Deleted.");
-                         lab_idField.setText("");
+                         idField.setText("");
                          nameField.setText("");
                          titleField.setText("");
                      } else {
                          ; //Do nothing
                      }
                  case "Clear":
-                     lab_idField.setText("");
+                     idField.setText("");
                      nameField.setText("");
                      titleField.setText("");
              }
@@ -90,14 +105,20 @@ public class Lab_MemberForm extends JPanel{
          JPanel panel = new JPanel();
          panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
          panel.add(createButton);
+         panel.add(clearButton);
+         panel.add(updateButton);
+         panel.add(deleteButton);
          createButton.addActionListener(new ButtonHandler());
+         clearButton.addActionListener(new ButtonHandler());
+      updateButton.addActionListener(new ButtonHandler());
+      deleteButton.addActionListener(new ButtonHandler());
          return panel;
     }
  
     private JPanel initFields() {
          JPanel panel = new JPanel();
          panel.add(new JLabel("Lab_ID"), "align label");
-         panel.add(lab_idField, "wrap");
+         panel.add(idField, "wrap");
          panel.add(new JLabel("Name"), "align label");
          panel.add(nameField, "wrap");
          panel.add(new JLabel("Title"), "align label");
@@ -107,32 +128,36 @@ public class Lab_MemberForm extends JPanel{
  
     private Lab_Member getFieldData() {
         Lab_Member p = new Lab_Member(
-           Integer.parseInt(nameField.getText()),
-           lab_idField.getText(),
+           Integer.parseInt(nameField.getText().equals("") ? "0": nameField.getText()),
+           idField.getText(),
            titleField.getText()
          );
          return p;
     }
    
     private void setFieldData(Lab_Member p) {
-         lab_idField.setText(p.getID());
+         idField.setText(p.getID());
          nameField.setText(p.getName());
          titleField.setText(p.getTitle());
     }
    
     private boolean isEmptyFieldData() {
-         return (lab_idField.getText().trim().isEmpty()
+         return (idField.getText().trim().isEmpty()
                  && nameField.getText().isBlank()
                  && titleField.getText().isBlank());
     }
     
-    public void setInsert(boolean insert){
+   public void setInsert(boolean insert){
        if(insert){
-           updateButton.setEnabled(false);
-           deleteButton.setEnabled(false);
+           updateButton.setVisible(false);
+           deleteButton.setVisible(false);
+           createButton.setVisible(true);
+           idField.setEditable(true);
        } else {
-           createButton.setEnabled(false);
-           lab_idField.setEditable(false);
+           createButton.setVisible(false);
+           idField.setEditable(false);
+           updateButton.setVisible(true);
+           deleteButton.setVisible(true);
        }
    }
 }

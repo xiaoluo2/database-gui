@@ -5,6 +5,7 @@
  */
 package database.gui.forms;
 
+import database.gui.bean.Bean;
 import database.gui.bean.OrderBean;
 import database.gui.entity.Order;
 import java.awt.BorderLayout;
@@ -26,19 +27,35 @@ public class OrderForm extends JPanel{
     private JTextField vendorField = new JTextField(30);
  
     private JButton createButton = new JButton("Save");
-    private JButton clearButton = new JButton("Update");
-    private JButton updateButton = new JButton("Delete");
-    private JButton deleteButton = new JButton("Clear");
+   private JButton clearButton = new JButton("Clear");
+   private JButton updateButton = new JButton("Update");
+   private JButton deleteButton = new JButton("Delete");
  
-    private OrderBean bean;
+    private Bean bean;
  
     public OrderForm() {
+        bean = new OrderBean();
         setBorder(new TitledBorder
         (new EtchedBorder(),"Order"));
         setLayout(new BorderLayout(5, 5));
         add(initFields(), BorderLayout.NORTH);
         add(initButtons(), BorderLayout.CENTER);
     }
+    
+   public OrderForm(Bean b){
+       this();
+       this.bean = b;
+   }
+    
+   public OrderForm(boolean insert){
+       this();
+       this.setInsert(insert);
+   }
+   
+   public OrderForm(Order a){
+       this(false);
+       this.setFieldData(a);
+   }
  
     private class ButtonHandler implements ActionListener {
  
@@ -93,7 +110,13 @@ public class OrderForm extends JPanel{
          JPanel panel = new JPanel();
          panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
          panel.add(createButton);
+         panel.add(clearButton);
+         panel.add(updateButton);
+         panel.add(deleteButton);
          createButton.addActionListener(new ButtonHandler());
+         clearButton.addActionListener(new ButtonHandler());
+      updateButton.addActionListener(new ButtonHandler());
+      deleteButton.addActionListener(new ButtonHandler());
          return panel;
     }
  
@@ -136,11 +159,15 @@ public class OrderForm extends JPanel{
     
     public void setInsert(boolean insert){
        if(insert){
-           updateButton.setEnabled(false);
-           deleteButton.setEnabled(false);
+           updateButton.setVisible(false);
+           deleteButton.setVisible(false);
+           createButton.setVisible(true);
+           idField.setEditable(true);
        } else {
-           createButton.setEnabled(false);
+           createButton.setVisible(false);
            idField.setEditable(false);
+           updateButton.setVisible(true);
+           deleteButton.setVisible(true);
        }
    }
 }

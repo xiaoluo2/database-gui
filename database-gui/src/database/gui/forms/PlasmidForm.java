@@ -5,7 +5,7 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.PlasmidBean;
+import database.gui.bean.Bean;
 import database.gui.entity.Plasmid;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -25,11 +25,11 @@ public class PlasmidForm extends JPanel{
     private JTextField creatorField = new JTextField(30);
  
     private JButton createButton = new JButton("Save");
-    private JButton clearButton = new JButton("Update");
-    private JButton updateButton = new JButton("Delete");
-    private JButton deleteButton = new JButton("Clear");
+   private JButton clearButton = new JButton("Clear");
+   private JButton updateButton = new JButton("Update");
+   private JButton deleteButton = new JButton("Delete");
  
-    private PlasmidBean bean;
+    private Bean bean;
  
     public PlasmidForm() {
         setBorder(new TitledBorder
@@ -38,6 +38,21 @@ public class PlasmidForm extends JPanel{
         add(initFields(), BorderLayout.NORTH);
         add(initButtons(), BorderLayout.CENTER);
     }
+    
+    public PlasmidForm(Bean b){
+        this();
+        this.bean = b;
+    }
+    
+   public PlasmidForm(boolean insert){
+       this();
+       this.setInsert(insert);
+   }
+   
+   public PlasmidForm(Plasmid a){
+       this(false);
+       this.setFieldData(a);
+   }
  
     private class ButtonHandler implements ActionListener {
  
@@ -94,7 +109,13 @@ public class PlasmidForm extends JPanel{
          JPanel panel = new JPanel();
          panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
          panel.add(createButton);
+         panel.add(clearButton);
+         panel.add(updateButton);
+         panel.add(deleteButton);
          createButton.addActionListener(new ButtonHandler());
+         clearButton.addActionListener(new ButtonHandler());
+      updateButton.addActionListener(new ButtonHandler());
+      deleteButton.addActionListener(new ButtonHandler());
          return panel;
     }
  
@@ -102,7 +123,7 @@ public class PlasmidForm extends JPanel{
          JPanel panel = new JPanel();
          panel.add(new JLabel("ID"), "align label");
          panel.add(idField, "wrap");
-         idField.setEnabled(false);
+         
          panel.add(new JLabel("Name"), "align label");
          panel.add(nameField, "wrap");
          panel.add(new JLabel("Temperature"), "align label");
@@ -143,11 +164,15 @@ public class PlasmidForm extends JPanel{
     
     public void setInsert(boolean insert){
        if(insert){
-           updateButton.setEnabled(false);
-           deleteButton.setEnabled(false);
+           updateButton.setVisible(false);
+           deleteButton.setVisible(false);
+           createButton.setVisible(true);
+           idField.setEditable(true);
        } else {
-           createButton.setEnabled(false);
+           createButton.setVisible(false);
            idField.setEditable(false);
+           updateButton.setVisible(true);
+           deleteButton.setVisible(true);
        }
    }
 }

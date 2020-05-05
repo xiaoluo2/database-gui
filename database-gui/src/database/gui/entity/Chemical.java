@@ -28,22 +28,5 @@ public class Chemical extends Item implements Entity{
     public void setAmount(String amount) {
         this.amount = amount;
     }
-
-    @Override
-    public String[] getColNames() {
-        String[] names = {"name", "item_id", "required_tmp", "vendor", "amount"};
-        return names;
-    }
-
-    @Override
-    public String[] getValues() {
-        String[] values = new String[5];
-        values[0] = this.getName();
-        values[1] = this.getID();
-        values[2] = Integer.toString(this.getTemp());
-        values[3] = this.getVendor();
-        values[4] = this.getAmount();
-        return values;
-    }
     
 }

@@ -29,23 +29,4 @@ public class Antibody extends Item implements Entity{
         this.host = host;
     }
 
-    // TODO
-    @Override
-    public String[] getColNames() {
-       String[] names = {"name", "item_id", "temp", "producer", "host"};
-       return names;
-    }
-
-    // TODO
-    @Override
-    public String[] getValues() {
-        String[] values = new String[5];
-        values[0] = this.getName();
-        values[1] = this.getID();
-        values[2] = Integer.toString(this.getTemp());
-        values[3] = this.getVendor();
-        values[4] = this.getHost();
-        return values;
-    }
-
 }

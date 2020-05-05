@@ -33,25 +33,6 @@ public class Plasmid extends Item implements Entity {
         this.feature = feature;
     }
 
-    // TODO
-    @Override
-    public String[] getColNames() {
-        String[] names = {"name", "item_id", "creator_id", "creator_name", "feature"};
-       return names;
-    }
-
-    // TODO
-    @Override
-    public String[] getValues() {
-        String[] values = new String[5];
-        values[0] = this.getName();
-        values[1] = this.getID();
-        values[2] = this.getCreator_id();
-        values[3] = this.getCreator_name();
-        values[4] = this.getFeature();
-        return values;
-    }
-
     public String getCreator_id() {
         return creator_id;
     }

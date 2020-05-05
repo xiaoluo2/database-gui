@@ -14,7 +14,4 @@ package database.gui.entity;
 public interface Entity {
     String getID();
     
-    String[] getColNames();
-    
-    String[] getValues();
 }

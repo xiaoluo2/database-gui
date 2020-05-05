@@ -5,30 +5,55 @@
  */
 package database.gui.bean;
 
+import database.gui.entity.Entity;
 import database.gui.entity.Lab_Member;
+import database.gui.forms.Lab_MemberForm;
 import database.sql.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.RowSet;
 import javax.sql.rowset.*;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Xiao Luo
  */
-public class Lab_MemberBean {
+public class Lab_MemberBean extends Bean {
     
     private JdbcRowSet rs;
     private Connection connection;
-    public Lab_MemberBean() throws SQLException{
-        this.rs = RowSetProvider.newFactory().createJdbcRowSet();
-        rs.setUrl(Connector.DB_URL);
-        rs.setUsername(Connector.USER);
-        rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM Lab_Member");
-        rs.execute();
-        
-        this.connection = Connector.getConnection();
+    public Lab_MemberBean() {
+        try {
+            this.rs = RowSetProvider.newFactory().createJdbcRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM Lab_Member");
+            rs.execute();
+            
+            this.connection = Connector.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(Lab_MemberBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public RowSet getRowSet(){
+        return rs;
+    }
+    
+    public JPanel getForm(){
+        Lab_MemberForm form = new Lab_MemberForm(this);
+        form.setInsert(false);
+        return form;
+    }
+    
+    public JPanel getEmptyForm(){
+        Lab_MemberForm form = new Lab_MemberForm(this);
+        form.setInsert(true);
+        form.setVisible(false);
+        return form;
     }
     
     public Lab_Member create(Lab_Member a){
@@ -74,14 +99,30 @@ public class Lab_MemberBean {
     public Lab_Member getCurrent(){
         Lab_Member a = new Lab_Member();
         try {
-            rs.moveToCurrentRow();
-            a.setMember_id(rs.getInt("Lab_id"));
-            a.setName(rs.getString("name"));
-            a.setTitle(rs.getString("title"));
+            if (rs.getRow() != 0){
+                a.setMember_id(rs.getInt("Lab_id"));
+                a.setName(rs.getString("name"));
+                a.setTitle(rs.getString("title"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Lab_MemberBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
+    }
+    
+    @Override
+    public Lab_Member create(Entity e) {
+        return create((Lab_Member)e);
+    }
+
+    @Override
+    public Lab_Member update(Entity e) {
+        return update((Lab_Member)e);
+    }
+
+    @Override
+    public void delete(Entity e) {
+        delete((Lab_Member)e);
     }
     
 }

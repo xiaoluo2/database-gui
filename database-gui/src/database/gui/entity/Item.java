@@ -5,8 +5,6 @@
  */
 package database.gui.entity;
 
-import java.util.List;
-
 /**
  *
  * @author Xiao Luo
@@ -17,7 +15,8 @@ public class Item extends EntityTemplate implements Entity{
     private Integer temp;
     private String vendor;
     private String type;
-    private int[] locations;
+    
+//    public static enum TYPE{ANTIBODY, ENZYME, PLASMID, CHEMICAL, STRAIN, REACT_PROBE, MOLECULAR_BIOLOGY, LIQUID};
 
     public Item(String name, String id, int required_tmp, String vendor, String type) {
         this.name = name;
@@ -62,22 +61,6 @@ public class Item extends EntityTemplate implements Entity{
 
     public void setVendor(String vendor) {
         this.vendor = vendor;
-    }
-
-    @Override
-    public String[] getColNames() {
-        String[] names = {"name", "item_id","temp", "producer"};
-        return names;
-    }
-
-    @Override
-    public String[] getValues() {
-        String[] values = new String[4];
-        values[0] = this.getName();
-        values[1] = this.getID();
-        values[2] = Integer.toString(this.getTemp());
-        values[3] = this.getVendor();
-        return values;
     }
 
     public String getType() {

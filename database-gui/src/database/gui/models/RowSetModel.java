@@ -13,21 +13,30 @@ Publisher: O'Reilly
 /* $Id: RowSetModel.java,v 1.1 1999/03/03 06:00:22 borg Exp $ */
 /* Copyright  1999 George Reese, All Rights Reserved */
 
+import database.gui.bean.Bean;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
 
 import javax.sql.RowSet;
-import javax.sql.RowSetEvent;
-import javax.sql.RowSetListener;
 import javax.swing.table.AbstractTableModel;
 
 public class RowSetModel extends AbstractTableModel{
   private RowSet rowSet = null;
+  private Bean bean = null;
 
   public RowSetModel(RowSet set) {
     super();
     rowSet = set;
+  }
+  
+  public RowSetModel(Bean b){
+      this(b.getRowSet());
+      this.bean = b;
+  }
+  
+  public Bean getBean(){
+      return this.bean;
   }
 
   @Override
@@ -192,6 +201,12 @@ public class RowSetModel extends AbstractTableModel{
     } catch (SQLException e) {
       return null;
     }
+  }
+  
+  // non-editable fields
+  @Override
+  public boolean isCellEditable(int rowIndex, int columnIndex) {
+      return false;
   }
 
 }

@@ -5,9 +5,8 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.AntibodyBean;
+import database.gui.bean.Bean;
 import database.gui.entity.Antibody;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,18 +25,33 @@ public class AntibodyForm extends JPanel {
    private JTextField hostField = new JTextField(30);
 
    private JButton createButton = new JButton("Save");
-   private JButton clearButton = new JButton("Update");
-   private JButton updateButton = new JButton("Delete");
-   private JButton deleteButton = new JButton("Clear");
+   private JButton clearButton = new JButton("Clear");
+   private JButton updateButton = new JButton("Update");
+   private JButton deleteButton = new JButton("Delete");
 
-   private AntibodyBean bean;
+   private Bean bean;
 
    public AntibodyForm() {
+      initComponents();
+   }
+   
+   public AntibodyForm(Bean b){
+       initComponents();
+       this.bean = b;
+       setFieldData((Antibody)b.getCurrent());
+   }
+   
+   public AntibodyForm(Antibody a){
+       initComponents();
+       setInsert(false);
+       this.setFieldData(a);
+   }
+   
+   private void initComponents(){
       setBorder(new TitledBorder
       (new EtchedBorder(),"Antibody"));
-      setLayout(new BorderLayout(5, 5));
-      add(initFields(), BorderLayout.NORTH);
-      add(initButtons(), BorderLayout.CENTER);
+      add(initFields());
+      add(initButtons());
    }
    
    private class ButtonHandler implements ActionListener {
@@ -56,6 +70,7 @@ public class AntibodyForm extends JPanel {
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to save.");
                     };
+                    break;
                 case "Update":
                     if (isEmptyFieldData()) {
                         JOptionPane.showMessageDialog(null, "Cannot update an empty record.");
@@ -66,6 +81,7 @@ public class AntibodyForm extends JPanel {
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to update.");
                     };
+                    break;
                 case "Delete":
                     int reply = JOptionPane.showConfirmDialog(null, "Confirm deletion", "Delete" + a.getID(), JOptionPane.YES_NO_OPTION);
                     if (reply == JOptionPane.YES_OPTION) {
@@ -79,12 +95,14 @@ public class AntibodyForm extends JPanel {
                     } else {
                         ; //Do nothing
                     }
+                    break;
                 case "Clear":
                     idField.setText("");
                     nameField.setText("");
                     tempField.setText("");
                     sourceField.setText("");
                     hostField.setText("");
+                    break;
             }
             
         }
@@ -93,9 +111,15 @@ public class AntibodyForm extends JPanel {
 
    private JPanel initButtons() {
       JPanel panel = new JPanel();
-      panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+      panel.setLayout(new FlowLayout(FlowLayout.TRAILING, 3, 3));
       panel.add(createButton);
+      panel.add(clearButton);
+         panel.add(updateButton);
+         panel.add(deleteButton);
       createButton.addActionListener(new ButtonHandler());
+      clearButton.addActionListener(new ButtonHandler());
+      updateButton.addActionListener(new ButtonHandler());
+      deleteButton.addActionListener(new ButtonHandler());
       return panel;
    }
 
@@ -103,7 +127,6 @@ public class AntibodyForm extends JPanel {
       JPanel panel = new JPanel();
       panel.add(new JLabel("ID"), "align label");
       panel.add(idField, "wrap");
-      idField.setEnabled(false);
       panel.add(new JLabel("Name"), "align label");
       panel.add(nameField, "wrap");
       panel.add(new JLabel("Temperature"), "align label");
@@ -119,7 +142,7 @@ public class AntibodyForm extends JPanel {
       Antibody p = new Antibody(
         nameField.getText(),
         idField.getText(),
-        Integer.parseInt(tempField.getText()),
+        Integer.parseInt(tempField.getText().equals("")?"0":tempField.getText()),
         sourceField.getText(),
         hostField.getText()
       );
@@ -144,11 +167,15 @@ public class AntibodyForm extends JPanel {
    
    public void setInsert(boolean insert){
        if(insert){
-           updateButton.setEnabled(false);
-           deleteButton.setEnabled(false);
+           updateButton.setVisible(false);
+           deleteButton.setVisible(false);
+           createButton.setVisible(true);
+           idField.setEditable(true);
        } else {
-           createButton.setEnabled(false);
+           createButton.setVisible(false);
            idField.setEditable(false);
+           updateButton.setVisible(true);
+           deleteButton.setVisible(true);
        }
    }
 }

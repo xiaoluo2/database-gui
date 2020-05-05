@@ -6,31 +6,53 @@
 package database.gui.bean;
 
 import database.gui.entity.Chemical;
+import database.gui.entity.Entity;
+import database.gui.forms.ChemicalForm;
 import database.sql.Connector;
 import javax.sql.rowset.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.RowSet;
+import javax.swing.JPanel;
 /**
  *
  * @author Xiao Luo
  */
-public class ChemicalBean {
+public class ChemicalBean extends Bean {
     
     private JdbcRowSet rs;
     private Connection connection;
-    public ChemicalBean() throws SQLException{
-        this.rs = RowSetProvider.newFactory().createJdbcRowSet();
-        rs.setUrl(Connector.DB_URL);
-        rs.setUsername(Connector.USER);
-        rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM chemical_item_view");
-        rs.execute();
-        
-        this.connection = Connector.getConnection();
+    public ChemicalBean(){
+        try {
+            this.rs = RowSetProvider.newFactory().createJdbcRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM chemical_item_view");
+            rs.execute();
+            
+            this.connection = Connector.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(ChemicalBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public RowSet getRowSet(){
         return rs;
+    }
+    
+    public JPanel getForm(){
+        ChemicalForm form = new ChemicalForm(this);
+        form.setInsert(false);
+        return form;
+    }
+    
+    public JPanel getEmptyForm(){
+        ChemicalForm form = new ChemicalForm(this);
+        form.setInsert(true);
+        form.setVisible(false);
+        return form;
     }
     
     public Chemical create(Chemical a){
@@ -59,10 +81,12 @@ public class ChemicalBean {
             stm.setInt(2, a.getTemp());
             stm.setString(3, a.getVendor());
             stm.setString(4, id);
+            stm.execute();
             sql = "UPDATE Chemical SET amount=? WHERE item_id=?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, a.getAmount());
             stm.setString(2, id);
+            stm.execute();
         } catch (SQLException ex) {
             return null;
         }
@@ -85,16 +109,32 @@ public class ChemicalBean {
     public Chemical getCurrent(){
         Chemical a = new Chemical();
         try {
-            rs.moveToCurrentRow();
-            a.setId(rs.getString("id"));
-            a.setName(rs.getString("name"));
-            a.setAmount(rs.getString("amount"));
-            a.setTemp(rs.getInt("temp"));
-            a.setVendor(rs.getString("producer"));
+            if (rs.getRow() != 0){
+                a.setId(rs.getString("id"));
+                a.setName(rs.getString("name"));
+                a.setAmount(rs.getString("amount"));
+                a.setTemp(rs.getInt("temp"));
+                a.setVendor(rs.getString("producer"));
+            }
         } catch (SQLException ex) {
             
         }
         return a;
+    }
+    
+    @Override
+    public Chemical create(Entity e) {
+        return create((Chemical)e);
+    }
+
+    @Override
+    public Chemical update(Entity e) {
+        return update((Chemical)e);
+    }
+
+    @Override
+    public void delete(Entity e) {
+        delete((Chemical)e);
     }
     
 }

@@ -5,35 +5,55 @@
  */
 package database.gui.bean;
 
+import database.gui.entity.Entity;
 import database.gui.entity.Plasmid;
+import database.gui.forms.PlasmidForm;
 import database.sql.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.RowSet;
 import javax.sql.rowset.*;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Xiao Luo
  */
-public class PlasmidBean {
+public class PlasmidBean extends Bean {
     
     private JdbcRowSet rs;
     private Connection connection;
-    public PlasmidBean() throws SQLException{
-        this.rs = RowSetProvider.newFactory().createJdbcRowSet();
-        rs.setUrl(Connector.DB_URL);
-        rs.setUsername(Connector.USER);
-        rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM plasmid_item_view");
-        rs.execute();
-        
-        this.connection = Connector.getConnection();
+    public PlasmidBean() {
+        try {
+            this.rs = RowSetProvider.newFactory().createJdbcRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM plasmid_item_view");
+            rs.execute();
+            
+            this.connection = Connector.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(PlasmidBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public RowSet getRowSet(){
         return rs;
+    }
+    
+    public JPanel getForm(){
+        PlasmidForm form = new PlasmidForm(this);
+        form.setInsert(false);
+        return form;
+    }
+    
+    public JPanel getEmptyForm(){
+        PlasmidForm form = new PlasmidForm(this);
+        form.setInsert(true);
+        form.setVisible(false);
+        return form;
     }
     
     public Plasmid create(Plasmid a){
@@ -62,10 +82,12 @@ public class PlasmidBean {
             stm.setInt(2, a.getTemp());
             stm.setString(3, a.getVendor());
             stm.setString(4, id);
+            stm.execute();
             sql = "UPDATE Plasmid SET feature=? WHERE item_id=?";
             stm = connection.prepareStatement(sql);
             stm.setString(2, a.getFeature());
             stm.setString(3, id);
+            stm.execute();
         } catch (SQLException ex) {
             return null;
         }
@@ -88,18 +110,33 @@ public class PlasmidBean {
     public Plasmid getCurrent(){
         Plasmid a = new Plasmid();
         try {
-            rs.moveToCurrentRow();
-            a.setId(rs.getString("id"));
-            a.setName(rs.getString("name"));
-            a.setCreator_id(rs.getString("lab_id"));
-            a.setCreator_name(rs.getString("lab_name"));
-            a.setTemp(rs.getInt("temp"));
-            a.setVendor(rs.getString("producer"));
-            a.setFeature(rs.getString("feature"));
+            if (rs.getRow() != 0){
+                a.setId(rs.getString("id"));
+                a.setName(rs.getString("name"));
+                a.setCreator_id(rs.getString("lab_id"));
+                a.setCreator_name(rs.getString("lab_name"));
+                a.setTemp(rs.getInt("temp"));
+                a.setVendor(rs.getString("producer"));
+                a.setFeature(rs.getString("feature"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(PlasmidBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
     }
     
+        @Override
+    public Plasmid create(Entity e) {
+        return create((Plasmid)e);
+    }
+
+    @Override
+    public Plasmid update(Entity e) {
+        return update((Plasmid)e);
+    }
+
+    @Override
+    public void delete(Entity e) {
+        delete((Plasmid)e);
+    }
 }

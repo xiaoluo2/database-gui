@@ -5,6 +5,8 @@
  */
 package database.gui.entity;
 
+import java.util.List;
+
 /**
  *
  * @author Xiao Luo
@@ -14,6 +16,7 @@ public class Location extends EntityTemplate implements Entity {
     private Integer room_num;
     private String loc_type;
     private Integer temperature;
+    private List<String> items;
 
     public Location(int loc_id, int room_num, String type, int temperature) {
         this.loc_id = loc_id;
@@ -25,6 +28,10 @@ public class Location extends EntityTemplate implements Entity {
     public Location() {
         this(0, 0, null, 9999);
         
+    }
+    
+    public void addItem(String itemID){
+        items.add(itemID);
     }
 
     @Override
@@ -58,24 +65,6 @@ public class Location extends EntityTemplate implements Entity {
 
     public void setTemperature(Integer temperature) {
         this.temperature = temperature;
-    }
-
-    // TODO
-    @Override
-    public String[] getColNames() {
-        String[] names = {"location_id", "room_no", "loc_type", "temperature"};
-        return names;
-    }
-
-    // TODO
-    @Override
-    public String[] getValues() {
-        String[] values = new String[4];
-        values[0] = this.getID();
-        values[1] = Integer.toString(this.getRoom_num());
-        values[2] = this.getType();
-        values[3] = Integer.toString(this.getTemperature());
-        return values;
     }
     
 }

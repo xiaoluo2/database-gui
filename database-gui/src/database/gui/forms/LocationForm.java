@@ -5,7 +5,7 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.LocationBean;
+import database.gui.bean.Bean;
 import database.gui.entity.Location;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -20,17 +20,17 @@ import javax.swing.border.*;
  */
 public class LocationForm extends JPanel{
 
-    private JTextField loc_idField = new JTextField(30);
+    private JTextField idField = new JTextField(30);
     private JTextField room_noField = new JTextField(30);
     private JTextField loc_typeField = new JTextField(30);
     private JTextField tempField = new JTextField(30);
  
     private JButton createButton = new JButton("Save");
-    private JButton clearButton = new JButton("Update");
-    private JButton updateButton = new JButton("Delete");
-    private JButton deleteButton = new JButton("Clear");
+   private JButton clearButton = new JButton("Clear");
+   private JButton updateButton = new JButton("Update");
+   private JButton deleteButton = new JButton("Delete");
  
-    private LocationBean bean;
+    private Bean bean;
  
     public LocationForm() {
         setBorder(new TitledBorder
@@ -39,6 +39,20 @@ public class LocationForm extends JPanel{
         add(initFields(), BorderLayout.NORTH);
         add(initButtons(), BorderLayout.CENTER);
     }
+    
+    public LocationForm(Bean b){
+        this();
+        this.bean = b;
+    }
+   public LocationForm(boolean insert){
+       this();
+       this.setInsert(insert);
+   }
+   
+   public LocationForm(Location a){
+       this(false);
+       this.setFieldData(a);
+   }
  
     private class ButtonHandler implements ActionListener {
  
@@ -71,7 +85,7 @@ public class LocationForm extends JPanel{
                      if (reply == JOptionPane.YES_OPTION) {
                          bean.delete(a);
                          JOptionPane.showMessageDialog(null, "Deleted.");
-                         loc_idField.setText("");
+                         idField.setText("");
                          room_noField.setText("");
                          loc_typeField.setText("");
                          tempField.setText("");
@@ -79,7 +93,7 @@ public class LocationForm extends JPanel{
                          ; //Do nothing
                      }
                  case "Clear":
-                     loc_idField.setText("");
+                     idField.setText("");
                      room_noField.setText("");
                      loc_typeField.setText("");
                      tempField.setText("");
@@ -93,14 +107,20 @@ public class LocationForm extends JPanel{
          JPanel panel = new JPanel();
          panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
          panel.add(createButton);
+         panel.add(clearButton);
+         panel.add(updateButton);
+         panel.add(deleteButton);
          createButton.addActionListener(new ButtonHandler());
+         clearButton.addActionListener(new ButtonHandler());
+      updateButton.addActionListener(new ButtonHandler());
+      deleteButton.addActionListener(new ButtonHandler());
          return panel;
     }
  
     private JPanel initFields() {
          JPanel panel = new JPanel();
          panel.add(new JLabel("Location ID"), "align label");
-         panel.add(loc_idField, "wrap");
+         panel.add(idField, "wrap");
          panel.add(new JLabel("Type"), "align label");
          panel.add(loc_typeField, "wrap");
          panel.add(new JLabel("Room Number"), "align label");
@@ -112,23 +132,23 @@ public class LocationForm extends JPanel{
  
     private Location getFieldData() {
         Location p = new Location(
-           Integer.parseInt(loc_idField.getText()),
-           Integer.parseInt(room_noField.getText()),
+           Integer.parseInt(idField.getText().equals("") ? "0": idField.getText()),
+           Integer.parseInt(room_noField.getText().equals("") ? "0": room_noField.getText()),
            loc_typeField.getText(),
-           Integer.parseInt(tempField.getText())
+           Integer.parseInt(tempField.getText().equals("") ? "0" : tempField.getText())
          );
          return p;
     }
    
     private void setFieldData(Location p) {
-         loc_idField.setText(p.getID());
+         idField.setText(p.getID());
          room_noField.setText(Integer.toString(p.getRoom_num()));
          loc_typeField.setText(p.getType());
          tempField.setText(Integer.toBinaryString(p.getTemperature()));
     }
    
     private boolean isEmptyFieldData() {
-         return (loc_idField.getText().trim().isEmpty()
+         return (idField.getText().trim().isEmpty()
                  && room_noField.getText().isBlank()
                  && loc_typeField.getText().isBlank()
                  && tempField.getText().isBlank());
@@ -136,11 +156,15 @@ public class LocationForm extends JPanel{
     
     public void setInsert(boolean insert){
        if(insert){
-           updateButton.setEnabled(false);
-           deleteButton.setEnabled(false);
+           updateButton.setVisible(false);
+           deleteButton.setVisible(false);
+           createButton.setVisible(true);
+           idField.setEditable(true);
        } else {
-           createButton.setEnabled(false);
-           loc_idField.setEditable(false);
+           createButton.setVisible(false);
+           idField.setEditable(false);
+           updateButton.setVisible(true);
+           deleteButton.setVisible(true);
        }
    }
 }

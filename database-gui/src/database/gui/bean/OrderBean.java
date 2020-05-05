@@ -5,30 +5,55 @@
  */
 package database.gui.bean;
 
+import database.gui.entity.Entity;
 import database.gui.entity.Order;
+import database.gui.forms.OrderForm;
 import database.sql.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.RowSet;
 import javax.sql.rowset.*;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Xiao Luo
  */
-public class OrderBean {
+public class OrderBean extends Bean {
     
     private JdbcRowSet rs;
     private Connection connection;
-    public OrderBean() throws SQLException{
-        this.rs = RowSetProvider.newFactory().createJdbcRowSet();
-        rs.setUrl(Connector.DB_URL);
-        rs.setUsername(Connector.USER);
-        rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM Order");
-        rs.execute();
-        
-        this.connection = Connector.getConnection();
+    public OrderBean() {
+        try {
+            this.rs = RowSetProvider.newFactory().createJdbcRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM `Order`");
+            rs.execute();
+            
+            this.connection = Connector.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public RowSet getRowSet(){
+        return rs;
+    }
+    
+    public JPanel getForm(){
+        OrderForm form = new OrderForm(this);
+        form.setInsert(false);
+        return form;
+    }
+    
+    public JPanel getEmptyForm(){
+        OrderForm form = new OrderForm(this);
+        form.setInsert(true);
+        form.setVisible(false);
+        return form;
     }
     
     public Order create(Order a){
@@ -78,16 +103,30 @@ public class OrderBean {
     public Order getCurrent(){
         Order a = new Order();
         try {
-            rs.moveToCurrentRow();
-            a.setOrder_id(Integer.toString((rs.getInt("order_id"))));
-            a.setVendor(rs.getString("vendor"));
-            a.setStatus(rs.getString("order_status"));
-            a.setDate(rs.getString("order_date"));
-            a.setRequester(rs.getInt("lab_id"));
+            if (rs.getRow() != 0){
+                a.setOrder_id(Integer.toString((rs.getInt("order_id"))));
+                a.setVendor(rs.getString("vendor"));
+                a.setStatus(rs.getString("order_status"));
+                a.setDate(rs.getString("order_date"));
+                a.setRequester(rs.getInt("lab_id"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(OrderBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
     }
-    
+    @Override
+    public Entity create(Entity e) {
+        return create((Entity)e);
+    }
+
+    @Override
+    public Entity update(Entity e) {
+        return update((Entity)e);
+    }
+
+    @Override
+    public void delete(Entity e) {
+        delete((Entity)e);
+    }    
 }

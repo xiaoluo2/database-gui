@@ -5,35 +5,77 @@
  */
 package database.gui.bean;
 
+import database.gui.entity.Entity;
 import database.gui.entity.Item;
+import database.gui.forms.ItemForm;
 import database.sql.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.RowSet;
 import javax.sql.rowset.*;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Xiao Luo
  */
-public class ItemBean {
+public class ItemBean extends Bean {
     
     private JdbcRowSet rs;
     private Connection connection;
-    public ItemBean() throws SQLException{
-        this.rs = RowSetProvider.newFactory().createJdbcRowSet();
-        rs.setUrl(Connector.DB_URL);
-        rs.setUsername(Connector.USER);
-        rs.setPassword(Connector.PASS);
-        rs.setCommand("SELECT * FROM Item");
-        rs.execute();
-        
-        this.connection = Connector.getConnection();
+    private String type;
+    
+    public ItemBean() {
+        try {
+            this.rs = RowSetProvider.newFactory().createJdbcRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM Item");
+            rs.execute();
+            
+            this.connection = Connector.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public ItemBean(String type){
+        this.type = type;
+        try {
+            this.rs = RowSetProvider.newFactory().createJdbcRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM Item WHERE " + type + "=1");
+            rs.execute();
+            
+            this.connection = Connector.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String getType(){
+        return this.type;
     }
     
     public RowSet getRowSet(){
         return rs;
+    }
+    
+    public JPanel getForm(){
+        ItemForm form = new ItemForm(this);
+        form.setInsert(false);
+        return form;
+    }
+    
+    public JPanel getEmptyForm(){
+        ItemForm form = new ItemForm(this);
+        form.setInsert(true);
+        form.setVisible(false);
+        return form;
     }
     
     public Item create(Item a){
@@ -82,21 +124,36 @@ public class ItemBean {
         String[] types = {"antibody", "enzyme", "plasmid", "chemical", "strain", "react_probes", "mole_bio", "liquid"};
         int res = 0;
         try {
-            rs.moveToCurrentRow();
-            a.setId(rs.getString("id"));
-            a.setName(rs.getString("name"));
-            a.setTemp(rs.getInt("temp"));
-            a.setVendor(rs.getString("producer"));
-            int i = 0;
-            while(res != 1){
-                res = rs.getInt(types[i]);
-                i++;
+            if (rs.getRow() != 0){
+                a.setId(rs.getString("id"));
+                a.setName(rs.getString("name"));
+                a.setTemp(rs.getInt("temp"));
+                a.setVendor(rs.getString("producer"));
+                int i = 0;
+                while(res != 1){
+                    res = rs.getInt(types[i]);
+                    i++;
+                }
+                a.setType((res == 0)? null: types[i]);
             }
-            a.setType((res == 0)? null: types[i]);
         } catch (SQLException ex) {
             Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
     }
     
+    @Override
+    public Item create(Entity e) {
+        return create((Item)e);
+    }
+
+    @Override
+    public Item update(Entity e) {
+        return update((Item)e);
+    }
+
+    @Override
+    public void delete(Entity e) {
+        delete((Item)e);
+    }
 }

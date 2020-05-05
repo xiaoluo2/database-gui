@@ -5,19 +5,61 @@
  */
 package database.gui;
 
+import database.gui.bean.*;
+import database.gui.models.*;
+import database.sql.Connector;
+import database.gui.utils.*;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.sql.RowSet;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import javax.swing.JComboBox;
+
 /**
  *
  * @author Xiao Luo
  */
 public class GuiJFrame extends javax.swing.JFrame {
-
+    private Bean bean;
     /**
      * Creates new form NewJFrame
      */
     public GuiJFrame() {
         initComponents();
+        initForms();
     }
-
+    
+    private void initForms(){
+        JPanel a = new AntibodyBean().getEmptyForm();
+        JPanel b = new ChemicalBean().getEmptyForm();
+        JPanel c = new PlasmidBean().getEmptyForm();
+        JPanel d = new StrainBean().getEmptyForm();
+        JPanel e = new ItemBean().getEmptyForm();
+        JPanel f = new Lab_MemberBean().getEmptyForm();
+        JPanel g = new LocationBean().getEmptyForm();
+        formPanel.add(a);
+        formPanel.setLayer(a, 6);
+        formPanel.add(b);
+        formPanel.setLayer(b, 5);
+        formPanel.add(c);
+        formPanel.setLayer(c, 4);
+        formPanel.add(d);
+        formPanel.setLayer(d, 3);
+        formPanel.add(e);
+        formPanel.setLayer(e, 2);
+        formPanel.add(f);
+        formPanel.setLayer(f, 1);
+        formPanel.add(g);
+        formPanel.setLayer(g, 0);
+        System.out.println(formPanel.getComponents().length);
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,31 +71,30 @@ public class GuiJFrame extends javax.swing.JFrame {
 
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        SearchButton = new javax.swing.JButton();
-        SearchBar = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        searchBar = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        searchTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        TypeBox = new javax.swing.JComboBox<>();
+        typeBox = new javax.swing.JComboBox<>();
+        formPanel = new javax.swing.JLayeredPane();
         jPanel4 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        ViewPane = new javax.swing.JTabbedPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel7 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        SearchButton.setText("Search");
-        SearchButton.addActionListener(new java.awt.event.ActionListener() {
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchButtonActionPerformed(evt);
+                searchButtonActionPerformed(evt);
             }
         });
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        searchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -61,7 +102,47 @@ public class GuiJFrame extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        searchTable.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() != 0){
+                    JFrame f= new JFrame();
+                    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    try {
+                        int row = searchTable.getSelectedRow();
+                        bean.getRowSet().absolute(row + 1);
+                    } catch (SQLException ex) {
+
+                    }
+                    JPanel p = bean.getForm();
+                    f.getContentPane().add(p);
+                    f.setSize(600, 280);
+                    f.setVisible(true);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+
+            }
+
+        });
+        jScrollPane4.setViewportView(searchTable);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -69,9 +150,9 @@ public class GuiJFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(SearchButton)
+                .addComponent(searchButton)
                 .addGap(25, 269, Short.MAX_VALUE))
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
         );
@@ -80,15 +161,73 @@ public class GuiJFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SearchButton)
-                    .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchButton)
+                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE))
         );
 
-        jTabbedPane3.addTab("Search", jPanel2);
+        jTabbedPane3.addTab("Find", jPanel2);
 
-        TypeBox.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]{ "Order", "Antibody", "Chemical", "Plasmid", "Strain", "Other", "Lab Member", "Location"}));
+        typeBox.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]{ "Antibody", "Chemical", "Plasmid", "Strain", "Other", "Lab Member", "Location"}));
+        typeBox.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb = (JComboBox)e.getSource();
+                int type = cb.getSelectedIndex();
+                Component[] cp = formPanel.getComponents();
+                switch (type){
+                    case 0:
+                    for(int i=0;i<cp.length;i++){
+                        cp[i].setVisible(false);
+                    }
+                    cp[0].setVisible(true);
+                    break;
+                    case 1:
+                    for(int i=0;i<cp.length;i++){
+                        cp[i].setVisible(false);
+                    }
+                    cp[1].setVisible(true);
+                    break;
+                    case 2:
+                    for(int i=0;i<cp.length;i++){
+                        cp[i].setVisible(false);
+                    }
+                    cp[2].setVisible(true);
+                    break;
+                    case 3:
+                    for(int i=0;i<cp.length;i++){
+                        cp[3].setVisible(false);
+                    }
+                    cp[3].setVisible(true);
+                    case 4:
+                    for(int i=0;i<cp.length;i++){
+                        cp[i].setVisible(false);
+                    }
+                    cp[4].setVisible(true);
+                    break;
+                    case 5:
+                    for(int i=0;i<cp.length;i++){
+                        cp[i].setVisible(false);
+                    }
+                    cp[5].setVisible(true);
+                    break;
+                    case 6:
+                    for(int i=0;i<cp.length;i++){
+                        cp[i].setVisible(false);
+                    }
+                    cp[6].setVisible(true);
+                    break;
+                    default:
+                    for(int i=0;i<cp.length;i++){
+                        cp[i].setVisible(false);
+                    }
+                    break;
+                }
+            }
+
+        });
+
+        formPanel.setLayout(new java.awt.GridBagLayout());
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -96,86 +235,42 @@ public class GuiJFrame extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(typeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(599, Short.MAX_VALUE))
+            .addComponent(formPanel)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(396, Short.MAX_VALUE))
+                .addComponent(typeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(formPanel))
         );
 
         jTabbedPane3.addTab("New Record", jPanel3);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        RowSet item_loc = Connector.execute("SELECT * FROM Item_Location_View");
+        jTable1.setModel(new RowSetModel(item_loc));
+        jScrollPane2.setViewportView(jTable1);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
+        ViewPane.addTab("Item Locations", jScrollPane2);
 
-        jTabbedPane1.addTab("Orders", jPanel1);
+        RowSet order_items = Connector.execute("SELECT * FROM order_item_view");
+        jTable2.setModel(new RowSetModel(order_items));
+        jScrollPane3.setViewportView(jTable2);
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane5.setViewportView(jTable5);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Inventory", jPanel7);
+        ViewPane.addTab("Order Items", jScrollPane3);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(ViewPane)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(ViewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("View", jPanel4);
@@ -196,28 +291,89 @@ public class GuiJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SearchButtonActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        String searchText = searchBar.getText().trim();
+        RowSet rs = null;
+        String query = Utils.searchToQuery(searchText);
+        if(query != null){
+            rs = Connector.execute(query);
+            searchTable.setModel(new RowSetModel(rs));
+        } else {
+            searchText = searchText.toLowerCase();
+            switch(searchText){
+                case "antibody":
+                bean = new AntibodyBean();
+                searchTable.setModel(new RowSetModel(bean));
+                break;
+                case "chemical":
+                bean = new ChemicalBean();
+                searchTable.setModel(new RowSetModel(bean));
+                break;
+                case "enzyme":
+                rs = Connector.execute("SELECT * FROM Item WHERE enzyme = 1");
+                searchTable.setModel(new RowSetModel(rs));
+                break;
+                case "lab member":
+                bean = new Lab_MemberBean();
+                searchTable.setModel(new RowSetModel(bean));
+                break;
+                case "liquid":
+                rs = Connector.execute("SELECT * FROM Item WHERE liquid = 1");
+                searchTable.setModel(new RowSetModel(rs));
+                break;
+                case "location":
+                bean = new LocationBean();
+                searchTable.setModel(new RowSetModel(bean));
+                break;
+                case "molecular":
+                rs = Connector.execute("SELECT * FROM Item WHERE mole_bio = 1");
+                searchTable.setModel(new RowSetModel(rs));
+                break;
+                case "order":
+                bean = new OrderBean();
+                searchTable.setModel(new RowSetModel(bean));
+                break;
+                case "plasmid":
+                bean = new PlasmidBean();
+                searchTable.setModel(new RowSetModel(bean));
+                break;
+                case "react probe":
+                rs = Connector.execute("SELECT * FROM Item WHERE react_probes = 1");
+                searchTable.setModel(new RowSetModel(rs));
+                break;
+                case "strain":
+                bean = new StrainBean();
+                searchTable.setModel(new RowSetModel(bean));
+                break;
+                case "":
+                break;
+                default:
+                break;
+            }
+        }
+
+        //        System.out.println(searchText);
+
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField SearchBar;
-    private javax.swing.JButton SearchButton;
-    private javax.swing.JComboBox<String> TypeBox;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTabbedPane ViewPane;
+    private javax.swing.JLayeredPane formPanel;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField searchBar;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTable searchTable;
+    private javax.swing.JComboBox<String> typeBox;
     // End of variables declaration//GEN-END:variables
 
     

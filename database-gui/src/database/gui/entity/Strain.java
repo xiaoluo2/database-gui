@@ -24,22 +24,6 @@ public class Strain extends Item implements Entity{
         this(null, null, null, null);
     }
 
-    @Override
-    public String[] getColNames() {
-        String[] names = {"name", "id", "anti_res", "features"};
-        return names;
-    }
-
-    @Override
-    public String[] getValues() {
-        String[] values = new String[4];
-        values[0] = this.getName();
-        values[1] = this.getID();
-        values[2] = this.getAnti_res();
-        values[3] = this.getFeatures();
-        return values;
-    }
-
     public String getAnti_res() {
         return anti_res;
     }

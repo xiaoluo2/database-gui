@@ -5,6 +5,8 @@
  */
 package database.gui.entity;
 
+import java.util.List;
+
 /**
  *
  * @author Xiao Luo
@@ -15,12 +17,17 @@ public class Order extends EntityTemplate implements Entity {
     private String date;
     private String vendor;
     private int requester;
+    private List<String> items;
 
     public Order(String order_id, String status, String date, String vendor) {
         this.order_id = order_id;
         this.status = status;
         this.date = date;
         this.vendor = vendor;
+    }
+    
+    public void addItem(String item_id){
+        items.add(item_id);
     }
     
     public Order(){
@@ -66,24 +73,6 @@ public class Order extends EntityTemplate implements Entity {
 
     public void setRequester(int requester) {
         this.requester = requester;
-    }
-
-    // TODO
-    @Override
-    public String[] getColNames() {
-        String[] names = {"Order_id", "Status", "Date", "Vendor"};
-        return names;
-    }
-
-    // TODO
-    @Override
-    public String[] getValues() {
-        String[] values = new String[4];
-        values[0] = this.getID();
-        values[1] = this.getStatus();
-        values[2] = this.getDate();
-        values[3] = this.getVendor();
-        return values;
     }
     
 }

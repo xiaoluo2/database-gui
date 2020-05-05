@@ -48,22 +48,5 @@ public class Lab_Member extends EntityTemplate implements Entity{
     public void setTitle(String title) {
         this.title = title;
     }
-
-    // TODO
-    @Override
-    public String[] getColNames() {
-        String[] names = {"lab_id", "name", "title"};
-        return names;
-    }
-
-    // TODO
-    @Override
-    public String[] getValues() {
-        String[] values = new String[3];
-        values[0] = this.getID();
-        values[1] = this.getName();
-        values[2] = this.getTitle();
-        return values;
-    }
     
 }
