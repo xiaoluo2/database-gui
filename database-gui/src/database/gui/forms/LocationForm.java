@@ -6,9 +6,11 @@
 package database.gui.forms;
 
 import database.gui.bean.Bean;
+import database.gui.bean.LocationBean;
 import database.gui.entity.Location;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -33,25 +35,26 @@ public class LocationForm extends JPanel{
     private Bean bean;
  
     public LocationForm() {
-        setBorder(new TitledBorder
-        (new EtchedBorder(),"Location"));
-        setLayout(new BorderLayout(5, 5));
-        add(initFields(), BorderLayout.NORTH);
-        add(initButtons(), BorderLayout.CENTER);
+        initComponents();
+      setInsert(true);
+      setVisible(false);
+      bean = new LocationBean();
+      bean.setRs(null);
     }
     
-    public LocationForm(Bean b){
-        this();
-        this.bean = b;
+    public LocationForm(LocationBean b){
+        initComponents();
+       this.bean = b;
+       setInsert(false);
+       setFieldData(b.getCurrent());
     }
-   public LocationForm(boolean insert){
-       this();
-       this.setInsert(insert);
-   }
-   
-   public LocationForm(Location a){
-       this(false);
-       this.setFieldData(a);
+    
+    private void initComponents(){
+      setBorder(new TitledBorder
+      (new EtchedBorder(),"Location"));
+        setLayout(new BorderLayout(5, 5));
+        add(initFields(), BorderLayout.WEST);
+        add(initButtons(), BorderLayout.PAGE_END);
    }
  
     private class ButtonHandler implements ActionListener {
@@ -119,6 +122,7 @@ public class LocationForm extends JPanel{
  
     private JPanel initFields() {
          JPanel panel = new JPanel();
+         panel.setLayout(new GridLayout(4,2));
          panel.add(new JLabel("Location ID"), "align label");
          panel.add(idField, "wrap");
          panel.add(new JLabel("Type"), "align label");

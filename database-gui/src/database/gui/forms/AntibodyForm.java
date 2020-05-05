@@ -5,9 +5,12 @@
  */
 package database.gui.forms;
 
+import database.gui.bean.AntibodyBean;
 import database.gui.bean.Bean;
 import database.gui.entity.Antibody;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -33,12 +36,17 @@ public class AntibodyForm extends JPanel {
 
    public AntibodyForm() {
       initComponents();
+      setInsert(true);
+      setVisible(false);
+      bean = new AntibodyBean();
+      bean.setRs(null);
    }
    
-   public AntibodyForm(Bean b){
+   public AntibodyForm(AntibodyBean b){
        initComponents();
        this.bean = b;
-       setFieldData((Antibody)b.getCurrent());
+       setInsert(false);
+       setFieldData(b.getCurrent());
    }
    
    public AntibodyForm(Antibody a){
@@ -50,8 +58,9 @@ public class AntibodyForm extends JPanel {
    private void initComponents(){
       setBorder(new TitledBorder
       (new EtchedBorder(),"Antibody"));
-      add(initFields());
-      add(initButtons());
+        setLayout(new BorderLayout(5, 5));
+        add(initFields(), BorderLayout.WEST);
+        add(initButtons(), BorderLayout.PAGE_END);
    }
    
    private class ButtonHandler implements ActionListener {
@@ -125,16 +134,17 @@ public class AntibodyForm extends JPanel {
 
    private JPanel initFields() {
       JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(5,2));
       panel.add(new JLabel("ID"), "align label");
-      panel.add(idField, "wrap");
+      panel.add(idField);
       panel.add(new JLabel("Name"), "align label");
-      panel.add(nameField, "wrap");
+      panel.add(nameField);
       panel.add(new JLabel("Temperature"), "align label");
-      panel.add(tempField, "wrap");
+      panel.add(tempField);
       panel.add(new JLabel("Source"), "align label");
-      panel.add(sourceField, "wrap");
+      panel.add(sourceField);
       panel.add(new JLabel("Host"), "align label");
-      panel.add(hostField, "wrap");
+      panel.add(hostField);
       return panel;
    }
 

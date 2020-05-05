@@ -20,10 +20,10 @@ import javax.swing.JPanel;
  *
  * @author Xiao Luo
  */
-public class Lab_MemberBean extends Bean {
+public class Lab_MemberBean implements Bean {
     
     private JdbcRowSet rs;
-    private Connection connection;
+    
     public Lab_MemberBean() {
         try {
             this.rs = RowSetProvider.newFactory().createJdbcRowSet();
@@ -33,38 +33,34 @@ public class Lab_MemberBean extends Bean {
             rs.setCommand("SELECT * FROM Lab_Member");
             rs.execute();
             
-            this.connection = Connector.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Lab_MemberBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    @Override
     public RowSet getRowSet(){
         return rs;
     }
     
+    
+    @Override
     public JPanel getForm(){
         Lab_MemberForm form = new Lab_MemberForm(this);
-        form.setInsert(false);
-        return form;
-    }
-    
-    public JPanel getEmptyForm(){
-        Lab_MemberForm form = new Lab_MemberForm(this);
-        form.setInsert(true);
-        form.setVisible(false);
         return form;
     }
     
     public Lab_Member create(Lab_Member a){
         String sql = "INSERT INTO Lab_Member(Lab_id, name, title) VALUES(?,?,?)";
         try{
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1,Integer.parseInt(a.getID()));
-            stm.setString(2,a.getName());
-            stm.setString(3,a.getTitle());
-            stm.execute();
-            stm.executeUpdate(sql);
+            try (Connection connection = Connector.getConnection()) {
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setInt(1,Integer.parseInt(a.getID()));
+                stm.setString(2,a.getName());
+                stm.setString(3,a.getTitle());
+                stm.execute();
+                stm.executeUpdate(sql);
+            }
         } catch(SQLException e){
             return null;
         }
@@ -75,10 +71,12 @@ public class Lab_MemberBean extends Bean {
         String sql = "UPDATE Lab_Member SET name=?, title=? WHERE Lab_id=?";
         int id = Integer.parseInt(a.getID());
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getName());
-            stm.setString(2, a.getTitle());
-            stm.setInt(3, id);
+            try (Connection connection = Connector.getConnection()) {
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1, a.getName());
+                stm.setString(2, a.getTitle());
+                stm.setInt(3, id);
+            }
         } catch (SQLException ex) {
             return null;
         }
@@ -88,14 +86,17 @@ public class Lab_MemberBean extends Bean {
     public void delete(Lab_Member a){
         String sql = "DELETE FROM Lab_Member WHERE Lab_id=" + a.getID();
         try {
-            Statement stm = connection.createStatement();
-            stm.executeUpdate(sql);
+            try (Connection connection = Connector.getConnection()) {
+                Statement stm = connection.createStatement();
+                stm.executeUpdate(sql);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Lab_MemberBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
+    @Override
     public Lab_Member getCurrent(){
         Lab_Member a = new Lab_Member();
         try {
@@ -123,6 +124,11 @@ public class Lab_MemberBean extends Bean {
     @Override
     public void delete(Entity e) {
         delete((Lab_Member)e);
+    }
+
+    @Override
+    public void setRs(JdbcRowSet rs) {
+        this.rs = rs;
     }
     
 }

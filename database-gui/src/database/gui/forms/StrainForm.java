@@ -6,9 +6,11 @@
 package database.gui.forms;
 
 import database.gui.bean.Bean;
+import database.gui.bean.StrainBean;
 import database.gui.entity.Strain;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -32,26 +34,26 @@ public class StrainForm extends JPanel{
     private Bean bean;
  
     public StrainForm() {
-        setBorder(new TitledBorder
-        (new EtchedBorder(),"Strain"));
-        setLayout(new BorderLayout(5, 5));
-        add(initFields(), BorderLayout.NORTH);
-        add(initButtons(), BorderLayout.CENTER);
+        initComponents();
+      setInsert(true);
+      setVisible(false);
+      bean = new StrainBean();
+      bean.setRs(null);
     }
     
-   public StrainForm(boolean insert){
-       this();
-       this.setInsert(insert);
-   }
-   
-   public StrainForm(Bean b){
-       this();
+   public StrainForm(StrainBean b){
+       initComponents();
        this.bean = b;
+       setInsert(false);
+       setFieldData(b.getCurrent());
    }
    
-   public StrainForm(Strain a){
-       this(false);
-       this.setFieldData(a);
+   private void initComponents(){
+      setBorder(new TitledBorder
+      (new EtchedBorder(),"Strain"));
+        setLayout(new BorderLayout(5, 5));
+        add(initFields(), BorderLayout.WEST);
+        add(initButtons(), BorderLayout.PAGE_END);
    }
  
     private class ButtonHandler implements ActionListener {
@@ -107,7 +109,7 @@ public class StrainForm extends JPanel{
     
     private JPanel initButtons() {
          JPanel panel = new JPanel();
-         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+
          panel.add(createButton);
          panel.add(clearButton);
          panel.add(updateButton);
@@ -121,6 +123,7 @@ public class StrainForm extends JPanel{
  
     private JPanel initFields() {
          JPanel panel = new JPanel();
+         panel.setLayout(new GridLayout(5,2));
          panel.add(new JLabel("ID"), "align label");
          panel.add(idField, "wrap");
          panel.add(new JLabel("Name"), "align label");

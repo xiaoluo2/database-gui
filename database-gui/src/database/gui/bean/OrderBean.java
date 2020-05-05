@@ -20,10 +20,10 @@ import javax.swing.JPanel;
  *
  * @author Xiao Luo
  */
-public class OrderBean extends Bean {
+public class OrderBean implements Bean {
     
     private JdbcRowSet rs;
-    private Connection connection;
+    
     public OrderBean() {
         try {
             this.rs = RowSetProvider.newFactory().createJdbcRowSet();
@@ -33,40 +33,38 @@ public class OrderBean extends Bean {
             rs.setCommand("SELECT * FROM `Order`");
             rs.execute();
             
-            this.connection = Connector.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(OrderBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    @Override
     public RowSet getRowSet(){
         return rs;
     }
     
+
+    
+    @Override
     public JPanel getForm(){
         OrderForm form = new OrderForm(this);
         form.setInsert(false);
         return form;
     }
     
-    public JPanel getEmptyForm(){
-        OrderForm form = new OrderForm(this);
-        form.setInsert(true);
-        form.setVisible(false);
-        return form;
-    }
-    
     public Order create(Order a){
         String sql = "INSERT INTO Order(order_id, vendor, order_status, order_date. lab_id) VALUES(?,?,?,?,?)";
         try{
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1,Integer.parseInt(a.getID()));
-            stm.setString(2,a.getVendor());
-            stm.setString(3,a.getStatus());
-            stm.setString(4,a.getDate());
-            stm.setInt(5,a.getRequester());
-            stm.execute();
-            stm.executeUpdate(sql);
+            try (Connection connection = Connector.getConnection()) {
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setInt(1,Integer.parseInt(a.getID()));
+                stm.setString(2,a.getVendor());
+                stm.setString(3,a.getStatus());
+                stm.setString(4,a.getDate());
+                stm.setInt(5,a.getRequester());
+                stm.execute();
+                stm.executeUpdate(sql);
+            }
         } catch(SQLException e){
             return null;
         }
@@ -76,7 +74,7 @@ public class OrderBean extends Bean {
     public Order update(Order a){
         String sql = "UPDATE Order SET vendor=?, order_status=?, order_date=?, lab_id=? WHERE order_id=?";
         String id = a.getID();
-        try {
+        try {Connection connection = Connector.getConnection();
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, a.getVendor());
             stm.setString(2, a.getStatus());
@@ -92,14 +90,17 @@ public class OrderBean extends Bean {
     public void delete(Order a){
         String sql = "DELETE FROM Order WHERE order_id=" + a.getID();
         try {
-            Statement stm = connection.createStatement();
-            stm.executeUpdate(sql);
+            try (Connection connection = Connector.getConnection()) {
+                Statement stm = connection.createStatement();
+                stm.executeUpdate(sql);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(OrderBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
+    @Override
     public Order getCurrent(){
         Order a = new Order();
         try {
@@ -117,16 +118,21 @@ public class OrderBean extends Bean {
     }
     @Override
     public Entity create(Entity e) {
-        return create((Entity)e);
+        return create((Order)e);
     }
 
     @Override
     public Entity update(Entity e) {
-        return update((Entity)e);
+        return update((Order)e);
     }
 
     @Override
     public void delete(Entity e) {
-        delete((Entity)e);
+        delete((Order)e);
     }    
+
+    @Override
+    public void setRs(JdbcRowSet rs) {
+        this.rs = rs;
+    }
 }

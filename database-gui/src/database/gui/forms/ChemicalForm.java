@@ -6,8 +6,11 @@
 package database.gui.forms;
 
 import database.gui.bean.Bean;
+import database.gui.bean.ChemicalBean;
 import database.gui.entity.Chemical;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -32,25 +35,26 @@ public class ChemicalForm extends JPanel{
    private Bean bean;
 
    public ChemicalForm() {
-        setBorder(new TitledBorder
-        (new EtchedBorder(),"Chemical"));
-        add(initFields());
-        add(initButtons());
+      initComponents();
+      setInsert(true);
+      setVisible(false);
+      bean = new ChemicalBean();
+      bean.setRs(null);
     }
    
-   public ChemicalForm(Bean b){
-       this();
+   public ChemicalForm(ChemicalBean b){
+       initComponents();
        this.bean = b;
+       setInsert(false);
+       setFieldData(b.getCurrent());
    }
    
-   public ChemicalForm(boolean insert){
-       this();
-       this.setInsert(insert);
-   }
-   
-   public ChemicalForm(Chemical a){
-       this(false);
-       this.setFieldData(a);
+      private void initComponents(){
+      setBorder(new TitledBorder
+      (new EtchedBorder(),"Chemical"));
+        setLayout(new BorderLayout(5, 5));
+        add(initFields(), BorderLayout.WEST);
+        add(initButtons(), BorderLayout.PAGE_END);
    }
 
     private class ButtonHandler implements ActionListener {
@@ -120,9 +124,9 @@ public class ChemicalForm extends JPanel{
 
     private JPanel initFields() {
         JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5,2));
         panel.add(new JLabel("ID"), "align label");
         panel.add(idField, "wrap");
-        idField.setVisible(false);
         panel.add(new JLabel("Name"), "align label");
         panel.add(nameField, "wrap");
         panel.add(new JLabel("Temperature"), "align label");

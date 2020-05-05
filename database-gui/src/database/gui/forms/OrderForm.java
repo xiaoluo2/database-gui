@@ -10,6 +10,7 @@ import database.gui.bean.OrderBean;
 import database.gui.entity.Order;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -34,27 +35,26 @@ public class OrderForm extends JPanel{
     private Bean bean;
  
     public OrderForm() {
-        bean = new OrderBean();
-        setBorder(new TitledBorder
-        (new EtchedBorder(),"Order"));
-        setLayout(new BorderLayout(5, 5));
-        add(initFields(), BorderLayout.NORTH);
-        add(initButtons(), BorderLayout.CENTER);
+        initComponents();
+      setInsert(true);
+      setVisible(false);
+      bean = new OrderBean();
+      bean.setRs(null);
     }
     
-   public OrderForm(Bean b){
-       this();
+   public OrderForm(OrderBean b){
+       initComponents();
        this.bean = b;
+       setInsert(false);
+       setFieldData(b.getCurrent());
    }
     
-   public OrderForm(boolean insert){
-       this();
-       this.setInsert(insert);
-   }
-   
-   public OrderForm(Order a){
-       this(false);
-       this.setFieldData(a);
+   private void initComponents(){
+      setBorder(new TitledBorder
+      (new EtchedBorder(),"Order"));
+        setLayout(new BorderLayout(5, 5));
+        add(initFields(), BorderLayout.WEST);
+        add(initButtons(), BorderLayout.PAGE_END);
    }
  
     private class ButtonHandler implements ActionListener {
@@ -122,6 +122,7 @@ public class OrderForm extends JPanel{
  
     private JPanel initFields() {
          JPanel panel = new JPanel();
+         panel.setLayout(new GridLayout(4,2));
          panel.add(new JLabel("Order ID"), "align label");
          panel.add(idField, "wrap");
          panel.add(new JLabel("Status"), "align label");

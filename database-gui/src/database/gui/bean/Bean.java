@@ -8,12 +8,13 @@ package database.gui.bean;
 import database.gui.entity.Entity;
 import javax.sql.RowSet;
 import javax.swing.JPanel;
+import javax.sql.rowset.*;
 
 /**
  *
  * @author Xiao Luo
  */
-public abstract class Bean {
+public interface Bean {
     
     public abstract JPanel getForm();
     
@@ -26,4 +27,6 @@ public abstract class Bean {
     public abstract Entity getCurrent();
     
     public abstract RowSet getRowSet();
+
+    public abstract void setRs(JdbcRowSet rs);
 }

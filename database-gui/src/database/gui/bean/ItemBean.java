@@ -20,10 +20,10 @@ import javax.swing.JPanel;
  *
  * @author Xiao Luo
  */
-public class ItemBean extends Bean {
+public class ItemBean implements Bean {
     
     private JdbcRowSet rs;
-    private Connection connection;
+    
     private String type;
     
     public ItemBean() {
@@ -35,7 +35,6 @@ public class ItemBean extends Bean {
             rs.setCommand("SELECT * FROM Item");
             rs.execute();
             
-            this.connection = Connector.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -51,7 +50,6 @@ public class ItemBean extends Bean {
             rs.setCommand("SELECT * FROM Item WHERE " + type + "=1");
             rs.execute();
             
-            this.connection = Connector.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,32 +59,29 @@ public class ItemBean extends Bean {
         return this.type;
     }
     
+    @Override
     public RowSet getRowSet(){
         return rs;
     }
     
+    
+    @Override
     public JPanel getForm(){
         ItemForm form = new ItemForm(this);
-        form.setInsert(false);
-        return form;
-    }
-    
-    public JPanel getEmptyForm(){
-        ItemForm form = new ItemForm(this);
-        form.setInsert(true);
-        form.setVisible(false);
         return form;
     }
     
     public Item create(Item a){
         String sql = "INSERT INTO Item(name, id, temp, producer," + a.getType() + ") VALUES(?,?,?,?, 1)";
         try{
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1,a.getName());
-            stm.setString(2,a.getID());
-            stm.setInt(3,a.getTemp());
-            stm.setString(4,a.getVendor());
-            stm.execute();
+            try (Connection connection = Connector.getConnection()) {
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1,a.getName());
+                stm.setString(2,a.getID());
+                stm.setInt(3,a.getTemp());
+                stm.setString(4,a.getVendor());
+                stm.execute();
+            }
         } catch(SQLException e){
             return null;
         }
@@ -97,11 +92,13 @@ public class ItemBean extends Bean {
         String sql = "UPDATE Item SET name=?, temp=?, producer=? WHERE id=?";
         String id = a.getID();
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getName());
-            stm.setInt(2, a.getTemp());
-            stm.setString(3, a.getVendor());
-            stm.setString(4, id);
+            try (Connection connection = Connector.getConnection()) {
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1, a.getName());
+                stm.setInt(2, a.getTemp());
+                stm.setString(3, a.getVendor());
+                stm.setString(4, id);
+            }
         } catch (SQLException ex) {
             return null;
         }
@@ -111,14 +108,17 @@ public class ItemBean extends Bean {
     public void delete(Item a){
         String sql2 = "DELETE FROM Item WHERE id=" + a.getID();
         try {
-            Statement stm = connection.createStatement();
-            stm.executeUpdate(sql2);
+            try (Connection connection = Connector.getConnection()) {
+                Statement stm = connection.createStatement();
+                stm.executeUpdate(sql2);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
+    @Override
     public Item getCurrent(){
         Item a = new Item();
         String[] types = {"antibody", "enzyme", "plasmid", "chemical", "strain", "react_probes", "mole_bio", "liquid"};
@@ -155,5 +155,14 @@ public class ItemBean extends Bean {
     @Override
     public void delete(Entity e) {
         delete((Item)e);
+    }
+
+    @Override
+    public void setRs(JdbcRowSet rs) {
+        this.rs = rs;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

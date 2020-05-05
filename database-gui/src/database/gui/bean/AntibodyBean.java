@@ -9,7 +9,6 @@ import database.gui.entity.Antibody;
 import database.gui.entity.Entity;
 import database.gui.forms.AntibodyForm;
 import database.sql.Connector;
-import java.awt.GridLayout;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,10 +20,9 @@ import javax.swing.JPanel;
  *
  * @author Xiao Luo
  */
-public class AntibodyBean extends Bean {
+public class AntibodyBean implements Bean {
     
     private JdbcRowSet rs;
-    private Connection connection = Connector.getConnection();
     public AntibodyBean() {
         try {
             this.rs = RowSetProvider.newFactory().createJdbcRowSet();
@@ -39,43 +37,35 @@ public class AntibodyBean extends Bean {
             Logger.getLogger(AntibodyBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+   
     public RowSet getRowSet(){
         return rs;
     }
     
+    @Override
     public JPanel getForm(){
         AntibodyForm form = new AntibodyForm(this);
-        form.setInsert(false);
         return form;
-    }
-    
-    public JPanel getEmptyForm(){
-        AntibodyForm form = new AntibodyForm();
-        form.setInsert(true);
-        form.setVisible(false);
-        form.setLayout(new GridLayout(4,4));
-        return form;
-    }
-    
-    public void setConnection(Connection c){
-        this.connection = c;
     }
     
     public Antibody create(Antibody a){
         String sql = "INSERT INTO Item(name, id, temp, producer, antibody) VALUES(?,?,?,?,1)";
         try{
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1,a.getName());
-            stm.setString(2,a.getID());
-            stm.setInt(3,a.getTemp());
-            stm.setString(4,a.getVendor());
-            stm.execute();
-            sql = "INSERT INTO Antibody(item_id, host) VALUES(" + a.getID() + "," + a.getHost() + ")";
-            System.out.println(sql);
-            stm.executeUpdate(sql);
+            try (Connection connection = Connector.getConnection()) {
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1,a.getName());
+                stm.setString(2,a.getID());
+                stm.setInt(3,a.getTemp());
+                stm.setString(4,a.getVendor());
+                System.out.println(stm);
+                stm.execute();
+                sql = "INSERT INTO Antibody(item_id, host) VALUES(?,?)";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, a.getID());
+                stm.setString(2, a.getHost());
+            }
         } catch(SQLException e){
-            return null;
+            e.printStackTrace();
         }
         return a;
     }
@@ -84,6 +74,7 @@ public class AntibodyBean extends Bean {
         String sql = "UPDATE Item SET name=?, temp=?, producer=? WHERE id=?";
         String id = a.getID();
         try {
+            Connection connection = Connector.getConnection();
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, a.getName());
             stm.setInt(2, a.getTemp());
@@ -106,11 +97,12 @@ public class AntibodyBean extends Bean {
         String sql = "DELETE FROM Antibody WHERE item_id=" + a.getID();
         String sql2 = "DELETE FROM Item WHERE id=" + a.getID();
         try {
+            Connection connection = Connector.getConnection();
             Statement stm = connection.createStatement();
             stm.executeUpdate(sql);
             stm.executeUpdate(sql2);
         } catch (SQLException ex) {
-            
+            ex.printStackTrace();
         }
         
     }
@@ -146,5 +138,10 @@ public class AntibodyBean extends Bean {
     @Override
     public void delete(Entity e) {
         delete((Antibody)e);
+    }
+
+    @Override
+    public void setRs(JdbcRowSet rs) {
+        this.rs = rs;
     }
 }

@@ -23,21 +23,12 @@ import javax.swing.table.AbstractTableModel;
 
 public class RowSetModel extends AbstractTableModel{
   private RowSet rowSet = null;
-  private Bean bean = null;
 
   public RowSetModel(RowSet set) {
     super();
     rowSet = set;
   }
-  
-  public RowSetModel(Bean b){
-      this(b.getRowSet());
-      this.bean = b;
-  }
-  
-  public Bean getBean(){
-      return this.bean;
-  }
+ 
 
   @Override
   public Class getColumnClass(int column) {

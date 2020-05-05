@@ -20,10 +20,10 @@ import javax.swing.JPanel;
  *
  * @author Xiao Luo
  */
-public class StrainBean extends Bean {
+public class StrainBean implements Bean {
     
     private JdbcRowSet rs;
-    private Connection connection;
+    
     public StrainBean() {
         try {
             this.rs = RowSetProvider.newFactory().createJdbcRowSet();
@@ -33,40 +33,37 @@ public class StrainBean extends Bean {
             rs.setCommand("SELECT * FROM strain_item_view");
             rs.execute();
             
-            this.connection = Connector.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(StrainBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    @Override
     public RowSet getRowSet(){
         return rs;
     }
+
     
+    @Override
     public JPanel getForm(){
         StrainForm form = new StrainForm(this);
         form.setInsert(false);
         return form;
     }
     
-    public JPanel getEmptyForm(){
-        StrainForm form = new StrainForm(this);
-        form.setInsert(true);
-        form.setVisible(false);
-        return form;
-    }
-    
     public Strain create(Strain a){
         String sql = "INSERT INTO Item(name, id, temp, producer, strain) VALUES(?,?,?,?,1)";
         try{
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1,a.getName());
-            stm.setString(2,a.getID());
-            stm.setInt(3,a.getTemp());
-            stm.setString(4,a.getVendor());
-            stm.execute();
-            sql = "INSERT INTO Strain(item_id, anti_res, features) VALUES(" + a.getID() + "," + a.getAnti_res() + "," + a.getFeatures() + ")";
-            stm.executeUpdate(sql);
+            try(Connection connection = Connector.getConnection()){
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1,a.getName());
+                stm.setString(2,a.getID());
+                stm.setInt(3,a.getTemp());
+                stm.setString(4,a.getVendor());
+                stm.execute();
+                sql = "INSERT INTO Strain(item_id, anti_res, features) VALUES(" + a.getID() + "," + a.getAnti_res() + "," + a.getFeatures() + ")";
+                stm.executeUpdate(sql);
+            }
         } catch(SQLException e){
             return null;
         }
@@ -77,18 +74,20 @@ public class StrainBean extends Bean {
         String sql = "UPDATE Item SET name=?, temp=?, producer=? WHERE id=?";
         String id = a.getID();
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getName());
-            stm.setInt(2, a.getTemp());
-            stm.setString(3, a.getVendor());
-            stm.setString(4, id);
-            stm.execute();
-            sql = "UPDATE Strain SET anti_res=?, features=? WHERE item_id=?";
-            stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getAnti_res());
-            stm.setString(2, a.getFeatures());
-            stm.setString(3, id);
-            stm.execute();
+            try(Connection connection = Connector.getConnection()){
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1, a.getName());
+                stm.setInt(2, a.getTemp());
+                stm.setString(3, a.getVendor());
+                stm.setString(4, id);
+                stm.execute();
+                sql = "UPDATE Strain SET anti_res=?, features=? WHERE item_id=?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, a.getAnti_res());
+                stm.setString(2, a.getFeatures());
+                stm.setString(3, id);
+                stm.execute();
+            }
         } catch (SQLException ex) {
             return null;
         }
@@ -99,9 +98,11 @@ public class StrainBean extends Bean {
         String sql = "DELETE FROM Strain WHERE item_id=" + a.getID();
         String sql2 = "DELETE FROM Item WHERE id=" + a.getID();
         try {
-            Statement stm = connection.createStatement();
-            stm.executeUpdate(sql);
-            stm.executeUpdate(sql2);
+            try(Connection connection = Connector.getConnection()){
+                Statement stm = connection.createStatement();
+                stm.executeUpdate(sql);
+                stm.executeUpdate(sql2);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(StrainBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -138,4 +139,9 @@ public class StrainBean extends Bean {
     public void delete(Entity e) {
         delete((Strain)e);
     }    
+
+    @Override
+    public void setRs(JdbcRowSet rs) {
+        this.rs = rs;
+    }
 }

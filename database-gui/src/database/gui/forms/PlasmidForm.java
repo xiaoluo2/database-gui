@@ -6,9 +6,11 @@
 package database.gui.forms;
 
 import database.gui.bean.Bean;
+import database.gui.bean.PlasmidBean;
 import database.gui.entity.Plasmid;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -32,26 +34,26 @@ public class PlasmidForm extends JPanel{
     private Bean bean;
  
     public PlasmidForm() {
-        setBorder(new TitledBorder
-        (new EtchedBorder(),"Plasmid"));
+        initComponents();
+      setInsert(true);
+      setVisible(false);
+      bean = new PlasmidBean();
+      bean.setRs(null);
+    }
+    
+    public PlasmidForm(PlasmidBean b){
+        initComponents();
+       this.bean = b;
+       setInsert(false);
+       setFieldData(b.getCurrent());
+    }
+    
+    private void initComponents(){
+      setBorder(new TitledBorder
+      (new EtchedBorder(),"Plasmid"));
         setLayout(new BorderLayout(5, 5));
-        add(initFields(), BorderLayout.NORTH);
-        add(initButtons(), BorderLayout.CENTER);
-    }
-    
-    public PlasmidForm(Bean b){
-        this();
-        this.bean = b;
-    }
-    
-   public PlasmidForm(boolean insert){
-       this();
-       this.setInsert(insert);
-   }
-   
-   public PlasmidForm(Plasmid a){
-       this(false);
-       this.setFieldData(a);
+        add(initFields(), BorderLayout.WEST);
+        add(initButtons(), BorderLayout.PAGE_END);
    }
  
     private class ButtonHandler implements ActionListener {
@@ -121,6 +123,7 @@ public class PlasmidForm extends JPanel{
  
     private JPanel initFields() {
          JPanel panel = new JPanel();
+         panel.setLayout(new GridLayout(5,2));
          panel.add(new JLabel("ID"), "align label");
          panel.add(idField, "wrap");
          

@@ -6,9 +6,11 @@
 package database.gui.forms;
 
 import database.gui.bean.Bean;
+import database.gui.bean.Lab_MemberBean;
 import database.gui.entity.Lab_Member;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -32,26 +34,26 @@ public class Lab_MemberForm extends JPanel{
     private Bean bean;
  
     public Lab_MemberForm() {
-        setBorder(new TitledBorder
-        (new EtchedBorder(),"Lab_Member"));
+      initComponents();
+      setInsert(true);
+      setVisible(false);
+      bean = new Lab_MemberBean();
+      bean.setRs(null);
+    }
+    
+    public Lab_MemberForm(Lab_MemberBean b){
+        initComponents();
+       this.bean = b;
+       setInsert(false);
+       setFieldData(b.getCurrent());
+    }
+    
+   private void initComponents(){
+      setBorder(new TitledBorder
+      (new EtchedBorder(),"Lab Member"));
         setLayout(new BorderLayout(5, 5));
-        add(initFields(), BorderLayout.NORTH);
-        add(initButtons(), BorderLayout.CENTER);
-    }
-    
-    public Lab_MemberForm(Bean b){
-        this();
-        this.bean = b;
-    }
-    
-   public Lab_MemberForm(boolean insert){
-       this();
-       this.setInsert(insert);
-   }
-   
-   public Lab_MemberForm(Lab_Member a){
-       this(false);
-       this.setFieldData(a);
+        add(initFields(), BorderLayout.WEST);
+        add(initButtons(), BorderLayout.PAGE_END);
    }
  
     private class ButtonHandler implements ActionListener {
@@ -117,6 +119,7 @@ public class Lab_MemberForm extends JPanel{
  
     private JPanel initFields() {
          JPanel panel = new JPanel();
+         panel.setLayout(new GridLayout(3,2));
          panel.add(new JLabel("Lab_ID"), "align label");
          panel.add(idField, "wrap");
          panel.add(new JLabel("Name"), "align label");

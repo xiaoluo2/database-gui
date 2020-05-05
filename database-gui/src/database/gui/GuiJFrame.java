@@ -6,10 +6,11 @@
 package database.gui;
 
 import database.gui.bean.*;
+import database.gui.forms.*;
 import database.gui.models.*;
 import database.sql.Connector;
 import database.gui.utils.*;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -35,28 +36,29 @@ public class GuiJFrame extends javax.swing.JFrame {
     }
     
     private void initForms(){
-        JPanel a = new AntibodyBean().getEmptyForm();
-        JPanel b = new ChemicalBean().getEmptyForm();
-        JPanel c = new PlasmidBean().getEmptyForm();
-        JPanel d = new StrainBean().getEmptyForm();
-        JPanel e = new ItemBean().getEmptyForm();
-        JPanel f = new Lab_MemberBean().getEmptyForm();
-        JPanel g = new LocationBean().getEmptyForm();
-        formPanel.add(a);
+        JPanel a = new AntibodyForm();
+        JPanel b = new ChemicalForm();
+        JPanel c = new PlasmidForm();
+        JPanel d = new StrainForm();
+        JPanel e = new ItemForm();
+        JPanel f = new Lab_MemberForm();
+        JPanel g = new LocationForm();
+        GridBagConstraints cn = new GridBagConstraints();
+        cn.fill = GridBagConstraints.BOTH;
+        formPanel.add(a, cn);
         formPanel.setLayer(a, 6);
-        formPanel.add(b);
+        formPanel.add(b, cn);
         formPanel.setLayer(b, 5);
-        formPanel.add(c);
+        formPanel.add(c, cn);
         formPanel.setLayer(c, 4);
-        formPanel.add(d);
+        formPanel.add(d, cn);
         formPanel.setLayer(d, 3);
-        formPanel.add(e);
+        formPanel.add(e, cn);
         formPanel.setLayer(e, 2);
-        formPanel.add(f);
+        formPanel.add(f, cn);
         formPanel.setLayer(f, 1);
-        formPanel.add(g);
+        formPanel.add(g, cn);
         formPanel.setLayer(g, 0);
-        System.out.println(formPanel.getComponents().length);
         
     }
     
@@ -115,6 +117,8 @@ public class GuiJFrame extends javax.swing.JFrame {
 
                     }
                     JPanel p = bean.getForm();
+                    f.setTitle("Edit");
+                    f.getContentPane().setLayout(new GridBagLayout());
                     f.getContentPane().add(p);
                     f.setSize(600, 280);
                     f.setVisible(true);
@@ -175,56 +179,11 @@ public class GuiJFrame extends javax.swing.JFrame {
                 JComboBox cb = (JComboBox)e.getSource();
                 int type = cb.getSelectedIndex();
                 Component[] cp = formPanel.getComponents();
-                switch (type){
-                    case 0:
-                    for(int i=0;i<cp.length;i++){
-                        cp[i].setVisible(false);
-                    }
-                    cp[0].setVisible(true);
-                    break;
-                    case 1:
-                    for(int i=0;i<cp.length;i++){
-                        cp[i].setVisible(false);
-                    }
-                    cp[1].setVisible(true);
-                    break;
-                    case 2:
-                    for(int i=0;i<cp.length;i++){
-                        cp[i].setVisible(false);
-                    }
-                    cp[2].setVisible(true);
-                    break;
-                    case 3:
-                    for(int i=0;i<cp.length;i++){
-                        cp[3].setVisible(false);
-                    }
-                    cp[3].setVisible(true);
-                    case 4:
-                    for(int i=0;i<cp.length;i++){
-                        cp[i].setVisible(false);
-                    }
-                    cp[4].setVisible(true);
-                    break;
-                    case 5:
-                    for(int i=0;i<cp.length;i++){
-                        cp[i].setVisible(false);
-                    }
-                    cp[5].setVisible(true);
-                    break;
-                    case 6:
-                    for(int i=0;i<cp.length;i++){
-                        cp[i].setVisible(false);
-                    }
-                    cp[6].setVisible(true);
-                    break;
-                    default:
-                    for(int i=0;i<cp.length;i++){
-                        cp[i].setVisible(false);
-                    }
-                    break;
+                for(int i=0;i<cp.length;i++){
+                    cp[i].setVisible(false);
                 }
+                cp[type].setVisible(true);
             }
-
         });
 
         formPanel.setLayout(new java.awt.GridBagLayout());
@@ -303,11 +262,11 @@ public class GuiJFrame extends javax.swing.JFrame {
             switch(searchText){
                 case "antibody":
                 bean = new AntibodyBean();
-                searchTable.setModel(new RowSetModel(bean));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "chemical":
                 bean = new ChemicalBean();
-                searchTable.setModel(new RowSetModel(bean));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "enzyme":
                 rs = Connector.execute("SELECT * FROM Item WHERE enzyme = 1");
@@ -315,7 +274,7 @@ public class GuiJFrame extends javax.swing.JFrame {
                 break;
                 case "lab member":
                 bean = new Lab_MemberBean();
-                searchTable.setModel(new RowSetModel(bean));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "liquid":
                 rs = Connector.execute("SELECT * FROM Item WHERE liquid = 1");
@@ -323,7 +282,7 @@ public class GuiJFrame extends javax.swing.JFrame {
                 break;
                 case "location":
                 bean = new LocationBean();
-                searchTable.setModel(new RowSetModel(bean));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "molecular":
                 rs = Connector.execute("SELECT * FROM Item WHERE mole_bio = 1");
@@ -331,19 +290,19 @@ public class GuiJFrame extends javax.swing.JFrame {
                 break;
                 case "order":
                 bean = new OrderBean();
-                searchTable.setModel(new RowSetModel(bean));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "plasmid":
                 bean = new PlasmidBean();
-                searchTable.setModel(new RowSetModel(bean));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "react probe":
                 rs = Connector.execute("SELECT * FROM Item WHERE react_probes = 1");
-                searchTable.setModel(new RowSetModel(rs));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "strain":
                 bean = new StrainBean();
-                searchTable.setModel(new RowSetModel(bean));
+                searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "":
                 break;
