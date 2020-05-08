@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.gui.bean;
+package database.gui.control;
 
 import database.gui.entity.Entity;
 import database.gui.entity.Order;
 import database.gui.forms.OrderForm;
-import database.sql.Connector;
+import database.gui.Connector;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author Xiao Luo
  */
-public class OrderBean implements Bean {
+public class OrderBean implements Bean, ActionListener {
     
     private JdbcRowSet rs;
     
@@ -36,6 +38,11 @@ public class OrderBean implements Bean {
         } catch (SQLException ex) {
             Logger.getLogger(OrderBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e){
+        
     }
     
     @Override
@@ -81,6 +88,7 @@ public class OrderBean implements Bean {
             stm.setString(3, a.getDate());
             stm.setInt(4, a.getRequester());
             stm.setInt(5, Integer.parseInt(id));
+            stm.executeUpdate();
         } catch (SQLException ex) {
             return null;
         }
@@ -88,11 +96,15 @@ public class OrderBean implements Bean {
     }
     
     public void delete(Order a){
-        String sql = "DELETE FROM Order WHERE order_id=" + a.getID();
+    	String sql1 = "DELETE FROM Order_Item WHERE order_id='" + a.getID() + "'";
+        String sql2 = "DELETE FROM Order WHERE order_id='" + a.getID() + "'";
         try {
             try (Connection connection = Connector.getConnection()) {
+            	
                 Statement stm = connection.createStatement();
-                stm.executeUpdate(sql);
+                stm.addBatch(sql1);
+                stm.addBatch(sql2);
+                stm.executeBatch();
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderBean.class.getName()).log(Level.SEVERE, null, ex);

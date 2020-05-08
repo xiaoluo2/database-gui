@@ -5,10 +5,16 @@
  */
 package database.gui;
 
-import database.gui.bean.*;
+import database.gui.control.Lab_MemberBean;
+import database.gui.control.PlasmidBean;
+import database.gui.control.Bean;
+import database.gui.control.StrainBean;
+import database.gui.control.AntibodyBean;
+import database.gui.control.OrderBean;
+import database.gui.control.ChemicalBean;
+import database.gui.control.LocationBean;
 import database.gui.forms.*;
 import database.gui.models.*;
-import database.sql.Connector;
 import database.gui.utils.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +32,11 @@ import javax.swing.JComboBox;
  * @author Xiao Luo
  */
 public class GuiJFrame extends javax.swing.JFrame {
-    private Bean bean;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Bean bean;
     /**
      * Creates new form NewJFrame
      */
@@ -86,6 +96,10 @@ public class GuiJFrame extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        selectionTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -209,13 +223,13 @@ public class GuiJFrame extends javax.swing.JFrame {
 
         jTabbedPane3.addTab("New Record", jPanel3);
 
-        RowSet item_loc = Connector.execute("SELECT * FROM Item_Location_View");
+        RowSet item_loc = Connector.executeRowSet("SELECT * FROM item_location_view");
         jTable1.setModel(new RowSetModel(item_loc));
         jScrollPane2.setViewportView(jTable1);
 
         ViewPane.addTab("Item Locations", jScrollPane2);
 
-        RowSet order_items = Connector.execute("SELECT * FROM order_item_view");
+        RowSet order_items = Connector.executeRowSet("SELECT * FROM order_item_view");
         jTable2.setModel(new RowSetModel(order_items));
         jScrollPane3.setViewportView(jTable2);
 
@@ -234,6 +248,37 @@ public class GuiJFrame extends javax.swing.JFrame {
 
         jTabbedPane3.addTab("View", jPanel4);
 
+        jLabel1.setText("Choose Location");
+
+        selectionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(selectionTable);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
+        );
+
+        jTabbedPane3.addTab("Add/Remove Items", jPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -247,6 +292,8 @@ public class GuiJFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        // TODO add selection form
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -255,7 +302,7 @@ public class GuiJFrame extends javax.swing.JFrame {
         RowSet rs = null;
         String query = Utils.searchToQuery(searchText);
         if(query != null){
-            rs = Connector.execute(query);
+            rs = Connector.executeRowSet(query);
             searchTable.setModel(new RowSetModel(rs));
         } else {
             searchText = searchText.toLowerCase();
@@ -269,7 +316,7 @@ public class GuiJFrame extends javax.swing.JFrame {
                 searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "enzyme":
-                rs = Connector.execute("SELECT * FROM Item WHERE enzyme = 1");
+                rs = Connector.executeRowSet("SELECT * FROM Item WHERE enzyme = 1");
                 searchTable.setModel(new RowSetModel(rs));
                 break;
                 case "lab member":
@@ -277,7 +324,7 @@ public class GuiJFrame extends javax.swing.JFrame {
                 searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "liquid":
-                rs = Connector.execute("SELECT * FROM Item WHERE liquid = 1");
+                rs = Connector.executeRowSet("SELECT * FROM Item WHERE liquid = 1");
                 searchTable.setModel(new RowSetModel(rs));
                 break;
                 case "location":
@@ -285,7 +332,7 @@ public class GuiJFrame extends javax.swing.JFrame {
                 searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "molecular":
-                rs = Connector.execute("SELECT * FROM Item WHERE mole_bio = 1");
+                rs = Connector.executeRowSet("SELECT * FROM Item WHERE mole_bio = 1");
                 searchTable.setModel(new RowSetModel(rs));
                 break;
                 case "order":
@@ -297,7 +344,7 @@ public class GuiJFrame extends javax.swing.JFrame {
                 searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "react probe":
-                rs = Connector.execute("SELECT * FROM Item WHERE react_probes = 1");
+                rs = Connector.executeRowSet("SELECT * FROM Item WHERE react_probes = 1");
                 searchTable.setModel(new RowSetModel(bean.getRowSet()));
                 break;
                 case "strain":
@@ -320,9 +367,12 @@ public class GuiJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane ViewPane;
     private javax.swing.JLayeredPane formPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -332,6 +382,7 @@ public class GuiJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchButton;
     private javax.swing.JTable searchTable;
+    private javax.swing.JTable selectionTable;
     private javax.swing.JComboBox<String> typeBox;
     // End of variables declaration//GEN-END:variables
 

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.gui.bean;
+package database.gui.control;
 
 import database.gui.entity.Entity;
 import database.gui.entity.Location;
 import database.gui.forms.LocationForm;
-import database.sql.Connector;
+import database.gui.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,8 +58,7 @@ public class LocationBean implements Bean {
                 stm.setInt(2,a.getRoom_num());
                 stm.setString(3,a.getType());
                 stm.setInt(4,a.getTemperature());
-                stm.execute();
-                stm.executeUpdate(sql);
+                stm.executeUpdate();
             }
         } catch(SQLException e){
             return null;
@@ -77,6 +76,7 @@ public class LocationBean implements Bean {
                 stm.setString(2, a.getType());
                 stm.setInt(3, a.getTemperature());
                 stm.setInt(4, id);
+                stm.executeUpdate();
             }
         } catch (SQLException ex) {
             return null;
@@ -85,7 +85,7 @@ public class LocationBean implements Bean {
     }
     
     public void delete(Location a){
-        String sql = "DELETE FROM Location WHERE location_id=" + a.getID();
+        String sql = "DELETE FROM Location WHERE location_id='" + a.getID() + "'";
         try {
             try (Connection connection = Connector.getConnection()) {
                 Statement stm = connection.createStatement();

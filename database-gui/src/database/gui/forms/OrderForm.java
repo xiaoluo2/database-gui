@@ -5,14 +5,15 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.Bean;
-import database.gui.bean.OrderBean;
+import database.gui.control.Bean;
+import database.gui.control.OrderBean;
 import database.gui.entity.Order;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -22,17 +23,22 @@ import javax.swing.border.*;
  */
 public class OrderForm extends JPanel{
 
+    /**
+	 * 
+	 */
+    private static final long serialVersionUID = -2908720779469827862L;
     private JTextField idField = new JTextField(30);
     private JTextField statusField = new JTextField(30);
     private JTextField dateField = new JTextField(30);
     private JTextField vendorField = new JTextField(30);
- 
+
     private JButton createButton = new JButton("Save");
-   private JButton clearButton = new JButton("Clear");
-   private JButton updateButton = new JButton("Update");
-   private JButton deleteButton = new JButton("Delete");
+    private JButton clearButton = new JButton("Clear");
+    private JButton updateButton = new JButton("Update");
+    private JButton deleteButton = new JButton("Delete");
  
     private Bean bean;
+    public List<String> item_ids;
  
     public OrderForm() {
         initComponents();
@@ -47,6 +53,11 @@ public class OrderForm extends JPanel{
        this.bean = b;
        setInsert(false);
        setFieldData(b.getCurrent());
+   }
+   
+   // TODO
+   public List<String> selectItems(){
+       return null;
    }
     
    private void initComponents(){
@@ -73,6 +84,7 @@ public class OrderForm extends JPanel{
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to save.");
                      };
+                     break;
                  case "Update":
                      if (isEmptyFieldData()) {
                          JOptionPane.showMessageDialog(null, "Cannot update an empty record.");
@@ -83,6 +95,7 @@ public class OrderForm extends JPanel{
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to update.");
                      };
+                     break;
                  case "Delete":
                      int reply = JOptionPane.showConfirmDialog(null, "Confirm deletion", "Delete" + a.getID(), JOptionPane.YES_NO_OPTION);
                      if (reply == JOptionPane.YES_OPTION) {
@@ -95,6 +108,7 @@ public class OrderForm extends JPanel{
                      } else {
                          ; //Do nothing
                      }
+                     break;
                  case "Clear":
                      idField.setText("");
                      statusField.setText("");
@@ -171,4 +185,14 @@ public class OrderForm extends JPanel{
            deleteButton.setVisible(true);
        }
    }
+//    // on save give order id to item adder
+//    ItemAdder itemAdder = new ItemAdder(idField.getText());
+//
+//    JFrame f= new JFrame();
+//    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//    JPanel p = new ItemAdderForm(itemAdder);
+//    f.setTitle("Choose Items");
+//    f.getContentPane().add(p);
+//    f.setSize(600, 280);
+//    f.setVisible(true);
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.gui.bean;
+package database.gui.control;
 
 import database.gui.entity.Entity;
 import javax.sql.RowSet;

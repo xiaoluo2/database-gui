@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.gui.bean;
+package database.gui.control;
 
 import database.gui.entity.Antibody;
 import database.gui.entity.Entity;
 import database.gui.forms.AntibodyForm;
-import database.sql.Connector;
+import database.gui.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,12 +57,13 @@ public class AntibodyBean implements Bean {
                 stm.setString(2,a.getID());
                 stm.setInt(3,a.getTemp());
                 stm.setString(4,a.getVendor());
-                System.out.println(stm);
-                stm.execute();
+                stm.executeUpdate();
+                
                 sql = "INSERT INTO Antibody(item_id, host) VALUES(?,?)";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, a.getID());
                 stm.setString(2, a.getHost());
+                stm.executeUpdate();
             }
         } catch(SQLException e){
             e.printStackTrace();
@@ -80,13 +81,13 @@ public class AntibodyBean implements Bean {
             stm.setInt(2, a.getTemp());
             stm.setString(3, a.getVendor());
             stm.setString(4, id);
-            stm.execute();
+            stm.executeUpdate();
+            
             sql = "UPDATE Antibody SET host=? WHERE item_id=?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, a.getHost());
             stm.setString(2, id);
-            System.out.println(stm);
-            stm.execute();
+            stm.executeUpdate();
         } catch (SQLException ex) {
             return null;
         }
@@ -94,8 +95,8 @@ public class AntibodyBean implements Bean {
     }
     
     public void delete(Antibody a){
-        String sql = "DELETE FROM Antibody WHERE item_id=" + a.getID();
-        String sql2 = "DELETE FROM Item WHERE id=" + a.getID();
+        String sql = "DELETE FROM Antibody WHERE item_id='" + a.getID() + "'";
+        String sql2 = "DELETE FROM Item WHERE id='" + a.getID() + "'";
         try {
             Connection connection = Connector.getConnection();
             Statement stm = connection.createStatement();

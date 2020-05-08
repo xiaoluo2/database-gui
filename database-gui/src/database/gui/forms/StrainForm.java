@@ -5,11 +5,10 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.Bean;
-import database.gui.bean.StrainBean;
+import database.gui.control.Bean;
+import database.gui.control.StrainBean;
 import database.gui.entity.Strain;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +19,11 @@ import javax.swing.border.*;
  * @author Xiao Luo
  */
 public class StrainForm extends JPanel{
-    private JTextField idField = new JTextField(30);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7997552787193250717L;
+	private JTextField idField = new JTextField(30);
     private JTextField nameField = new JTextField(30);
     private JTextField tempField = new JTextField(30);
     private JTextField anti_resField = new JTextField(30);
@@ -72,6 +75,7 @@ public class StrainForm extends JPanel{
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to save.");
                      };
+                     break;
                  case "Update":
                      if (isEmptyFieldData()) {
                          JOptionPane.showMessageDialog(null, "Cannot update an empty record.");
@@ -82,6 +86,7 @@ public class StrainForm extends JPanel{
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to update.");
                      };
+                     break;
                  case "Delete":
                      int reply = JOptionPane.showConfirmDialog(null, "Confirm deletion", "Delete" + a.getID(), JOptionPane.YES_NO_OPTION);
                      if (reply == JOptionPane.YES_OPTION) {
@@ -95,6 +100,7 @@ public class StrainForm extends JPanel{
                      } else {
                          ; //Do nothing
                      }
+                     break;
                  case "Clear":
                      idField.setText("");
                      nameField.setText("");

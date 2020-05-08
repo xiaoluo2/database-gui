@@ -12,7 +12,7 @@ package database.gui.utils;
 public class Utils {
     
     public static String searchToQuery(String searchText){
-        String sql, type = "";
+        String sql;
         String[] s = searchText.split(":");
         if(s == null || s.length < 3) {
             return null;
@@ -28,26 +28,22 @@ public class Utils {
                 break;
             case "Enzyme":
                 tablename = "Item";
-                type = " AND enzyme=1";
-                break;
+			break;
             case "Item":
-                tablename = "Item_Location_View";
+                tablename = "item_location_view";
                 break;
             case "Liquid":
                 tablename = "Item";
-                type = " AND liquid=1";
-                break;
+			break;
             case "Mole_bio":
                 tablename = "Item";
-                type = " AND mole_bio=1";
-                break;
+			break;
             case "Plasmid":
                 tablename = "plasmid_item_view";
                 break;
             case "React_probes":
                 tablename = "Item";
-                type = " AND react_probes=1";
-                break;
+			break;
             case "Strain":
                 tablename = "strain_item_view";
                 break;

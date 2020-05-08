@@ -5,8 +5,8 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.AntibodyBean;
-import database.gui.bean.Bean;
+import database.gui.control.AntibodyBean;
+import database.gui.control.Bean;
 import database.gui.entity.Antibody;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -21,7 +21,14 @@ import javax.swing.border.*;
  * @author Xiao Luo
  */
 public class AntibodyForm extends JPanel {
-   private JTextField idField = new JTextField(30);
+   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 670329382520087673L;
+/**
+	 * 
+	 */
+private JTextField idField = new JTextField(30);
    private JTextField nameField = new JTextField(30);
    private JTextField tempField = new JTextField(30);
    private JTextField sourceField = new JTextField(30);

@@ -5,8 +5,8 @@
  */
 package database.gui.forms;
 
-import database.gui.bean.Bean;
-import database.gui.bean.ItemBean;
+import database.gui.control.Bean;
+import database.gui.control.ItemBean;
 import database.gui.entity.Item;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -20,13 +20,17 @@ import javax.swing.border.*;
  * @author Xiao Luo
  */
 public class ItemForm extends JPanel{
+    /**
+	 * 
+	 */
+    private static final long serialVersionUID = -2230636514396426790L;
     private JTextField idField = new JTextField(30);
     private JTextField nameField = new JTextField(30);
     private JTextField tempField = new JTextField(30);
     private JTextField sourceField = new JTextField(30);
     private JTextField typeField = new JTextField(30);
  
-    private JButton createButton = new JButton("Save");
+   private JButton createButton = new JButton("Save");
    private JButton clearButton = new JButton("Clear");
    private JButton updateButton = new JButton("Update");
    private JButton deleteButton = new JButton("Delete");
@@ -72,6 +76,7 @@ public class ItemForm extends JPanel{
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to save.");
                      };
+                     break;
                  case "Update":
                      if (isEmptyFieldData()) {
                          JOptionPane.showMessageDialog(null, "Cannot update an empty record.");
@@ -82,6 +87,7 @@ public class ItemForm extends JPanel{
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to update.");
                      };
+                     break;
                  case "Delete":
                      int reply = JOptionPane.showConfirmDialog(null, "Confirm deletion", "Delete" + a.getID(), JOptionPane.YES_NO_OPTION);
                      if (reply == JOptionPane.YES_OPTION) {
@@ -95,12 +101,14 @@ public class ItemForm extends JPanel{
                      } else {
                          ; //Do nothing
                      }
+                     break;
                  case "Clear":
                      idField.setText("");
                      nameField.setText("");
                      tempField.setText("");
                      sourceField.setText("");
                      typeField.setText("");
+                     break;
              }
              
          }
@@ -116,8 +124,8 @@ public class ItemForm extends JPanel{
          panel.add(deleteButton);
          createButton.addActionListener(new ButtonHandler());
          clearButton.addActionListener(new ButtonHandler());
-      updateButton.addActionListener(new ButtonHandler());
-      deleteButton.addActionListener(new ButtonHandler());
+         updateButton.addActionListener(new ButtonHandler());
+         deleteButton.addActionListener(new ButtonHandler());
          return panel;
     }
  
@@ -172,10 +180,12 @@ public class ItemForm extends JPanel{
            createButton.setVisible(true);
            idField.setEditable(true);
        } else {
+           // type is non-editable after insert
            createButton.setVisible(false);
            idField.setEditable(false);
            updateButton.setVisible(true);
            deleteButton.setVisible(true);
+           typeField.setEditable(false);
        }
    }
 }

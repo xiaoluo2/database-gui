@@ -1,5 +1,7 @@
 package database.gui;
 
+//import database.sql.Connector;
+
 //import org.springframework.boot.SpringApplication;
 
 
@@ -13,6 +15,10 @@ public class DatabaseGuiApplication{
         * @param args the command line arguments
         */
         public static void main(String args[]) {
+        	
+//        	Connection Test
+//        	System.out.println(Connector.getConnection());
+//        	System.exit(0);
             
             /* Set the Windows look and feel */
             //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

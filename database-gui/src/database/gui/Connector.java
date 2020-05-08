@@ -1,4 +1,4 @@
-package database.sql;
+package database.gui;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,6 @@ import javax.sql.rowset.*;
 public class Connector {
    // database URL
    public static final String DB_URL = "jdbc:mysql://triton.towson.edu:3360/shomic2db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-
    //  Database credentials
    public static final String USER = "shomic2";
    public static final String PASS = "Cosc*w2k3";
@@ -36,7 +35,7 @@ public class Connector {
       return conn;
    }
    
-   public static RowSet execute(String sql){
+   public static RowSet executeRowSet(String sql){
        RowSet rs = null;
        try {
            rs = RowSetProvider.newFactory().createCachedRowSet();

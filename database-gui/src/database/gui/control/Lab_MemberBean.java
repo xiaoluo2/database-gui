@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.gui.bean;
+package database.gui.control;
 
 import database.gui.entity.Entity;
 import database.gui.entity.Lab_Member;
 import database.gui.forms.Lab_MemberForm;
-import database.sql.Connector;
+import database.gui.Connector;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,10 +58,10 @@ public class Lab_MemberBean implements Bean {
                 stm.setInt(1,Integer.parseInt(a.getID()));
                 stm.setString(2,a.getName());
                 stm.setString(3,a.getTitle());
-                stm.execute();
-                stm.executeUpdate(sql);
+                stm.executeUpdate();
             }
         } catch(SQLException e){
+            e.printStackTrace();
             return null;
         }
         return a;
@@ -76,6 +76,7 @@ public class Lab_MemberBean implements Bean {
                 stm.setString(1, a.getName());
                 stm.setString(2, a.getTitle());
                 stm.setInt(3, id);
+                stm.executeUpdate();
             }
         } catch (SQLException ex) {
             return null;
@@ -84,11 +85,14 @@ public class Lab_MemberBean implements Bean {
     }
     
     public void delete(Lab_Member a){
-        String sql = "DELETE FROM Lab_Member WHERE Lab_id=" + a.getID();
+        String sql = "DELETE FROM Lab_Member WHERE Lab_id='" + a.getID() + "'";
         try {
             try (Connection connection = Connector.getConnection()) {
+            	// TODO delete matching records in order
+            	
                 Statement stm = connection.createStatement();
                 stm.executeUpdate(sql);
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(Lab_MemberBean.class.getName()).log(Level.SEVERE, null, ex);
