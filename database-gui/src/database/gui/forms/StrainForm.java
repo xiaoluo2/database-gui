@@ -25,7 +25,6 @@ public class StrainForm extends JPanel{
 	private static final long serialVersionUID = -7997552787193250717L;
 	private JTextField idField = new JTextField(30);
     private JTextField nameField = new JTextField(30);
-    private JTextField tempField = new JTextField(30);
     private JTextField anti_resField = new JTextField(30);
     private JTextField featuresField = new JTextField(30);
  
@@ -64,6 +63,7 @@ public class StrainForm extends JPanel{
          @Override
          public void actionPerformed(ActionEvent e) {
              Strain a = getFieldData();
+             JFrame f = (JFrame) StrainForm.this.getRootPane().getParent();
              switch(e.getActionCommand()) {
                  case "Save":
                      if (isEmptyFieldData()) {
@@ -83,6 +83,7 @@ public class StrainForm extends JPanel{
                      }
                      if(bean.update(a) != null) {
                          JOptionPane.showMessageDialog(null, "Updated sucessfully.");
+                         f.dispose();
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to update.");
                      };
@@ -92,11 +93,7 @@ public class StrainForm extends JPanel{
                      if (reply == JOptionPane.YES_OPTION) {
                          bean.delete(a);
                          JOptionPane.showMessageDialog(null, "Deleted.");
-                         idField.setText("");
-                         nameField.setText("");
-                         tempField.setText("");
-                         anti_resField.setText("");
-                         featuresField.setText("");
+                         f.dispose();
                      } else {
                          ; //Do nothing
                      }
@@ -104,7 +101,6 @@ public class StrainForm extends JPanel{
                  case "Clear":
                      idField.setText("");
                      nameField.setText("");
-                     tempField.setText("");
                      anti_resField.setText("");
                      featuresField.setText("");
              }
@@ -134,11 +130,9 @@ public class StrainForm extends JPanel{
          panel.add(idField, "wrap");
          panel.add(new JLabel("Name"), "align label");
          panel.add(nameField, "wrap");
-         panel.add(new JLabel("Temperature"), "align label");
-         panel.add(tempField, "wrap");
-         panel.add(new JLabel("Source"), "align label");
+         panel.add(new JLabel("Antibiotic Resistance"), "align label");
          panel.add(anti_resField, "wrap");
-         panel.add(new JLabel("Type"), "align label");
+         panel.add(new JLabel("Features"), "align label");
          panel.add(featuresField, "wrap");
          return panel;
     }
@@ -156,15 +150,13 @@ public class StrainForm extends JPanel{
     private void setFieldData(Strain p) {
          idField.setText(p.getID());
          nameField.setText(p.getName());
-         tempField.setText(Integer.toString(p.getTemp()));
-         anti_resField.setText(p.getVendor());
-         featuresField.setText(p.getType());
+         anti_resField.setText(p.getAnti_res());
+         featuresField.setText(p.getFeatures());
     }
    
     private boolean isEmptyFieldData() {
          return (idField.getText().trim().isEmpty()
                  && nameField.getText().isBlank()
-                 && tempField.getText().isBlank()
                  && anti_resField.getText().isBlank()
                  && featuresField.getText().isBlank());
     }

@@ -6,26 +6,28 @@
 package database.gui.control;
 
 import database.gui.Connector;
-import javax.sql.RowSet;
+import java.sql.Array;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.RowSet;
+
 /**
  *
  * @author Xiao Luo
  */
-public class ItemAdder {
-    private RowSet itemRowSet;
+public class ItemRemover {
     private String id;
+    private RowSet itemRowSet;
     private String target;
     
-    public ItemAdder(String id, String target){
+    public ItemRemover(String id, String target){
         this.id = id;
         this.target = target;
         int idNo = Integer.parseInt(id);
-        String sql = "SELECT * FROM item_view WHERE id NOT IN (SELECT item_id FROM "
+        String sql = "SELECT * FROM item_view WHERE id IN (SELECT item_id FROM "
             + this.target + "_Item WHERE " + this.target.toLowerCase() + "_id=" + idNo + ")";
         itemRowSet = Connector.executeRowSet(sql);
     }
@@ -33,29 +35,42 @@ public class ItemAdder {
     public RowSet getRowSet(){
         return itemRowSet;
     }
-    
-    public void addSelected(int[] selection){
+
+    public void removeSelected(int[] selection){
         String[] items = new String[selection.length];
         try {
             for(int i = 0; i < selection.length; i++){
                 itemRowSet.absolute(selection[i] + 1);
-                items[i] = "(" + id + ",'" + itemRowSet.getString("id") + "')";
+                items[i] = itemRowSet.getString("id") + "'";
             }
         } catch (SQLException ex) {
             Logger.getLogger(ItemAdder.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String rows = String.join(",", items);
-        String sql = "INSERT INTO " + target + "_Item(" + target.toLowerCase() + "_id, item_id) VALUES " + rows;
-//        System.out.println(sql);
+        
         Connection conn = Connector.getConnection();
         try {
+            String prefix = "DELETE FROM " + target + "_Item WHERE item_id ='";
+            String sql = "";
+            
             Statement stm = conn.createStatement();
-            stm.executeUpdate(sql);
+            for (int i= 0; i < items.length; i++) {
+                stm.addBatch(prefix + items[i]);
+            }
+            stm.executeBatch();
+            
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(ItemAdder.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public RowSet getItemRowSet() {
@@ -66,14 +81,6 @@ public class ItemAdder {
         this.itemRowSet = itemRowSet;
     }
 
-    public String getAttachedId() {
-        return id;
-    }
-
-    public void setAttachedId(String id) {
-        this.id = id;
-    }
-
     public String getTarget() {
         return target;
     }
@@ -81,5 +88,5 @@ public class ItemAdder {
     public void setTarget(String target) {
         this.target = target;
     }
-
+    
 }

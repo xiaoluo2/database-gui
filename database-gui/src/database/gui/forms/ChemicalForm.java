@@ -13,6 +13,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -69,6 +70,7 @@ public class ChemicalForm extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             Chemical a = getFieldData();
+            JFrame f = (JFrame) ChemicalForm.this.getRootPane().getParent();
             switch(e.getActionCommand()) {
                 case "Save":
                     if (isEmptyFieldData()) {
@@ -88,20 +90,18 @@ public class ChemicalForm extends JPanel{
                     }
                     if(bean.update(a) != null) {
                         JOptionPane.showMessageDialog(null, "Updated sucessfully.");
+                        f.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to update.");
                     };
+                    f.dispose();
                     break;
                 case "Delete":
                     int reply = JOptionPane.showConfirmDialog(null, "Confirm deletion", "Delete" + a.getID(), JOptionPane.YES_NO_OPTION);
                     if (reply == JOptionPane.YES_OPTION) {
                         bean.delete(a);
                         JOptionPane.showMessageDialog(null, "Deleted.");
-                        idField.setText("");
-                        nameField.setText("");
-                        tempField.setText("");
-                        sourceField.setText("");
-                        amountField.setText("");
+                        f.dispose();
                     } else {
                         ; //Do nothing
                     }
@@ -120,7 +120,7 @@ public class ChemicalForm extends JPanel{
 
     private JPanel initButtons() {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+        panel.setLayout(new FlowLayout(FlowLayout.TRAILING, 3, 3));
         panel.add(createButton);
         panel.add(clearButton);
          panel.add(updateButton);

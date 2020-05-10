@@ -113,7 +113,6 @@ public class AntibodyBean implements Bean {
         Antibody a = new Antibody();
         try {
             if (rs.getRow() != 0){
-//            rs.moveToCurrentRow();
             a.setId(rs.getString("id"));
             a.setName(rs.getString("name"));
             a.setHost(rs.getString("host"));

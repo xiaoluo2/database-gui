@@ -25,13 +25,12 @@ public class RowSetModel extends AbstractTableModel{
 	 * 
 	 */
 	private static final long serialVersionUID = -4445487524832206362L;
-private RowSet rowSet = null;
+        private RowSet rowSet = null;
 
   public RowSetModel(RowSet set) {
     super();
     rowSet = set;
   }
- 
 
   @Override
   public Class<?> getColumnClass(int column) {

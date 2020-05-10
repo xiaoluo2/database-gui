@@ -24,8 +24,6 @@ public class ItemBean implements Bean {
     
     private RowSet rs;
     
-    private String type;
-    
     public ItemBean() {
         try {
             this.rs = RowSetProvider.newFactory().createCachedRowSet();
@@ -33,6 +31,20 @@ public class ItemBean implements Bean {
             rs.setUsername(Connector.USER);
             rs.setPassword(Connector.PASS);
             rs.setCommand("SELECT * FROM item_view");
+            rs.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public ItemBean(String type) {
+        try {
+            this.rs = RowSetProvider.newFactory().createCachedRowSet();
+            rs.setUrl(Connector.DB_URL);
+            rs.setUsername(Connector.USER);
+            rs.setPassword(Connector.PASS);
+            rs.setCommand("SELECT * FROM item_view WHERE type='" + type + "'");
             rs.execute();
             
         } catch (SQLException ex) {
@@ -139,9 +151,5 @@ public class ItemBean implements Bean {
     @Override
     public void setRs(JdbcRowSet rs) {
         this.rs = rs;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

@@ -65,6 +65,7 @@ public class ItemForm extends JPanel{
          @Override
          public void actionPerformed(ActionEvent e) {
              Item a = getFieldData();
+             JFrame f = (JFrame) ItemForm.this.getRootPane().getParent();
              switch(e.getActionCommand()) {
                  case "Save":
                      if (isEmptyFieldData()) {
@@ -84,6 +85,7 @@ public class ItemForm extends JPanel{
                      }
                      if(bean.update(a) != null) {
                          JOptionPane.showMessageDialog(null, "Updated sucessfully.");
+                         f.dispose();
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to update.");
                      };
@@ -93,11 +95,7 @@ public class ItemForm extends JPanel{
                      if (reply == JOptionPane.YES_OPTION) {
                          bean.delete(a);
                          JOptionPane.showMessageDialog(null, "Deleted.");
-                         idField.setText("");
-                         nameField.setText("");
-                         tempField.setText("");
-                         sourceField.setText("");
-                         typeField.setText("");
+                         f.dispose();
                      } else {
                          ; //Do nothing
                      }
@@ -117,7 +115,7 @@ public class ItemForm extends JPanel{
     
     private JPanel initButtons() {
          JPanel panel = new JPanel();
-         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+         panel.setLayout(new FlowLayout(FlowLayout.TRAILING, 3, 3));
          panel.add(createButton);
          panel.add(clearButton);
          panel.add(updateButton);
@@ -179,6 +177,7 @@ public class ItemForm extends JPanel{
            deleteButton.setVisible(false);
            createButton.setVisible(true);
            idField.setEditable(true);
+           typeField.setEditable(true);
        } else {
            // type is non-editable after insert
            createButton.setVisible(false);

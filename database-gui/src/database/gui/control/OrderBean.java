@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author Xiao Luo
  */
-public class OrderBean implements Bean, ActionListener {
+public class OrderBean implements Bean {
     
     private JdbcRowSet rs;
     
@@ -41,11 +41,6 @@ public class OrderBean implements Bean, ActionListener {
     }
     
     @Override
-    public void actionPerformed(ActionEvent e){
-        
-    }
-    
-    @Override
     public RowSet getRowSet(){
         return rs;
     }
@@ -60,34 +55,33 @@ public class OrderBean implements Bean, ActionListener {
     }
     
     public Order create(Order a){
-        String sql = "INSERT INTO Order(order_id, vendor, order_status, order_date. lab_id) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO `Order`(order_id, order_status, order_date, lab_id) VALUES(?,?,?,?)";
         try{
             try (Connection connection = Connector.getConnection()) {
                 PreparedStatement stm = connection.prepareStatement(sql);
                 stm.setInt(1,Integer.parseInt(a.getID()));
-                stm.setString(2,a.getVendor());
-                stm.setString(3,a.getStatus());
-                stm.setString(4,a.getDate());
-                stm.setInt(5,a.getRequester());
-                stm.execute();
-                stm.executeUpdate(sql);
+                stm.setString(2,a.getStatus());
+                stm.setString(3,a.getDate());
+                stm.setInt(4,a.getRequester());
+//                System.out.println(stm);
+                stm.executeUpdate();
             }
         } catch(SQLException e){
+            e.printStackTrace();
             return null;
         }
         return a;
     }
     
     public Order update(Order a){
-        String sql = "UPDATE Order SET vendor=?, order_status=?, order_date=?, lab_id=? WHERE order_id=?";
+        String sql = "UPDATE `Order` SET order_status=?, order_date=?, lab_id=? WHERE order_id=?";
         String id = a.getID();
         try {Connection connection = Connector.getConnection();
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, a.getVendor());
-            stm.setString(2, a.getStatus());
-            stm.setString(3, a.getDate());
-            stm.setInt(4, a.getRequester());
-            stm.setInt(5, Integer.parseInt(id));
+            stm.setString(1, a.getStatus());
+            stm.setString(2, a.getDate());
+            stm.setInt(3, a.getRequester());
+            stm.setInt(4, Integer.parseInt(id));
             stm.executeUpdate();
         } catch (SQLException ex) {
             return null;
@@ -96,8 +90,8 @@ public class OrderBean implements Bean, ActionListener {
     }
     
     public void delete(Order a){
-    	String sql1 = "DELETE FROM Order_Item WHERE order_id='" + a.getID() + "'";
-        String sql2 = "DELETE FROM Order WHERE order_id='" + a.getID() + "'";
+    	String sql1 = "DELETE FROM Order_Item WHERE order_id=" + a.getID() + "";
+        String sql2 = "DELETE FROM `Order` WHERE order_id=" + a.getID() + "";
         try {
             try (Connection connection = Connector.getConnection()) {
             	
@@ -118,7 +112,6 @@ public class OrderBean implements Bean, ActionListener {
         try {
             if (rs.getRow() != 0){
                 a.setOrder_id(Integer.toString((rs.getInt("order_id"))));
-                a.setVendor(rs.getString("vendor"));
                 a.setStatus(rs.getString("order_status"));
                 a.setDate(rs.getString("order_date"));
                 a.setRequester(rs.getInt("lab_id"));

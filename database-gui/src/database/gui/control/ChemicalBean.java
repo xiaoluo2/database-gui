@@ -60,10 +60,12 @@ public class ChemicalBean implements Bean {
                 stm.setInt(3,a.getTemp());
                 stm.setString(4,a.getVendor());
                 stm.executeUpdate();
-                sql = "INSERT INTO Chemical(item_id, amount) VALUES(" + a.getID() + "," + a.getAmount() + ")";
-                stm.executeUpdate(sql);
+                sql = "INSERT INTO Chemical(item_id, amount) VALUES('" + a.getID() + "','" + a.getAmount() + "')";
+                stm = connection.prepareStatement(sql);
+                stm.executeUpdate();
             }
         } catch(SQLException e){
+            e.printStackTrace();
             return null;
         }
         return a;

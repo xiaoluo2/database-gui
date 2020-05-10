@@ -52,19 +52,20 @@ public class StrainBean implements Bean {
     }
     
     public Strain create(Strain a){
-        String sql = "INSERT INTO Item(name, id, temp, producer, strain) VALUES(?,?,?,?,1)";
+        String sql = "INSERT INTO Item(name, id, producer, strain) VALUES(?,?,?,1)";
         try{
             try(Connection connection = Connector.getConnection()){
                 PreparedStatement stm = connection.prepareStatement(sql);
                 stm.setString(1,a.getName());
                 stm.setString(2,a.getID());
-                stm.setInt(3,a.getTemp());
-                stm.setString(4,a.getVendor());
-                stm.execute();
-                sql = "INSERT INTO Strain(item_id, anti_res, features) VALUES(" + a.getID() + "," + a.getAnti_res() + "," + a.getFeatures() + ")";
-                stm.executeUpdate(sql);
+                stm.setString(3,a.getVendor());
+                stm.executeUpdate();
+                sql = "INSERT INTO Strain(item_id, anti_res, features) VALUES('" + a.getID() + "','" + a.getAnti_res() + "','" + a.getFeatures() + "')";
+                stm = connection.prepareStatement(sql);
+                stm.executeUpdate();
             }
         } catch(SQLException e){
+            e.printStackTrace();
             return null;
         }
         return a;
@@ -118,7 +119,6 @@ public class StrainBean implements Bean {
                 a.setName(rs.getString("name"));
                 a.setAnti_res(rs.getString("anti_res"));
                 a.setFeatures(rs.getString("features"));
-                a.setVendor(rs.getString("producer"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(StrainBean.class.getName()).log(Level.SEVERE, null, ex);

@@ -6,6 +6,7 @@
 package database.gui.forms;
 
 import database.gui.control.Bean;
+import database.gui.control.ItemAdder;
 import database.gui.control.OrderBean;
 import database.gui.entity.Order;
 import java.awt.BorderLayout;
@@ -30,7 +31,7 @@ public class OrderForm extends JPanel{
     private JTextField idField = new JTextField(30);
     private JTextField statusField = new JTextField(30);
     private JTextField dateField = new JTextField(30);
-    private JTextField vendorField = new JTextField(30);
+    private JTextField requesterField = new JTextField(30);
 
     private JButton createButton = new JButton("Save");
     private JButton clearButton = new JButton("Clear");
@@ -41,7 +42,7 @@ public class OrderForm extends JPanel{
     public List<String> item_ids;
  
     public OrderForm() {
-        initComponents();
+      initComponents();
       setInsert(true);
       setVisible(false);
       bean = new OrderBean();
@@ -55,9 +56,12 @@ public class OrderForm extends JPanel{
        setFieldData(b.getCurrent());
    }
    
-   // TODO
-   public List<String> selectItems(){
-       return null;
+   public void selectItems(){
+    // on save give order id to item adder
+    ItemAdder itemAdder = new ItemAdder(idField.getText(), "Order");
+    JFrame f = new AddRemoveUI(itemAdder);
+    f.setVisible(true);
+    
    }
     
    private void initComponents(){
@@ -73,6 +77,7 @@ public class OrderForm extends JPanel{
          @Override
          public void actionPerformed(ActionEvent e) {
              Order a = getFieldData();
+             JFrame f = (JFrame) OrderForm.this.getRootPane().getParent();
              switch(e.getActionCommand()) {
                  case "Save":
                      if (isEmptyFieldData()) {
@@ -81,6 +86,7 @@ public class OrderForm extends JPanel{
                      }
                      if(bean.create(a) != null) {
                          JOptionPane.showMessageDialog(null, "Saved sucessfully.");
+                         selectItems();
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to save.");
                      };
@@ -92,6 +98,7 @@ public class OrderForm extends JPanel{
                      }
                      if(bean.update(a) != null) {
                          JOptionPane.showMessageDialog(null, "Updated sucessfully.");
+                         f.dispose();
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to update.");
                      };
@@ -101,10 +108,7 @@ public class OrderForm extends JPanel{
                      if (reply == JOptionPane.YES_OPTION) {
                          bean.delete(a);
                          JOptionPane.showMessageDialog(null, "Deleted.");
-                         idField.setText("");
-                         statusField.setText("");
-                         dateField.setText("");
-                         vendorField.setText("");
+                         f.dispose();
                      } else {
                          ; //Do nothing
                      }
@@ -113,7 +117,7 @@ public class OrderForm extends JPanel{
                      idField.setText("");
                      statusField.setText("");
                      dateField.setText("");
-                     vendorField.setText("");
+                     requesterField.setText("");
              }
              
          }
@@ -122,7 +126,7 @@ public class OrderForm extends JPanel{
     
     private JPanel initButtons() {
          JPanel panel = new JPanel();
-         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+         panel.setLayout(new FlowLayout(FlowLayout.TRAILING, 3, 3));
          panel.add(createButton);
          panel.add(clearButton);
          panel.add(updateButton);
@@ -143,8 +147,8 @@ public class OrderForm extends JPanel{
          panel.add(statusField, "wrap");
          panel.add(new JLabel("Date"), "align label");
          panel.add(dateField, "wrap");
-         panel.add(new JLabel("Vendor"), "align label");
-         panel.add(vendorField, "wrap");
+         panel.add(new JLabel("Requester ID"), "align label");
+         panel.add(requesterField, "wrap");
          return panel;
     }
  
@@ -153,7 +157,7 @@ public class OrderForm extends JPanel{
            idField.getText(),
            statusField.getText(),
            dateField.getText(),
-           vendorField.getText()
+           Integer.parseInt(requesterField.getText())
          );
          return p;
     }
@@ -162,14 +166,14 @@ public class OrderForm extends JPanel{
          idField.setText(p.getID());
          statusField.setText(p.getStatus());
          dateField.setText(p.getDate());
-         vendorField.setText(p.getVendor());
+         requesterField.setText(Integer.toString(p.getRequester()));
     }
    
     private boolean isEmptyFieldData() {
          return (idField.getText().trim().isEmpty()
                  && statusField.getText().isBlank()
                  && dateField.getText().isBlank()
-                 && vendorField.getText().isBlank());
+                 && requesterField.getText().isBlank());
     }
     
     public void setInsert(boolean insert){
@@ -185,14 +189,5 @@ public class OrderForm extends JPanel{
            deleteButton.setVisible(true);
        }
    }
-//    // on save give order id to item adder
-//    ItemAdder itemAdder = new ItemAdder(idField.getText());
-//
-//    JFrame f= new JFrame();
-//    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//    JPanel p = new ItemAdderForm(itemAdder);
-//    f.setTitle("Choose Items");
-//    f.getContentPane().add(p);
-//    f.setSize(600, 280);
-//    f.setVisible(true);
+
 }

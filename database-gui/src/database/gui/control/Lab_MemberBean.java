@@ -85,13 +85,14 @@ public class Lab_MemberBean implements Bean {
     }
     
     public void delete(Lab_Member a){
-        String sql = "DELETE FROM Lab_Member WHERE Lab_id='" + a.getID() + "'";
+        String sql1 = "DELETE FROM Order WHERE lab_id='" + a.getID() + "'";
+        String sql2 = "DELETE FROM Lab_Member WHERE Lab_id='" + a.getID() + "'";
         try {
             try (Connection connection = Connector.getConnection()) {
-            	// TODO delete matching records in order
             	
                 Statement stm = connection.createStatement();
-                stm.executeUpdate(sql);
+                stm.executeUpdate(sql1);
+                stm.executeUpdate(sql2);
                 
             }
         } catch (SQLException ex) {

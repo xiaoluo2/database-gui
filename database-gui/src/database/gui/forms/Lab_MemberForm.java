@@ -65,6 +65,7 @@ public class Lab_MemberForm extends JPanel{
          @Override
          public void actionPerformed(ActionEvent e) {
              Lab_Member a = getFieldData();
+             JFrame f = (JFrame) Lab_MemberForm.this.getRootPane().getParent();
              switch(e.getActionCommand()) {
                  case "Save":
                      if (isEmptyFieldData()) {
@@ -84,6 +85,7 @@ public class Lab_MemberForm extends JPanel{
                      }
                      if(bean.update(a) != null) {
                          JOptionPane.showMessageDialog(null, "Updated sucessfully.");
+                         f.dispose();
                      } else {
                          JOptionPane.showMessageDialog(null, "Failed to update.");
                      };
@@ -93,9 +95,7 @@ public class Lab_MemberForm extends JPanel{
                      if (reply == JOptionPane.YES_OPTION) {
                          bean.delete(a);
                          JOptionPane.showMessageDialog(null, "Deleted.");
-                         idField.setText("");
-                         nameField.setText("");
-                         titleField.setText("");
+                         f.dispose();
                      } else {
                          ; //Do nothing
                      }
@@ -113,7 +113,7 @@ public class Lab_MemberForm extends JPanel{
     
     private JPanel initButtons() {
          JPanel panel = new JPanel();
-         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+         panel.setLayout(new FlowLayout(FlowLayout.TRAILING, 3, 3));
          panel.add(createButton);
          panel.add(clearButton);
          panel.add(updateButton);

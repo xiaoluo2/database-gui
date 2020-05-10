@@ -15,23 +15,18 @@ public class Order extends EntityTemplate implements Entity {
     private String order_id;
     private String status;
     private String date;
-    private String vendor;
     private int requester;
-    private List<String> items;
+//    private List<String> items;
 
-    public Order(String order_id, String status, String date, String vendor) {
+    public Order(String order_id, String status, String date, int requestor) {
         this.order_id = order_id;
         this.status = status;
         this.date = date;
-        this.vendor = vendor;
-    }
-    
-    public void addItem(String item_id){
-        items.add(item_id);
+        this.requester = requestor;
     }
     
     public Order(){
-        this(null, null, null, null);
+        this(null, null, null, 0);
     }
 
     @Override
@@ -57,14 +52,6 @@ public class Order extends EntityTemplate implements Entity {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
     }
     
     public int getRequester() {

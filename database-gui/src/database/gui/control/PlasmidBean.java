@@ -61,8 +61,9 @@ public class PlasmidBean implements Bean {
                 stm.setInt(3,a.getTemp());
                 stm.setString(4,a.getVendor());
                 stm.execute();
-                sql = "INSERT INTO Plasmid(item_id, lab_id, feature) VALUES(" + a.getID() + "," + a.getCreator_id() + a.getFeature() + ")";
-                stm.executeUpdate(sql);
+                sql = "INSERT INTO Plasmid(item_id, lab_id, feature) VALUES('" + a.getID() + "','" + a.getCreator_id() + "','" + a.getFeature() + "')";
+                stm = connection.prepareStatement(sql);
+                stm.executeUpdate();
             }
         } catch(SQLException e){
             return null;

@@ -12,6 +12,9 @@ import database.gui.control.StrainBean;
 import database.gui.control.AntibodyBean;
 import database.gui.control.OrderBean;
 import database.gui.control.ChemicalBean;
+import database.gui.control.ItemAdder;
+import database.gui.control.ItemBean;
+import database.gui.control.ItemRemover;
 import database.gui.control.LocationBean;
 import database.gui.forms.*;
 import database.gui.models.*;
@@ -53,22 +56,25 @@ public class GuiJFrame extends javax.swing.JFrame {
         JPanel e = new ItemForm();
         JPanel f = new Lab_MemberForm();
         JPanel g = new LocationForm();
+        JPanel h = new OrderForm();
         GridBagConstraints cn = new GridBagConstraints();
         cn.fill = GridBagConstraints.BOTH;
         formPanel.add(a, cn);
-        formPanel.setLayer(a, 6);
+        formPanel.setLayer(a, 7);
         formPanel.add(b, cn);
-        formPanel.setLayer(b, 5);
+        formPanel.setLayer(b, 6);
         formPanel.add(c, cn);
-        formPanel.setLayer(c, 4);
+        formPanel.setLayer(c, 5);
         formPanel.add(d, cn);
-        formPanel.setLayer(d, 3);
+        formPanel.setLayer(d, 4);
         formPanel.add(e, cn);
-        formPanel.setLayer(e, 2);
+        formPanel.setLayer(e, 3);
         formPanel.add(f, cn);
-        formPanel.setLayer(f, 1);
+        formPanel.setLayer(f, 2);
         formPanel.add(g, cn);
-        formPanel.setLayer(g, 0);
+        formPanel.setLayer(g, 1);
+        formPanel.add(h, cn);
+        formPanel.setLayer(h, 0);
         
     }
     
@@ -96,10 +102,14 @@ public class GuiJFrame extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        refreshButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         selectionTable = new javax.swing.JTable();
+        removeItemButton = new javax.swing.JButton();
+        addItemButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -187,7 +197,7 @@ public class GuiJFrame extends javax.swing.JFrame {
 
         jTabbedPane3.addTab("Find", jPanel2);
 
-        typeBox.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]{ "Antibody", "Chemical", "Plasmid", "Strain", "Other", "Lab Member", "Location"}));
+        typeBox.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]{ "Antibody", "Chemical", "Plasmid", "Strain", "Other Item", "Lab Member", "Location", "Order"}));
         typeBox.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
@@ -235,29 +245,54 @@ public class GuiJFrame extends javax.swing.JFrame {
 
         ViewPane.addTab("Order Items", jScrollPane3);
 
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ViewPane)
+            .addComponent(ViewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(refreshButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ViewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ViewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("View", jPanel4);
 
         jLabel1.setText("Choose Location");
 
-        selectionTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-
-            }
-        ));
+        selectionTable.setModel(new RowSetModel(Connector.executeRowSet("SELECT * FROM Location")));
         jScrollPane1.setViewportView(selectionTable);
+
+        removeItemButton.setText("Remove");
+        removeItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeItemButtonActionPerformed(evt);
+            }
+        });
+
+        addItemButton.setText("Add");
+        addItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addItemButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Pick Action:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -266,15 +301,26 @@ public class GuiJFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(addItemButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeItemButton)
+                .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(removeItemButton)
+                    .addComponent(addItemButton)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane3.addTab("Add/Remove Items", jPanel1);
@@ -292,82 +338,107 @@ public class GuiJFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        // TODO add selection form
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        String searchText = searchBar.getText().trim();
         RowSet rs = null;
-        String query = Utils.searchToQuery(searchText);
+        String query = null;
+        String searchText = searchBar.getText().trim();
+        if (searchText.startsWith("query:")){
+            query = searchText.substring(6);
+        } else {
+            query = Utils.searchToQuery(searchText);
+        }
+        
         if(query != null){
             rs = Connector.executeRowSet(query);
             searchTable.setModel(new RowSetModel(rs));
         } else {
+            // TODO make all editable
             searchText = searchText.toLowerCase();
             switch(searchText){
                 case "antibody":
-                bean = new AntibodyBean();
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new AntibodyBean();
                 break;
                 case "chemical":
-                bean = new ChemicalBean();
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new ChemicalBean();
                 break;
                 case "enzyme":
-                rs = Connector.executeRowSet("SELECT * FROM Item WHERE enzyme = 1");
-                searchTable.setModel(new RowSetModel(rs));
+                    bean = new ItemBean("Enzyme");
                 break;
                 case "lab member":
-                bean = new Lab_MemberBean();
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new Lab_MemberBean();
                 break;
                 case "liquid":
-                rs = Connector.executeRowSet("SELECT * FROM Item WHERE liquid = 1");
-                searchTable.setModel(new RowSetModel(rs));
+                    bean = new ItemBean("Liquid");
                 break;
                 case "location":
-                bean = new LocationBean();
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new LocationBean();
                 break;
                 case "molecular":
-                rs = Connector.executeRowSet("SELECT * FROM Item WHERE mole_bio = 1");
-                searchTable.setModel(new RowSetModel(rs));
+                    bean = new ItemBean("Molecular Bio");
                 break;
                 case "order":
-                bean = new OrderBean();
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new OrderBean();
                 break;
                 case "plasmid":
-                bean = new PlasmidBean();
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new PlasmidBean();
                 break;
                 case "react probe":
-                rs = Connector.executeRowSet("SELECT * FROM Item WHERE react_probes = 1");
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new ItemBean("React Probes");
                 break;
                 case "strain":
-                bean = new StrainBean();
-                searchTable.setModel(new RowSetModel(bean.getRowSet()));
+                    bean = new StrainBean();
                 break;
                 case "":
+                    ;
                 break;
                 default:
+                    ;
                 break;
             }
+            searchTable.setModel(new RowSetModel(bean.getRowSet()));
         }
-
-        //        System.out.println(searchText);
 
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    
-    
+    private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
+        int idx = selectionTable.getSelectedRow();
+        if (idx != -1) {
+            String id = Integer.toString((int) selectionTable.getModel().getValueAt(idx, 0));
+            JFrame f = new AddRemoveUI(new ItemAdder(id, "Loc"));
+            f.setSize(this.getWidth() + 200, this.getHeight());
+            f.setVisible(true);
+        }
+    }//GEN-LAST:event_addItemButtonActionPerformed
+
+    private void removeItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonActionPerformed
+        int idx = selectionTable.getSelectedRow();
+        if (idx != -1) {
+            String id = Integer.toString((int) selectionTable.getModel().getValueAt(idx, 0));
+            JFrame f = new AddRemoveUI(new ItemRemover(id, "Loc"));
+            f.setSize(this.getWidth() + 200, this.getHeight());
+            f.setVisible(true);
+        }
+    }//GEN-LAST:event_removeItemButtonActionPerformed
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        if (evt.getActionCommand().equals("Refresh")) {
+            RowSet order_items = Connector.executeRowSet("SELECT * FROM order_item_view");
+            jTable2.setModel(new RowSetModel(order_items));
+            
+            RowSet item_loc = Connector.executeRowSet("SELECT * FROM item_location_view");
+            jTable1.setModel(new RowSetModel(item_loc));
+        }
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane ViewPane;
+    private javax.swing.JButton addItemButton;
     private javax.swing.JLayeredPane formPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -379,6 +450,8 @@ public class GuiJFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JButton removeItemButton;
     private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchButton;
     private javax.swing.JTable searchTable;

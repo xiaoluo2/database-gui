@@ -13,6 +13,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -56,12 +57,6 @@ private JTextField idField = new JTextField(30);
        setFieldData(b.getCurrent());
    }
    
-   public AntibodyForm(Antibody a){
-       initComponents();
-       setInsert(false);
-       this.setFieldData(a);
-   }
-   
    private void initComponents(){
       setBorder(new TitledBorder
       (new EtchedBorder(),"Antibody"));
@@ -75,6 +70,7 @@ private JTextField idField = new JTextField(30);
         @Override
         public void actionPerformed(ActionEvent e) {
             Antibody a = getFieldData();
+            JFrame f = (JFrame) AntibodyForm.this.getRootPane().getParent();
             switch(e.getActionCommand()) {
                 case "Save":
                     if (isEmptyFieldData()) {
@@ -94,6 +90,7 @@ private JTextField idField = new JTextField(30);
                     }
                     if(bean.update(a) != null) {
                         JOptionPane.showMessageDialog(null, "Updated sucessfully.");
+                        f.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to update.");
                     };
@@ -103,11 +100,7 @@ private JTextField idField = new JTextField(30);
                     if (reply == JOptionPane.YES_OPTION) {
                         bean.delete(a);
                         JOptionPane.showMessageDialog(null, "Deleted.");
-                        idField.setText("");
-                        nameField.setText("");
-                        tempField.setText("");
-                        sourceField.setText("");
-                        hostField.setText("");
+                        f.dispose();
                     } else {
                         ; //Do nothing
                     }
@@ -118,6 +111,7 @@ private JTextField idField = new JTextField(30);
                     tempField.setText("");
                     sourceField.setText("");
                     hostField.setText("");
+                    
                     break;
             }
             
